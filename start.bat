@@ -1,0 +1,1 @@
+ SET DEBUG=wei-bbs:* & npm start
