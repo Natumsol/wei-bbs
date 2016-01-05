@@ -1,1 +1,2 @@
- SET DEBUG=wei-bbs:* & npm start
+
+SET DEBUG=express:* & npm start
