@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+    
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title></title>
+        <link rel="stylesheet" href="./css/pure.css">
+        <link rel="stylesheet" href="./css/grids-responsive.css">
+        <link rel="stylesheet" href="./css/font-awesome.css">
+        <link rel="stylesheet" href="./css/style.css">
+    </head>
+    
+    <body>
+        <div class="header">
+            <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+                <a class="pure-menu-heading" href="/"><i class="fa fa-book fa-2"></i>&nbsp;图书查询系统</a>
+                <ul class="pure-menu-list">
+                    <li class="pure-menu-item">
+                        <a href="#" class="pure-menu-link">关于</a>
+                    </li>
+                    <li class="pure-menu-item">
+                        <a href="#" class="pure-menu-link">帮助</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="splash-container">
+            <div class="splash">
+                <form class="pure-form pure-g" action="/search", method="post">
+                    <div class="pure-u-5-6">
+                        <input type="text" class="pure-input-rounded" name="keyword" id='search'>
+                        <div id="drop-content"><a href="" class='drop-menu'>dasdad</a></div>
+                    </div>
+                    <div class="pure-u-1-6">
+                        <button type="submit" class="pure-button">查询</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script src="./js/jquery.js"></script>
+        <script src="./js/index.js"></script>
+    </body>
+
+</html>
