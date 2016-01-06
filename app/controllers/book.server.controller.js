@@ -21,6 +21,7 @@ exports.su = function(req, res, next) {
 };
 exports.renderIndex = function(req, res) {
 	res.render("index", {
-		title:"取号"
+		title:"取号",
+		user: req.user
 	});//控制器，用于控制MVC里面的MV
 };
