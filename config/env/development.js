@@ -1,5 +1,5 @@
 module.exports = {
 	// development configuration options
 	sessionSecret:"developmentSessionSecret",
-	db:"mongodb://localhost/mean-development"
+	db:"mongodb://localhost/wei-bbs-development"
 };

@@ -32,7 +32,6 @@ module.exports = function () {
 	app.set('view engine', 'ejs');
 	app.engine("ejs", require("ejs").renderFile);
 
-	require("../app/routes/book.server.route.js")(app);//引入路由信息
 	require("../app/routes/user.server.route.js")(app);//引入路由信息
 	app.use(express.static("./public"));
 	return app;
