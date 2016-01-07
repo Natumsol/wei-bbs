@@ -59,11 +59,11 @@ function getUserInfo(req, res, next) {
                     });
                 }
             });
-            //next();
-            res.end();
+            next();
         });
     })
 }
+
 exports.getCode = getCode;
 exports.getAccessCode = getAccessCode;
 exports.getUserInfo = getUserInfo;
