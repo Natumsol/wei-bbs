@@ -24,6 +24,8 @@ module.exports = function () {
 		secret: config.sessionSecret
 	}));
 
+	app.use(express.query());
+
 	/* 引入passport */
 	app.use(passport.initialize());
 	app.use(passport.session());
@@ -33,6 +35,7 @@ module.exports = function () {
 	app.engine("ejs", require("ejs").renderFile);
 
 	require("../app/routes/user.server.route.js")(app);//引入路由信息
+	require("../app/routes/webchat.server.route.js")(app);//引入路由信息
 	app.use(express.static("./public"));
 	return app;
 };

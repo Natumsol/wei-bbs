@@ -11,6 +11,8 @@
     "method-override": "~2.2.0",
     "mongoose": "~3.8.15",
     "morgan": "~1.3.0",
-    "wechat-oauth": "^1.1.0"
+    "webchat": "^0.3.3",
+    "wechat-oauth": "^1.1.0",
+    "weixin-api": "^0.1.6"
   }
 }

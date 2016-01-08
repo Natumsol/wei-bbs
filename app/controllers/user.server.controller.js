@@ -55,7 +55,7 @@ function getUserInfo(req, res, next) {
                 if(!count) {
                     (new User(req.session.user)).save(function (err, user) {
                         if(err) throw err;
-                        else console.log(chalk.green("用户信息保存成功~"));
+                        else console.log(chalk.green("鐢ㄦ埛淇℃伅淇濆瓨鎴愬姛~"));
                     });
                 }
             });
@@ -64,6 +64,22 @@ function getUserInfo(req, res, next) {
     })
 }
 
+function checkAuth(req, res, next){
+    if(!req.session.user) {
+        res.send("娌℃湁鎺堟潈");
+    } else {
+        console.log(chalk.red("楠岃瘉閫氳繃"));
+        next();
+    }
+}
+function logout(req, res, next){
+    delete req.session.user;
+    res.setHeader("Location","/");
+    res.statusCode = 301;
+    res.send("娉ㄩ攢鎴愬姛");
+}
 exports.getCode = getCode;
 exports.getAccessCode = getAccessCode;
 exports.getUserInfo = getUserInfo;
+exports.checkAuth = checkAuth;
+exports.logout = logout;
