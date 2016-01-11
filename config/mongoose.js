@@ -10,5 +10,7 @@ module.exports = function(){
 	});
 
 	require("../app/models/user.server.model.js");
+	require("../app/models/column.server.model.js");
+	require("../app/models/article.server.model.js");
 	return db;
 };
