@@ -4,4 +4,4 @@ var db = require("./config/mongoose.js")();
 var app = express();
 app.listen(80);
 module.exports = app;
-console.log("Server running at http://localhost:3000.\n" + "using version: " + process.env.NODE_ENV);
+console.log("Server running at http://localhost.\n" + "using version: " + process.env.NODE_ENV);

@@ -1,5 +1,6 @@
 /**
  * Created by LiuJ on 2016/1/7.
+ * 用户数据模型
  */
 var mongoose = require("mongoose");
 var UserSchema = new mongoose.Schema({

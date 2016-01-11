@@ -5,7 +5,7 @@ var webchat = require("../controllers/webchat.server.controller.js").webchat;
 module.exports = function(app){
     app.get("/webchat", function(req, res, next){
         if (webchat.checkSignature(req)) {
-            res.send(200, req.query.echostr);
+            res.send(200).send(req.query.echostr);
         } else {
             res.send(200, 'fail');
         }

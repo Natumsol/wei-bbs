@@ -6,6 +6,8 @@ var mongoose = require("mongoose");
 var User = mongoose.model("User");
 var weixinAuthConfig = require("../../config/weixinAuthConfig.js");
 var querystring = require("querystring");
+var https = require("https");
+
 webchat.token = 'qbtest';
 // 监听文本消息
 webchat.textMsg(function(msg) {
@@ -40,10 +42,10 @@ webchat.textMsg(function(msg) {
                 fromUserName : msg.toUserName,
                 toUserName : msg.fromUserName,
                 msgType : "music",
-                title : "音乐标题",
-                description : "音乐描述",
-                musicUrl : "音乐url",
-                HQMusicUrl : "高质量音乐url",
+                title : "Viva La Vida",
+                description : "我听这首歌的时候，每次都能看到：吊死在煤山上的崇祯；天安门上挥手的毛泽东，下面是疯狂的红卫兵；带着无数荣誉离开巴萨的瓜迪奥拉，诺坎普全场唱出这首他最爱的歌，挥手告别的背影。",
+                musicUrl : "http://music.163.com/#/m/song?id=26989255",
+                HQMusicUrl : "http://music.163.com/#/m/song?id=26989255",
                 funcFlag : 0
             };
             webchat.sendMsg(resMsg);
@@ -128,4 +130,57 @@ webchat.eventMsg(function(msg) {
     console.log(JSON.stringify(msg));
 });
 
+function generateMenu(req, res, next){
+    var menu =  {
+        "button":[
+            {
+                "type":"click",
+                "name":"今日歌曲",
+                "key":"V1001_TODAY_MUSIC"
+            },
+            {
+                "name":"菜单",
+                "sub_button":[
+                    {
+                        "type":"view",
+                        "name":"搜索",
+                        "url":"http://www.soso.com/"
+                    },
+                    {
+                        "type":"view",
+                        "name":"视频",
+                        "url":"http://v.qq.com/"
+                    },
+                    {
+                        "type":"click",
+                        "name":"赞一下我们",
+                        "key":"V1001_GOOD"
+                    }]
+            }]
+    };
+
+    var options = {
+        host: "api.weixin.qq.com",
+        path: "/cgi-bin/menu/create?access_token=" + req.weixin.access_token,
+        method: "POST",
+        port: 443,
+        body: JSON.stringify(menu)
+    };
+    console.log();
+    var client = https.request(options, function(cRes){
+        var body = [];
+        cRes.on("data", function(chunk){
+            body.push(chunk);
+        });
+        cRes.on("end", function(){
+            body = JSON.parse(Buffer.concat(body));
+            if(body.errcode == 0) console.log("菜单创建成功！");
+            else console.log("菜单创建失败！");
+            next();
+        });
+    });
+    client.write("");
+    client.end();
+}
 exports.webchat = webchat;
+exports.generateMenu = generateMenu;
