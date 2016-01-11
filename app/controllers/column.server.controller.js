@@ -31,10 +31,18 @@ function list(req, res, next){
     var start = req.body.start;
     var limit = req.body.limit || 10;
     if(!is.integer (start) || !is.integer(limit)) {
-        throw "参数错误！";
+        res.json({
+            errInfo: "参数错误",
+            status: 0
+        })
     }
-    Column.find({}, function(err, columns){
-        if(err) throw err;
+    Column.find().skip(start).limit(limit).exec(function (err, columns) {
+        if (err) {
+            res.json({
+                errInfo: "数据库查询出错",
+                status: 0
+            })
+        }
         res.json(columns);
     })
 }
@@ -51,12 +59,11 @@ function modify(req, res, next){
     Column.findOneAndUpdate({_id: id}, {name: name}, function(err, column){
         if(err) {
             res.json({
-                message:"更新失败",
+                errInfo: "更新失败",
                 status: 0
             });
         } else {
             res.json({
-                message:"更新成功！",
                 status: 1
             })
         }
@@ -74,12 +81,11 @@ function remove(req, res, next){
     Column.findOneAndRemove({_id: id}, function(err, column){
         if(err) {
             res.json({
-                message:"删除失败",
+                errInfo: "删除失败",
                 status: 0
             });
         } else {
             res.json({
-                message:"删除成功！",
                 status: 1
             })
         }

@@ -4,29 +4,34 @@
  */
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
+var CommentSchema = new Schema({
+    body: String,
+    author: Schema.Types.ObjectId,
+    date: {
+        type: Date,
+        default: Date.now
+    }
+});
 var ArticleSchema = new Schema({
     author: Schema.Types.ObjectId,
     title: String,
     content: String,
     column: Schema.Types.ObjectId,
-    date: { type: Date, default: Date.now },
+    createDate: {type: Date, default: Date.now},
+    modifyDate: {type: Date, default: Date.now},
     comments:[{
-        body: String,
-        author: Schema.Types.ObjectId,
-        date:{
-            type: Date,
-            default: Date.now
-        }
+        type: Schema.Types.ObjectId
     }],
     likes:[{
         author: Schema.Types.ObjectId,
         date:{
             type: Date,
             default: Date.now
-        }
+        },
+        isRead: Boolean
     }],
-    viewCount:{type: Number, dafault: 0},
-    isRead: Boolean
-
+    viewCount: {type: Number, dafault: 0}
 });
+
+mongoose.model('Comment', CommentSchema);
 mongoose.model('Article', ArticleSchema);

@@ -78,8 +78,22 @@ function logout(req, res, next){
     res.statusCode = 301;
     res.send("注销成功");
 }
-exports.getCode = getCode;
-exports.getAccessCode = getAccessCode;
-exports.getUserInfo = getUserInfo;
-exports.checkAuth = checkAuth;
-exports.logout = logout;
+function isAdmin(req, res, next) {
+    User.findOne({openid: req.session.user.openid}, function (err, user) {
+        if (err) throw err;
+        if (user.isAdmin) {
+            next();
+        } else {
+            res.send("您没有权限进行此操作！");
+        }
+    })
+}
+
+module.exports = {
+    getCode: getCode,
+    getAccessCode: getAccessCode,
+    getUserInfo: getUserInfo,
+    checkAuth: checkAuth,
+    logout: logout,
+    isAdmin: isAdmin
+};

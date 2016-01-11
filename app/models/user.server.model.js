@@ -12,6 +12,10 @@ var UserSchema = new mongoose.Schema({
     provinc: String,
     country:String,
     headimgurl: String,
+    isAdmin: {
+        type: Boolean,
+        default: false
+    },
     privileg: []
 });
 mongoose.model('User', UserSchema);
