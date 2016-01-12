@@ -22,7 +22,7 @@ function add(req, res, next) {
     article.save(function (err, article) {
         if (err) {
             res.json({
-                errInfo: "add failed!",
+                errInfo: err.message,
                 status: 0
             });
         }
@@ -41,7 +41,12 @@ function add(req, res, next) {
 function modify(req, res, next) {
     var article = new Article(req.body);
     var id = req.body.id;
-    Article.findOneAndUpdate({_id: id}, function (err, article) {
+    Article.findOneAndUpdate({_id: id}, {
+        title: article.title,
+        content: article.content,
+        modifyDate: article.modifyDate,
+        column: article.column
+    }, function (err, article) {
         if (err) {
             res.json({
                 errInfo: "update error",
@@ -74,8 +79,8 @@ function getArticleById(id, callback) {
  * @param next
  */
 function list(req, res, next) {
-    var start = req.body.start;
-    var limit = req.body.limit || 10;
+    var start = parseInt(req.body.start);
+    var limit = parseInt(req.body.limit) || 10;
     if (!is.integer(start) || !is.integer(limit)) {
         res.json({
             errInfo: "param error",
@@ -131,28 +136,18 @@ function addComment(req, res, next) {
                 status: 0
             });
         } else {
-            Article.findOne({_id: articleId}, function (err, article) {
+            Article.findOneAndUpdate({_id: articleId}, {$push: {"comments": comment._id}}, function (err) {
                 if (err) {
                     res.json({
-                        errInfo: "find article error!",
+                        errInfo: "article update failed!",
                         status: 0
                     });
                 } else {
-                    article.comments.push(comment._id);
-                    article.save(function (err) {
-                        if (err) {
-                            res.json({
-                                errInfo: "article update failed!",
-                                status: 0
-                            });
-                        } else {
-                            res.json({
-                                status: 1
-                            })
-                        }
+                    res.json({
+                        status: 1
                     });
                 }
-            })
+            });
         }
     });
 }
