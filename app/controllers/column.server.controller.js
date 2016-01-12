@@ -16,8 +16,14 @@ function add(req, res, next){
     var column = new Column(req.body);
     column.save(function(err, column){
         if(err){
-            throw err;
+            res.json({
+                status: 0,
+                errInfo: err.message
+            });
         }
+        res.json({
+            status: 1
+        });
         console.log("column 保存成功！");
     });
 }
@@ -28,23 +34,24 @@ function add(req, res, next){
  * @param next
  */
 function list(req, res, next){
-    var start = req.body.start;
-    var limit = req.body.limit || 10;
+    var start = parseInt(req.body.start);
+    var limit = parseInt(req.body.limit) || 10;
     if(!is.integer (start) || !is.integer(limit)) {
         res.json({
             errInfo: "参数错误",
             status: 0
         })
+    } else {
+        Column.find().skip(start).limit(limit).exec(function (err, columns) {
+            if (err) {
+                res.json({
+                    errInfo: "数据库查询出错",
+                    status: 0
+                })
+            }
+            res.json(columns);
+        })
     }
-    Column.find().skip(start).limit(limit).exec(function (err, columns) {
-        if (err) {
-            res.json({
-                errInfo: "数据库查询出错",
-                status: 0
-            })
-        }
-        res.json(columns);
-    })
 }
 /**
  *
