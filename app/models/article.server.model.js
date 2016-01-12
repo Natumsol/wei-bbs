@@ -10,13 +10,20 @@ var CommentSchema = new Schema({
     date: {
         type: Date,
         default: Date.now
+    },
+    isRead: {
+        type: Boolean,
+        default: false
     }
 });
 var ArticleSchema = new Schema({
     author: String,
     title: String,
     content: String,
-    column: Schema.Types.ObjectId,
+    column: {
+        type: Schema.Types.ObjectId,
+        ref: "Column"
+    },
     createDate: {type: Date, default: Date.now},
     modifyDate: {type: Date, default: Date.now},
     comments:[{

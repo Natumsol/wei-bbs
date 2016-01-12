@@ -183,28 +183,19 @@ function deleteComment(req, res, next) {
 function like(req, res, next) {
     var articleId = req.body.id;
     var author = req.session.user.openid;
-    Article.findOne({_id: articleId}, function (err, article) {
+    Article.findOneAndUpdate({_id: articleId}, {$addToSet: {"likes": author}}, function (err) {
         if (err) {
             res.json({
                 errInfo: err.message,
                 status: 0
             });
         } else {
-            article.likes.push(author);
-            article.save(function (err) {
-                if (err) {
-                    res.json({
-                        errInfo: err.message,
-                        status: 0
-                    });
-                } else {
-                    res.json({
-                        status: 1
-                    })
-                }
+            res.json({
+                status: 1
             })
         }
     });
+
 }
 
 module.exports = {
