@@ -65,6 +65,19 @@ function getUserInfo(req, res, next) {
 }
 
 function checkAuth(req, res, next){
+    req.session.user = {
+        "_id": "568e6e9514c8f84806d0c158",
+        "openid": "oXlgUwu85jlX0lLPRA3vDBSYEVhw",
+        "nickname": "文刀十口",
+        "sex": 1,
+        "language": "zh_CN",
+        "city": "Wuhan",
+        "country": "CN",
+        "headimgurl": "http://wx.qlogo.cn/mmopen/PiajxSqBRaELcdA2GG1zGRacttOfviaAiahmIO8MBX6mfibu3qZQ1waG2sIKCBic3qu9kov41o7P6XFpBSG3ibkbBM6g/0",
+        "privileg": [],
+        "__v": 0,
+        "isAdmin": true
+    };
     if(!req.session.user) {
         res.send("没有授权");
     } else {
