@@ -4,18 +4,20 @@
  *@date: 2016/1/12
  */
 
-define();
-$(window).scroll(function () {
-    var scrollTop = $(this).scrollTop();
-    var scrollHeight = $(document).height();
-    var windowHeight = $(this).height();
-
-    function getMoreData() {
-        if (scrollTop + windowHeight >= scrollHeight) {
-            console.log("get data");
+define(["zepto"], function ($) {
+    var getMoreData = function (url, params, callback) {
+        return function () {
+            $.ajax({
+                url: url,
+                data: params,
+                dataType: "json",
+                type: "POST",
+                success: callback
+            });
         }
+    };
+
+    return {
+        getMoreData: getMoreData
     }
-
-    getMoreData();
-
 });

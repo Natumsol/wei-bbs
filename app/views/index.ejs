@@ -14,7 +14,7 @@
 
 <body ontouchstart="">
 <header class="ui-header ui-header-positive ui-border-b">
-
+    <a href="/user"><img class="ui-avatar ui-avatar-custom" src="<%= user.headimgurl %>" alt="<%= user.nickname %>"></a>
     <h1>主页</h1>
     <button class="ui-btn " id="menu">
         <i class="fa fa-bars"></i>
@@ -26,6 +26,9 @@
     </button>
     <button class="ui-btn ui-btn-primary">
         <i class="fa fa-pencil-square-o"></i> 发帖
+    </button>
+    <button class="ui-btn ui-btn-primary userCenter">
+        <i class="fa fa-user"></i> 个人中心
     </button>
 </div>
 <section class="ui-container index">
@@ -83,114 +86,7 @@
             <a href="">查看全部5条回复</a>
         </div>
     </div>
-    <div class="ui-item-box">
-        <div class="header util-clearfix ">
-            <div class="ui-avatar-s util-pull-left">
-                <span style="background-image:url(http://placeholder.qiniudn.com/80x80)"></span>
-            </div>
-            <div class="status util-pull-left ">
-                <h6 class="username">李世民</h6>
-                <h6 class="ui-txt-muted time">今天 8:20</h6>
-            </div>
-        </div>
-        <div class="content-wrapper util-clearfix">
-            <a class="title" href="view.html">逸香双十一狂欢酒会，带你疯狂带你high <span class="ui-my-badge">图</span></a>
-            <h5 class="ui-txt-justify content-text">
-                2015年的光棍节，我依然还是光棍，我要脱光！求解脱！光棍们一起喝点吧，街上的卿卿我我我们伤不起，来逸...
-            </h5>
-            <div class="content-image">
-                <img src="img/wine.png">
-            </div>
-            <i class="fa fa-commenting util-pull-right"></i>
-            <i class="fa fa-thumbs-up util-pull-right"></i>
-        </div>
-        <div class="comment-wrapper">
-            <div class="comment util-clearfix">
-                <div class="avatar-container util-text-center">
-                    <img class="user-avatar" src="http://placeholder.qiniudn.com/80x80">
-                </div>
-                <div class=" comment-container">
-                    <a class="username">李世民：</a>
-                    <span class="comment-text ui-txt-justify">嘿嘿，萌萌哒嘿</span>
-                </div>
-            </div>
-            <div class="comment util-clearfix">
-                <div class=" avatar-container util-text-center">
-                    <img class="user-avatar" src="http://placeholder.qiniudn.com/80x80">
-                </div>
-                <div class="comment-container">
-                    <a class="username">Androw：</a>
-                    <span class="comment-text ui-txt-justify">萌萌哒~~</span>
-                </div>
-            </div>
-            <div class="comment util-clearfix">
-                <div class="avatar-container util-text-center">
-                    <img class="user-avatar" src="http://placeholder.qiniudn.com/80x80">
-                </div>
-                <div class="  comment-container">
-                    <a class="username">李白：</a>
-                    <span class="comment-text ui-txt-justify">静夜思————床前明月光，疑是地上霜~举头望明月，低头思故乡~~</span>
-                </div>
-            </div>
-        </div>
-        <div class="view-all-comments util-text-center">
-            <a href="">查看全部5条回复</a>
-        </div>
-    </div>
-    <div class="ui-item-box">
-        <div class="header util-clearfix ">
-            <div class="ui-avatar-s util-pull-left">
-                <span style="background-image:url(http://placeholder.qiniudn.com/80x80)"></span>
-            </div>
-            <div class="status util-pull-left ">
-                <h6 class="username">李世民</h6>
-                <h6 class="ui-txt-muted time">今天 8:20</h6>
-            </div>
-        </div>
-        <div class="content-wrapper util-clearfix">
-            <a class="title" href="view.html">逸香双十一狂欢酒会，带你疯狂带你high <span class="ui-my-badge">图</span></a>
-            <h5 class="ui-txt-justify content-text">
-                2015年的光棍节，我依然还是光棍，我要脱光！求解脱！光棍们一起喝点吧，街上的卿卿我我我们伤不起，来逸...
-            </h5>
-            <div class="content-image">
-                <img src="img/wine.png">
-            </div>
-            <i class="fa fa-commenting util-pull-right"></i>
-            <i class="fa fa-thumbs-up util-pull-right"></i>
-        </div>
-        <div class="comment-wrapper">
-            <div class="comment util-clearfix">
-                <div class="avatar-container util-text-center">
-                    <img class="user-avatar" src="http://placeholder.qiniudn.com/80x80">
-                </div>
-                <div class=" comment-container">
-                    <a class="username">李世民：</a>
-                    <span class="comment-text ui-txt-justify">嘿嘿，萌萌哒嘿</span>
-                </div>
-            </div>
-            <div class="comment util-clearfix">
-                <div class=" avatar-container util-text-center">
-                    <img class="user-avatar" src="http://placeholder.qiniudn.com/80x80">
-                </div>
-                <div class="comment-container">
-                    <a class="username">Androw：</a>
-                    <span class="comment-text ui-txt-justify">萌萌哒~~</span>
-                </div>
-            </div>
-            <div class="comment util-clearfix">
-                <div class="avatar-container util-text-center">
-                    <img class="user-avatar" src="http://placeholder.qiniudn.com/80x80">
-                </div>
-                <div class="  comment-container">
-                    <a class="username">李白：</a>
-                    <span class="comment-text ui-txt-justify">静夜思————床前明月光，疑是地上霜~举头望明月，低头思故乡~~</span>
-                </div>
-            </div>
-        </div>
-        <div class="view-all-comments util-text-center">
-            <a href="">查看全部5条回复</a>
-        </div>
-    </div>
+
 
 </section>
 <section id="actionsheet">
@@ -205,26 +101,12 @@
         </div>
     </div>
 </section>
-<script src="js/lib/zeptojs/zepto.min.js"></script>
-<script src="/js/frozen.js"></script>
-<script src="/js/loadmore.js"></script>
+<script src="/js/lib/requirejs/require.js"></script>
+<script src="/js/lib/requirejs/require-config.js"></script>
 <script>
-    (function (){
-        $("#menu").click(function(){
-            $('.ui-actionsheet').addClass('show');
-        });
-        $("#cancel").click(function(){
-            $('.ui-actionsheet').removeClass('show');
-        });
-        $(".select-top").click(function(){
-            $('.ui-actionsheet').removeClass('show');
-            location.reload();
-        });
+    require(["index"], function (index) {
 
-        $(".view-all-topics").click(function(){
-            location.href = "nav.html";
-        });
-    })();
+    })
 </script>
 </body>
 
