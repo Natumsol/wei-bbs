@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>微社区 | 个人中心</title>
+    <link rel="stylesheet" href="/css/frozen.css">
+    <link rel="stylesheet" href="/css/font-awesome.css">
+    <link rel="stylesheet" href="/css/util.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body ontouchstart="">
+<header class="ui-header ui-header-positive ui-border-b">
+
+    <h1>个人中心</h1>
+    <button class="ui-btn " id="menu">
+        <i class="fa fa-bars"></i>
+    </button>
+</header>
+<section class="container">
+    <div class="user-card">
+        <div class="user-mask ui-flex ui-flex-ver ui-flex-pack-center ui-flex-align-center">
+            <div class="user-avatar"><img src="<%= user.headimgurl %>" alt=""></div>
+            <div class="user-info"><%= user.nickname %></div>
+        </div>
+        <div class="user-center">
+            <ul class="ui-list ui-list-one ui-list-link ui-border-tb">
+                <li class="ui-border-t">
+                    <div class="ui-list-thumb flat-color-alizarin">
+                        <i class="fa fa-eye"></i>
+                    </div>
+                    <div class="ui-list-info">
+                        <h4 class="ui-nowrap">我的帖子</h4>
+                        <div class="ui-txt-info">查看</div>
+                    </div>
+                </li>
+                <li class="ui-border-t">
+                    <div class="ui-list-thumb flat-color-carrot">
+                        <i class="fa fa-envelope-o"></i>
+                    </div>
+                    <div class="ui-list-info">
+                        <h4 class="ui-nowrap">未读消息</h4>
+                        <div class="ui-reddot ui-reddot-static"></div>
+                    </div>
+                </li>
+            </ul>
+            <ul class="ui-list ui-list-one ui-list-link ui-border-tb">
+                <li class="ui-border-t">
+                    <div class="ui-list-thumb flat-color-turquoise">
+                        <i class="fa fa-eye"></i>
+                    </div>
+                    <div class="ui-list-info">
+                        <h4 class="ui-nowrap">我的帖子</h4>
+                        <div class="ui-txt-info">查看</div>
+                    </div>
+                </li>
+                <li class="ui-border-t">
+                    <div class="ui-list-thumb flat-color-peter-river">
+                        <i class="fa fa-envelope-o"></i>
+                    </div>
+                    <div class="ui-list-info">
+                        <h4 class="ui-nowrap">未读消息</h4>
+                        <div class="ui-reddot ui-reddot-static"></div>
+                    </div>
+                </li>
+            </ul>
+            <ul class="ui-list ui-list-one ui-list-link ui-border-tb">
+                <li class="ui-border-t">
+                    <div class="ui-list-thumb flat-color-sun-flower">
+                        <i class="fa fa-eye"></i>
+                    </div>
+                    <div class="ui-list-info">
+                        <h4 class="ui-nowrap">我的帖子</h4>
+                        <div class="ui-txt-info">查看</div>
+                    </div>
+                </li>
+                <li class="ui-border-t">
+                    <div class="ui-list-thumb flat-color-belize-hole">
+                        <i class="fa fa-envelope-o"></i>
+                    </div>
+                    <div class="ui-list-info">
+                        <h4 class="ui-nowrap">未读消息</h4>
+                        <div class="ui-reddot ui-reddot-static"></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<script src="/js/lib/zeptojs/zepto.min.js"></script>
+<script src="/js/frozen.js"></script>
+<script src="/js/loadmore.js"></script>
+<script>
+    (function () {
+
+    })();
+</script>
+</body>
+
+</html>

@@ -1,135 +1,237 @@
-.index.ui-container{
+.index.ui-container {
     background: #EFEFEF;
 }
-#menu{
+
+#menu {
     background: transparent;
     border-color: #fff;
     color: #fff;
 }
-.ui-item-box{
+
+.ui-item-box {
     background: #fff;
     margin: 10px 0;
     padding: 5px;
     padding-bottom: 0;
     border-radius: 5px;
 }
+
 .ui-item-box .status {
     margin-left: 10px;
 }
-.ui-item-box .content-text{
+
+.ui-item-box .content-text {
     color: #6F6767;
     margin-top: 3px;
 }
-.ui-item-box .content-image{
+
+.ui-item-box .content-image {
     margin-top: 5px;
 }
-.ui-item-box .content-image img{
+
+.ui-item-box .content-image img {
     border-radius: 5px;
 }
+
 .ui-item-box .fa {
     font-size: 16px;
     margin-left: 20px;
     color: #A7A4A4;
 }
-.ui-my-badge{
+
+.ui-my-badge {
     background: #ff7f0d;
     color: #fff;
     padding: 1px 3px;
     border-radius: 2px;
 }
-.comment-wrapper{
+
+.comment-wrapper {
     background: #FAFAFA;
     margin: 0 -5px;
-    border-top:1px solid #ddd;
+    border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
-    padding-top:10px;
+    padding-top: 10px;
     line-height: 18px;
     font-size: 12px;
 }
-.comment-wrapper .avatar-container{
+
+.comment-wrapper .avatar-container {
     float: left;
     width: 37px;
 }
-.comment-wrapper comment-container{
+
+.comment-wrapper comment-container {
     float: left;
     /*width: 30px;*/
 }
-.comment-wrapper .user-avatar{
+
+.comment-wrapper .user-avatar {
     border-radius: 50%;
     width: 25px;
     height: 25px;
 }
-.comment-wrapper .comment-text{
+
+.comment-wrapper .comment-text {
     font-size: 12px;
     color: #333333;
 }
-.comment-wrapper .comment{
+
+.comment-wrapper .comment {
     margin-bottom: 2px;
 }
-.comment-wrapper .comment-container{
+
+.comment-wrapper .comment-container {
     position: relative;
     /*top: 5px;*/
     /*padding-bottom: 5px;*/
 }
-.view-all-comments{
+
+.view-all-comments {
     font-size: 14px;
     padding: 7px;
 }
-.article-container{
+
+.article-container {
     background: #fff;
     padding: 5px;
 }
+
 .article-container .action .fa {
     font-size: 16px;
     margin-left: 12px;
     color: #A7A4A4;
     margin-right: 10px;
 }
-.article-container .louzhu{
+
+.article-container .louzhu {
     /*color: #18b4ed;*/
     font-size: 14px;
     position: relative;
     top: 10px;
     right: 10px;
 }
-.article-container .header{
+
+.article-container .header {
     padding-bottom: 10px;
     padding-left: 10px;
 }
+
 .article-container .status {
     margin-left: 10px;
 }
-.article-container .title{
+
+.article-container .title {
     font-weight: 700;
     margin-bottom: 10px;
 }
-.article{
+
+.article {
     padding: 5px 15px;
 }
-.article p{
+
+.article p {
     font-size: 14px;
     margin-bottom: 10px;
 }
-.article-container .comment-bar .fa{
+
+.article-container .comment-bar .fa {
     padding: 15px 5px;
     font-size: 12px;
     color: #A7A4A4;
 }
-.article-container .comment-container{
+
+.article-container .comment-container {
     font-size: 13px;
 }
+
 .article-container .comment-container .comment {
     border-top: 1px solid #ddd;
     padding: 10px 5px;
 }
-.article-container .comment-container .comment img{
+
+.article-container .comment-container .comment img {
     width: 25px;
     height: 25px;
     border-radius: 50%;
 }
-.article-container .comment-container .comment-body{
+
+.article-container .comment-container .comment-body {
     padding: 5px 0;
 }
+
 .article-container .comment-container .comment-footer {
     font-size: 12px;
 }
+
+.container {
+    margin-top: 21px;
+    background: #ddd;
+}
+
+.user-card {
+    background-image: url(/img/user-card.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 250px;
+    /*-webkit-filter: blur(3px);
+    -moz-filter: blur(3px);
+    -o-filter: blur(3px);
+    -ms-filter: blur(3px);
+    filter: blur(3px);*/
+}
+
+.user-card .user-mask {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.user-card .user-avatar img {
+    height: 100px;
+    width: 100px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+}
+
+.user-card .user-info {
+    color: #fff;
+    padding-top: 20px;
+}
+
+.user-center ul {
+    margin-bottom: 10px;
+}
+
+.user-center .ui-list-thumb {
+    color: #fff;
+    border-radius: 50%;
+    text-align: center;
+}
+
+/*flat color*/
+.flat-color-alizarin {
+    background: #E74C3C;
+}
+
+.flat-color-carrot {
+    background: #E67E22;
+}
+
+.flat-color-turquoise {
+    background: #1abc9c;
+}
+
+.flat-color-peter-river {
+    background: #3498db;
+}
+
+.flat-color-sun-flower {
+    background: #f1c40f;
+}
+
+.flat-color-belize-hole {
+    background: #2980b9;
+}
+

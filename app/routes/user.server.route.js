@@ -22,5 +22,8 @@ module.exports = function(app){
         });
     });
     app.get("/logout", weixinAuth.checkAuth, weixinAuth.logout);
+    app.get("/user", function (req, res, next) {
+        res.render("userCenter", {user: req.session.user});
+    })
 };
 
