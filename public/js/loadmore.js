@@ -4,6 +4,7 @@
  *@date: 2016/1/12
  */
 
+define();
 $(window).scroll(function () {
     var scrollTop = $(this).scrollTop();
     var scrollHeight = $(document).height();
