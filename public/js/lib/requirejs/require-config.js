@@ -8,14 +8,15 @@ require.config({
     baseUrl: "/js", // 根目录
     paths: {
         "zepto": "lib/zeptojs/zepto",
-        "ejs": "lib/ejs/ejs"
+        "ejs": "lib/ejs/ejs",
+        "moment": 'lib/moment/moment'
     }, // 别名
     shim: {
         'zepto': {
             exports: '$'
         },
         'ejs': {
-            exports: "ejs"
+            exports: "EJS"
         }// 处理不满足AMD规范的库
     }
 });

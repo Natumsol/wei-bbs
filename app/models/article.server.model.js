@@ -6,7 +6,10 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var CommentSchema = new Schema({
     body: String,
-    author: String,
+    author:  {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    },
     date: {
         type: Date,
         default: Date.now
@@ -17,7 +20,10 @@ var CommentSchema = new Schema({
     }
 });
 var ArticleSchema = new Schema({
-    author: String,
+    author:  {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    },
     title: String,
     content: String,
     column: {

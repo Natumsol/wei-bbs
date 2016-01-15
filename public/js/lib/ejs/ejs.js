@@ -1,658 +1,501 @@
-ejs = (function () {
+(function () {
 
-// CommonJS require()
-
-    function require(p) {
-        if ('fs' == p) return {};
-        if ('path' == p) return {};
-        var path = require.resolve(p)
-            , mod = require.modules[path];
-        if (!mod) throw new Error('failed to require "' + p + '"');
-        if (!mod.exports) {
-            mod.exports = {};
-            mod.call(mod.exports, mod, mod.exports, require.relative(path));
+    var rsplit = function (string, regex) {
+            var result = regex.exec(string), retArr = new Array(), first_idx, last_idx, first_bit;
+            while (result != null) {
+                first_idx = result.index;
+                last_idx = regex.lastIndex;
+                if ((first_idx) != 0) {
+                    first_bit = string.substring(0, first_idx);
+                    retArr.push(string.substring(0, first_idx));
+                    string = string.slice(first_idx);
+                }
+                retArr.push(result[0]);
+                string = string.slice(result[0].length);
+                result = regex.exec(string);
+            }
+            if (!string == '') {
+                retArr.push(string);
+            }
+            return retArr;
+        },
+        chop = function (string) {
+            return string.substr(0, string.length - 1);
+        },
+        extend = function (d, s) {
+            for (var n in s) {
+                if (s.hasOwnProperty(n))  d[n] = s[n]
+            }
         }
-        return mod.exports;
+
+
+    EJS = function (options) {
+        options = typeof options == "string" ? {view: options} : options
+        this.set_options(options);
+        if (options.precompiled) {
+            this.template = {};
+            this.template.process = options.precompiled;
+            EJS.update(this.name, this);
+            return;
+        }
+        if (options.element) {
+            if (typeof options.element == 'string') {
+                var name = options.element
+                options.element = document.getElementById(options.element)
+                if (options.element == null) throw name + 'does not exist!'
+            }
+            if (options.element.value) {
+                this.text = options.element.value
+            } else {
+                this.text = options.element.innerHTML
+            }
+            this.name = options.element.id
+            this.type = '['
+        } else if (options.url) {
+            options.url = EJS.endExt(options.url, this.extMatch);
+            this.name = this.name ? this.name : options.url;
+            var url = options.url
+            //options.view = options.absolute_url || options.view || options.;
+            var template = EJS.get(this.name /*url*/, this.cache);
+            if (template) return template;
+            if (template == EJS.INVALID_PATH) return null;
+            try {
+                this.text = EJS.request(url + (this.cache ? '' : '?' + Math.random() ));
+            } catch (e) {
+            }
+
+            if (this.text == null) {
+                throw( {type: 'EJS', message: 'There is no template at ' + url}  );
+            }
+            //this.name = url;
+        }
+        var template = new EJS.Compiler(this.text, this.type);
+
+        template.compile(options, this.name);
+
+
+        EJS.update(this.name, this);
+        this.template = template;
+    };
+    /* @Prototype*/
+    EJS.prototype = {
+        /**
+         * Renders an object with extra view helpers attached to the view.
+         * @param {Object} object data to be rendered
+         * @param {Object} extra_helpers an object with additonal view helpers
+         * @return {String} returns the result of the string
+         */
+        render: function (object, extra_helpers) {
+            object = object || {};
+            this._extra_helpers = extra_helpers;
+            var v = new EJS.Helpers(object, extra_helpers || {});
+            return this.template.process.call(object, object, v);
+        },
+        update: function (element, options) {
+            if (typeof element == 'string') {
+                element = document.getElementById(element)
+            }
+            if (options == null) {
+                _template = this;
+                return function (object) {
+                    EJS.prototype.update.call(_template, element, object)
+                }
+            }
+            if (typeof options == 'string') {
+                params = {}
+                params.url = options
+                _template = this;
+                params.onComplete = function (request) {
+                    var object = eval(request.responseText)
+                    EJS.prototype.update.call(_template, element, object)
+                }
+                EJS.ajax_request(params)
+            } else {
+                element.innerHTML = this.render(options)
+            }
+        },
+        out: function () {
+            return this.template.out;
+        },
+        /**
+         * Sets options on this view to be rendered with.
+         * @param {Object} options
+         */
+        set_options: function (options) {
+            this.type = options.type || EJS.type;
+            this.cache = options.cache != null ? options.cache : EJS.cache;
+            this.text = options.text || null;
+            this.name = options.name || null;
+            this.ext = options.ext || EJS.ext;
+            this.extMatch = new RegExp(this.ext.replace(/\./, '\.'));
+        }
+    };
+    EJS.endExt = function (path, match) {
+        if (!path) return null;
+        match.lastIndex = 0
+        return path + (match.test(path) ? '' : this.ext )
     }
 
-    require.modules = {};
 
-    require.resolve = function (path) {
-        var orig = path
-            , reg = path + '.js'
-            , index = path + '/index.js';
-        return require.modules[reg] && reg
-            || require.modules[index] && index
-            || orig;
+    /* @Static*/
+    EJS.Scanner = function (source, left, right) {
+
+        extend(this,
+            {
+                left_delimiter: left + '%',
+                right_delimiter: '%' + right,
+                double_left: left + '%%',
+                double_right: '%%' + right,
+                left_equal: left + '%=',
+                left_comment: left + '%#'
+            })
+
+        this.SplitRegexp = left == '[' ? /(\[%%)|(%%\])|(\[%=)|(\[%#)|(\[%)|(%\]\n)|(%\])|(\n)/ : new RegExp('(' + this.double_left + ')|(%%' + this.double_right + ')|(' + this.left_equal + ')|(' + this.left_comment + ')|(' + this.left_delimiter + ')|(' + this.right_delimiter + '\n)|(' + this.right_delimiter + ')|(\n)');
+
+        this.source = source;
+        this.stag = null;
+        this.lines = 0;
     };
 
-    require.register = function (path, fn) {
-        require.modules[path] = fn;
+    EJS.Scanner.to_text = function (input) {
+        if (input == null || input === undefined)
+            return '';
+        if (input instanceof Date)
+            return input.toDateString();
+        if (input.toString)
+            return input.toString();
+        return '';
     };
 
-    require.relative = function (parent) {
-        return function (p) {
-            if ('.' != p.substr(0, 1)) return require(p);
-
-            var path = parent.split('/')
-                , segs = p.split('/');
-            path.pop();
-
-            for (var i = 0; i < segs.length; i++) {
-                var seg = segs[i];
-                if ('..' == seg) path.pop();
-                else if ('.' != seg) path.push(seg);
+    EJS.Scanner.prototype = {
+        scan: function (block) {
+            scanline = this.scanline;
+            regex = this.SplitRegexp;
+            if (!this.source == '') {
+                var source_split = rsplit(this.source, /\n/);
+                for (var i = 0; i < source_split.length; i++) {
+                    var item = source_split[i];
+                    this.scanline(item, regex, block);
+                }
             }
-
-            return require(path.join('/'));
-        };
+        },
+        scanline: function (line, regex, block) {
+            this.lines++;
+            var line_split = rsplit(line, regex);
+            for (var i = 0; i < line_split.length; i++) {
+                var token = line_split[i];
+                if (token != null) {
+                    try {
+                        block(token, this);
+                    } catch (e) {
+                        throw {type: 'EJS.Scanner', line: this.lines};
+                    }
+                }
+            }
+        }
     };
 
 
-    require.register("ejs.js", function (module, exports, require) {
+    EJS.Buffer = function (pre_cmd, post_cmd) {
+        this.line = new Array();
+        this.script = "";
+        this.pre_cmd = pre_cmd;
+        this.post_cmd = post_cmd;
+        for (var i = 0; i < this.pre_cmd.length; i++) {
+            this.push(pre_cmd[i]);
+        }
+    };
+    EJS.Buffer.prototype = {
 
-        /*!
-         * EJS
-         * Copyright(c) 2012 TJ Holowaychuk <tj@vision-media.ca>
-         * MIT Licensed
-         */
+        push: function (cmd) {
+            this.line.push(cmd);
+        },
 
-        /**
-         * Module dependencies.
-         */
+        cr: function () {
+            this.script = this.script + this.line.join('; ');
+            this.line = new Array();
+            this.script = this.script + "\n";
+        },
 
-        var utils = require('./utils')
-            , path = require('path')
-            , dirname = path.dirname
-            , extname = path.extname
-            , join = path.join
-            , fs = require('fs')
-            , read = fs.readFileSync;
-
-        /**
-         * Filters.
-         *
-         * @type Object
-         */
-
-        var filters = exports.filters = require('./filters');
-
-        /**
-         * Intermediate js cache.
-         *
-         * @type Object
-         */
-
-        var cache = {};
-
-        /**
-         * Clear intermediate js cache.
-         *
-         * @api public
-         */
-
-        exports.clearCache = function () {
-            cache = {};
-        };
-
-        /**
-         * Translate filtered code into function calls.
-         *
-         * @param {String} js
-         * @return {String}
-         * @api private
-         */
-
-        function filtered(js) {
-            return js.substr(1).split('|').reduce(function (js, filter) {
-                var parts = filter.split(':')
-                    , name = parts.shift()
-                    , args = parts.join(':') || '';
-                if (args) args = ', ' + args;
-                return 'filters.' + name + '(' + js + args + ')';
-            });
-        };
-
-        /**
-         * Re-throw the given `err` in context to the
-         * `str` of ejs, `filename`, and `lineno`.
-         *
-         * @param {Error} err
-         * @param {String} str
-         * @param {String} filename
-         * @param {String} lineno
-         * @api private
-         */
-
-        function rethrow(err, str, filename, lineno) {
-            var lines = str.split('\n')
-                , start = Math.max(lineno - 3, 0)
-                , end = Math.min(lines.length, lineno + 3);
-
-            // Error context
-            var context = lines.slice(start, end).map(function (line, i) {
-                var curr = i + start + 1;
-                return (curr == lineno ? ' >> ' : '    ')
-                    + curr
-                    + '| '
-                    + line;
-            }).join('\n');
-
-            // Alter exception message
-            err.path = filename;
-            err.message = (filename || 'ejs') + ':'
-                + lineno + '\n'
-                + context + '\n\n'
-                + err.message;
-
-            throw err;
+        close: function () {
+            if (this.line.length > 0) {
+                for (var i = 0; i < this.post_cmd.length; i++) {
+                    this.push(pre_cmd[i]);
+                }
+                this.script = this.script + this.line.join('; ');
+                line = null;
+            }
         }
 
-        /**
-         * Parse the given `str` of ejs, returning the function body.
-         *
-         * @param {String} str
-         * @return {String}
-         * @api public
-         */
+    };
 
-        var parse = exports.parse = function (str, options) {
-            var options = options || {}
-                , open = options.open || exports.open || '<%'
-                , close = options.close || exports.close || '%>'
-                , filename = options.filename
-                , compileDebug = options.compileDebug !== false
-                , buf = "";
 
-            buf += 'var buf = [];';
-            if (false !== options._with) buf += '\nwith (locals || {}) { (function(){ ';
-            buf += '\n buf.push(\'';
-
-            var lineno = 1;
-
-            var consumeEOL = false;
-            for (var i = 0, len = str.length; i < len; ++i) {
-                var stri = str[i];
-                if (str.slice(i, open.length + i) == open) {
-                    i += open.length
-
-                    var prefix, postfix, line = (compileDebug ? '__stack.lineno=' : '') + lineno;
-                    switch (str[i]) {
-                        case '=':
-                            prefix = "', escape((" + line + ', ';
-                            postfix = ")), '";
-                            ++i;
+    EJS.Compiler = function (source, left) {
+        this.pre_cmd = ['var ___ViewO = [];'];
+        this.post_cmd = new Array();
+        this.source = ' ';
+        if (source != null) {
+            if (typeof source == 'string') {
+                source = source.replace(/\r\n/g, "\n");
+                source = source.replace(/\r/g, "\n");
+                this.source = source;
+            } else if (source.innerHTML) {
+                this.source = source.innerHTML;
+            }
+            if (typeof this.source != 'string') {
+                this.source = "";
+            }
+        }
+        left = left || '<';
+        var right = '>';
+        switch (left) {
+            case '[':
+                right = ']';
+                break;
+            case '<':
+                break;
+            default:
+                throw left + ' is not a supported deliminator';
+                break;
+        }
+        this.scanner = new EJS.Scanner(this.source, left, right);
+        this.out = '';
+    };
+    EJS.Compiler.prototype = {
+        compile: function (options, name) {
+            options = options || {};
+            this.out = '';
+            var put_cmd = "___ViewO.push(";
+            var insert_cmd = put_cmd;
+            var buff = new EJS.Buffer(this.pre_cmd, this.post_cmd);
+            var content = '';
+            var clean = function (content) {
+                content = content.replace(/\\/g, '\\\\');
+                content = content.replace(/\n/g, '\\n');
+                content = content.replace(/"/g, '\\"');
+                return content;
+            };
+            this.scanner.scan(function (token, scanner) {
+                if (scanner.stag == null) {
+                    switch (token) {
+                        case '\n':
+                            content = content + "\n";
+                            buff.push(put_cmd + '"' + clean(content) + '");');
+                            buff.cr();
+                            content = '';
                             break;
-                        case '-':
-                            prefix = "', (" + line + ', ';
-                            postfix = "), '";
-                            ++i;
+                        case scanner.left_delimiter:
+                        case scanner.left_equal:
+                        case scanner.left_comment:
+                            scanner.stag = token;
+                            if (content.length > 0) {
+                                buff.push(put_cmd + '"' + clean(content) + '")');
+                            }
+                            content = '';
+                            break;
+                        case scanner.double_left:
+                            content = content + scanner.left_delimiter;
                             break;
                         default:
-                            prefix = "');" + line + ';';
-                            postfix = "; buf.push('";
+                            content = content + token;
+                            break;
                     }
-
-                    var end = str.indexOf(close, i);
-
-                    if (end < 0) {
-                        throw new Error('Could not find matching close tag "' + close + '".');
-                    }
-
-                    var js = str.substring(i, end)
-                        , start = i
-                        , include = null
-                        , n = 0;
-
-                    if ('-' == js[js.length - 1]) {
-                        js = js.substring(0, js.length - 2);
-                        consumeEOL = true;
-                    }
-
-                    if (0 == js.trim().indexOf('include')) {
-                        var name = js.trim().slice(7).trim();
-                        if (!filename) throw new Error('filename option is required for includes');
-                        var path = resolveInclude(name, filename);
-                        include = read(path, 'utf8');
-                        include = exports.parse(include, {
-                            filename: path,
-                            _with: false,
-                            open: open,
-                            close: close,
-                            compileDebug: compileDebug
-                        });
-                        buf += "' + (function(){" + include + "})() + '";
-                        js = '';
-                    }
-
-                    while (~(n = js.indexOf("\n", n))) n++, lineno++;
-                    if (js.substr(0, 1) == ':') js = filtered(js);
-                    if (js) {
-                        if (js.lastIndexOf('//') > js.lastIndexOf('\n')) js += '\n';
-                        buf += prefix;
-                        buf += js;
-                        buf += postfix;
-                    }
-                    i += end - start + close.length - 1;
-
-                } else if (stri == "\\") {
-                    buf += "\\\\";
-                } else if (stri == "'") {
-                    buf += "\\'";
-                } else if (stri == "\r") {
-                    // ignore
-                } else if (stri == "\n") {
-                    if (consumeEOL) {
-                        consumeEOL = false;
-                    } else {
-                        buf += "\\n";
-                        lineno++;
-                    }
-                } else {
-                    buf += stri;
                 }
+                else {
+                    switch (token) {
+                        case scanner.right_delimiter:
+                            switch (scanner.stag) {
+                                case scanner.left_delimiter:
+                                    if (content[content.length - 1] == '\n') {
+                                        content = chop(content);
+                                        buff.push(content);
+                                        buff.cr();
+                                    }
+                                    else {
+                                        buff.push(content);
+                                    }
+                                    break;
+                                case scanner.left_equal:
+                                    buff.push(insert_cmd + "(EJS.Scanner.to_text(" + content + ")))");
+                                    break;
+                            }
+                            scanner.stag = null;
+                            content = '';
+                            break;
+                        case scanner.double_right:
+                            content = content + scanner.right_delimiter;
+                            break;
+                        default:
+                            content = content + token;
+                            break;
+                    }
+                }
+            });
+            if (content.length > 0) {
+                // Chould be content.dump in Ruby
+                buff.push(put_cmd + '"' + clean(content) + '")');
             }
-
-            if (false !== options._with) buf += "'); })();\n} \nreturn buf.join('');";
-            else buf += "');\nreturn buf.join('');";
-            return buf;
-        };
-
-        /**
-         * Compile the given `str` of ejs into a `Function`.
-         *
-         * @param {String} str
-         * @param {Object} options
-         * @return {Function}
-         * @api public
-         */
-
-        var compile = exports.compile = function (str, options) {
-            options = options || {};
-            var escape = options.escape || utils.escape;
-
-            var input = JSON.stringify(str)
-                , compileDebug = options.compileDebug !== false
-                , client = options.client
-                , filename = options.filename
-                ? JSON.stringify(options.filename)
-                : 'undefined';
-
-            if (compileDebug) {
-                // Adds the fancy stack trace meta info
-                str = [
-                    'var __stack = { lineno: 1, input: ' + input + ', filename: ' + filename + ' };',
-                    rethrow.toString(),
-                    'try {',
-                    exports.parse(str, options),
-                    '} catch (err) {',
-                    '  rethrow(err, __stack.input, __stack.filename, __stack.lineno);',
-                    '}'
-                ].join("\n");
-            } else {
-                str = exports.parse(str, options);
-            }
-
-            if (options.debug) console.log(str);
-            if (client) str = 'escape = escape || ' + escape.toString() + ';\n' + str;
+            buff.close();
+            this.out = buff.script + ";";
+            var to_be_evaled = '/*' + name + '*/this.process = function(_CONTEXT,_VIEW) { try { with(_VIEW) { with (_CONTEXT) {' + this.out + " return ___ViewO.join('');}}}catch(e){e.lineNumber=null;throw e;}};";
 
             try {
-                var fn = new Function('locals, filters, escape, rethrow', str);
-            } catch (err) {
-                if ('SyntaxError' == err.name) {
-                    err.message += options.filename
-                        ? ' in ' + filename
-                        : ' while compiling ejs';
-                }
-                throw err;
-            }
-
-            if (client) return fn;
-
-            return function (locals) {
-                return fn.call(this, locals, filters, escape, rethrow);
-            }
-        };
-
-        /**
-         * Render the given `str` of ejs.
-         *
-         * Options:
-         *
-         *   - `locals`          Local variables object
-         *   - `cache`           Compiled functions are cached, requires `filename`
-         *   - `filename`        Used by `cache` to key caches
-         *   - `scope`           Function execution context
-         *   - `debug`           Output generated function body
-         *   - `open`            Open tag, defaulting to "<%"
-         *   - `close`           Closing tag, defaulting to "%>"
-         *
-         * @param {String} str
-         * @param {Object} options
-         * @return {String}
-         * @api public
-         */
-
-        exports.render = function (str, options) {
-            var fn
-                , options = options || {};
-
-            if (options.cache) {
-                if (options.filename) {
-                    fn = cache[options.filename] || (cache[options.filename] = compile(str, options));
+                eval(to_be_evaled);
+            } catch (e) {
+                if (typeof JSLINT != 'undefined') {
+                    JSLINT(this.out);
+                    for (var i = 0; i < JSLINT.errors.length; i++) {
+                        var error = JSLINT.errors[i];
+                        if (error.reason != "Unnecessary semicolon.") {
+                            error.line++;
+                            var e = new Error();
+                            e.lineNumber = error.line;
+                            e.message = error.reason;
+                            if (options.view)
+                                e.fileName = options.view;
+                            throw e;
+                        }
+                    }
                 } else {
-                    throw new Error('"cache" option requires "filename".');
+                    throw e;
                 }
-            } else {
-                fn = compile(str, options);
             }
+        }
+    };
 
-            options.__proto__ = options.locals;
-            return fn.call(options.scope, options);
+
+//type, cache, folder
+    /**
+     * Sets default options for all views
+     * @param {Object} options Set view with the following options
+     * <table class="options">
+     <tbody><tr><th>Option</th><th>Default</th><th>Description</th></tr>
+     <tr>
+     <td>type</td>
+     <td>'<'</td>
+     <td>type of magic tags.  Options are '&lt;' or '['
+     </td>
+     </tr>
+     <tr>
+     <td>cache</td>
+     <td>true in production mode, false in other modes</td>
+     <td>true to cache template.
+     </td>
+     </tr>
+     </tbody></table>
+     *
+     */
+    EJS.config = function (options) {
+        EJS.cache = options.cache != null ? options.cache : EJS.cache;
+        EJS.type = options.type != null ? options.type : EJS.type;
+        EJS.ext = options.ext != null ? options.ext : EJS.ext;
+
+        var templates_directory = EJS.templates_directory || {}; //nice and private container
+        EJS.templates_directory = templates_directory;
+        EJS.get = function (path, cache) {
+            if (cache == false) return null;
+            if (templates_directory[path]) return templates_directory[path];
+            return null;
         };
 
+        EJS.update = function (path, template) {
+            if (path == null) return;
+            templates_directory[path] = template;
+        };
+
+        EJS.INVALID_PATH = -1;
+    };
+    EJS.config({cache: true, type: '<', ext: '.ejs'});
+
+
+    /**
+     * @constructor
+     * By adding functions to EJS.Helpers.prototype, those functions will be available in the
+     * views.
+     * @init Creates a view helper.  This function is called internally.  You should never call it.
+     * @param {Object} data The data passed to the view.  Helpers have access to it through this._data
+     */
+    EJS.Helpers = function (data, extras) {
+        this._data = data;
+        this._extras = extras;
+        extend(this, extras);
+    };
+    /* @prototype*/
+    EJS.Helpers.prototype = {
         /**
-         * Render an EJS file at the given `path` and callback `fn(err, str)`.
-         *
-         * @param {String} path
-         * @param {Object|Function} options or callback
-         * @param {Function} fn
-         * @api public
+         * Renders a new view.  If data is passed in, uses that to render the view.
+         * @param {Object} options standard options passed to a new view.
+         * @param {optional:Object} data
+         * @return {String}
          */
-
-        exports.renderFile = function (path, options, fn) {
-            var key = path + ':string';
-
-            if ('function' == typeof options) {
-                fn = options, options = {};
-            }
-
-            options.filename = path;
-
-            var str;
+        view: function (options, data, helpers) {
+            if (!helpers) helpers = this._extras
+            if (!data) data = this._data;
+            return new EJS(options).render(data, helpers);
+        },
+        /**
+         * For a given value, tries to create a human representation.
+         * @param {Object} input the value being converted.
+         * @param {Object} null_text what text should be present if input == null or undefined, defaults to ''
+         * @return {String}
+         */
+        to_text: function (input, null_text) {
+            if (input == null || input === undefined) return null_text || '';
+            if (input instanceof Date) return input.toDateString();
+            if (input.toString) return input.toString().replace(/\n/g, '<br />').replace(/''/g, "'");
+            return '';
+        }
+    };
+    EJS.newRequest = function () {
+        var factories = [function () {
+            return new ActiveXObject("Msxml2.XMLHTTP");
+        }, function () {
+            return new XMLHttpRequest();
+        }, function () {
+            return new ActiveXObject("Microsoft.XMLHTTP");
+        }];
+        for (var i = 0; i < factories.length; i++) {
             try {
-                str = options.cache
-                    ? cache[key] || (cache[key] = read(path, 'utf8'))
-                    : read(path, 'utf8');
-            } catch (err) {
-                fn(err);
-                return;
+                var request = factories[i]();
+                if (request != null)  return request;
             }
-            fn(null, exports.render(str, options));
-        };
+            catch (e) {
+                continue;
+            }
+        }
+    }
 
-        /**
-         * Resolve include `name` relative to `filename`.
-         *
-         * @param {String} name
-         * @param {String} filename
-         * @return {String}
-         * @api private
-         */
+    EJS.request = function (path) {
+        var request = new EJS.newRequest()
+        request.open("GET", path, false);
 
-        function resolveInclude(name, filename) {
-            var path = join(dirname(filename), name);
-            var ext = extname(name);
-            if (!ext) path += '.ejs';
-            return path;
+        try {
+            request.send(null);
+        }
+        catch (e) {
+            return null;
         }
 
-// express support
+        if (request.status == 404 || request.status == 2 || (request.status == 0 && request.responseText == '')) return null;
 
-        exports.__express = exports.renderFile;
+        return request.responseText
+    }
+    EJS.ajax_request = function (params) {
+        params.method = ( params.method ? params.method : 'GET')
 
-        /**
-         * Expose to require().
-         */
-
-        if (require.extensions) {
-            require.extensions['.ejs'] = function (module, filename) {
-                filename = filename || module.filename;
-                var options = {filename: filename, client: true}
-                    , template = fs.readFileSync(filename).toString()
-                    , fn = compile(template, options);
-                module._compile('module.exports = ' + fn.toString() + ';', filename);
-            };
-        } else if (require.registerExtension) {
-            require.registerExtension('.ejs', function (src) {
-                return compile(src, {});
-            });
-        }
-
-    }); // module: ejs.js
-
-    require.register("filters.js", function (module, exports, require) {
-        /*!
-         * EJS - Filters
-         * Copyright(c) 2010 TJ Holowaychuk <tj@vision-media.ca>
-         * MIT Licensed
-         */
-
-        /**
-         * First element of the target `obj`.
-         */
-
-        exports.first = function (obj) {
-            return obj[0];
-        };
-
-        /**
-         * Last element of the target `obj`.
-         */
-
-        exports.last = function (obj) {
-            return obj[obj.length - 1];
-        };
-
-        /**
-         * Capitalize the first letter of the target `str`.
-         */
-
-        exports.capitalize = function (str) {
-            str = String(str);
-            return str[0].toUpperCase() + str.substr(1, str.length);
-        };
-
-        /**
-         * Downcase the target `str`.
-         */
-
-        exports.downcase = function (str) {
-            return String(str).toLowerCase();
-        };
-
-        /**
-         * Uppercase the target `str`.
-         */
-
-        exports.upcase = function (str) {
-            return String(str).toUpperCase();
-        };
-
-        /**
-         * Sort the target `obj`.
-         */
-
-        exports.sort = function (obj) {
-            return Object.create(obj).sort();
-        };
-
-        /**
-         * Sort the target `obj` by the given `prop` ascending.
-         */
-
-        exports.sort_by = function (obj, prop) {
-            return Object.create(obj).sort(function (a, b) {
-                a = a[prop], b = b[prop];
-                if (a > b) return 1;
-                if (a < b) return -1;
-                return 0;
-            });
-        };
-
-        /**
-         * Size or length of the target `obj`.
-         */
-
-        exports.size = exports.length = function (obj) {
-            return obj.length;
-        };
-
-        /**
-         * Add `a` and `b`.
-         */
-
-        exports.plus = function (a, b) {
-            return Number(a) + Number(b);
-        };
-
-        /**
-         * Subtract `b` from `a`.
-         */
-
-        exports.minus = function (a, b) {
-            return Number(a) - Number(b);
-        };
-
-        /**
-         * Multiply `a` by `b`.
-         */
-
-        exports.times = function (a, b) {
-            return Number(a) * Number(b);
-        };
-
-        /**
-         * Divide `a` by `b`.
-         */
-
-        exports.divided_by = function (a, b) {
-            return Number(a) / Number(b);
-        };
-
-        /**
-         * Join `obj` with the given `str`.
-         */
-
-        exports.join = function (obj, str) {
-            return obj.join(str || ', ');
-        };
-
-        /**
-         * Truncate `str` to `len`.
-         */
-
-        exports.truncate = function (str, len, append) {
-            str = String(str);
-            if (str.length > len) {
-                str = str.slice(0, len);
-                if (append) str += append;
+        var request = new EJS.newRequest();
+        request.onreadystatechange = function () {
+            if (request.readyState == 4) {
+                if (request.status == 200) {
+                    params.onComplete(request)
+                } else {
+                    params.onComplete(request)
+                }
             }
-            return str;
-        };
-
-        /**
-         * Truncate `str` to `n` words.
-         */
-
-        exports.truncate_words = function (str, n) {
-            var str = String(str)
-                , words = str.split(/ +/);
-            return words.slice(0, n).join(' ');
-        };
-
-        /**
-         * Replace `pattern` with `substitution` in `str`.
-         */
-
-        exports.replace = function (str, pattern, substitution) {
-            return String(str).replace(pattern, substitution || '');
-        };
-
-        /**
-         * Prepend `val` to `obj`.
-         */
-
-        exports.prepend = function (obj, val) {
-            return Array.isArray(obj)
-                ? [val].concat(obj)
-                : val + obj;
-        };
-
-        /**
-         * Append `val` to `obj`.
-         */
-
-        exports.append = function (obj, val) {
-            return Array.isArray(obj)
-                ? obj.concat(val)
-                : obj + val;
-        };
-
-        /**
-         * Map the given `prop`.
-         */
-
-        exports.map = function (arr, prop) {
-            return arr.map(function (obj) {
-                return obj[prop];
-            });
-        };
-
-        /**
-         * Reverse the given `obj`.
-         */
-
-        exports.reverse = function (obj) {
-            return Array.isArray(obj)
-                ? obj.reverse()
-                : String(obj).split('').reverse().join('');
-        };
-
-        /**
-         * Get `prop` of the given `obj`.
-         */
-
-        exports.get = function (obj, prop) {
-            return obj[prop];
-        };
-
-        /**
-         * Packs the given `obj` into json string
-         */
-        exports.json = function (obj) {
-            return JSON.stringify(obj);
-        };
-
-    }); // module: filters.js
-
-    require.register("utils.js", function (module, exports, require) {
-
-        /*!
-         * EJS
-         * Copyright(c) 2010 TJ Holowaychuk <tj@vision-media.ca>
-         * MIT Licensed
-         */
-
-        /**
-         * Escape the given string of `html`.
-         *
-         * @param {String} html
-         * @return {String}
-         * @api private
-         */
-
-        exports.escape = function (html) {
-            return String(html)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/'/g, '&#39;')
-                .replace(/"/g, '&quot;');
-        };
+        }
+        request.open(params.method, params.url)
+        request.send(null)
+    }
 
 
-    }); // module: utils.js
-
-    return require("ejs");
-})();
+})(window);
