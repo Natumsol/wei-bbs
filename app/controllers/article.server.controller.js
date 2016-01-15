@@ -7,7 +7,15 @@
 var mongoose = require("mongoose");
 var Article = mongoose.model("Article");
 var Comment = mongoose.model("Comment");
+var User = mongoose.model("User");
 var is = require("is");
+var q = require("q");
+var defer = q.defer;
+var async = require("async");
+var formatter = require("../../tools/formatDate.js").format;
+function getInputPromise(){
+    return defer.promise;
+}
 
 /**
  *
@@ -97,6 +105,40 @@ function list(req, res, next) {
         }
         res.json(articles);
     });
+
+}
+
+/**
+ *
+ * @param req
+ * @param res
+ * @param next
+ */
+function list_index(req, res, next) {
+    var start = parseInt(req.body.start);
+    var limit = parseInt(req.body.limit) || 10;
+    if (!is.integer(start) || !is.integer(limit)) {
+        res.json({
+            errInfo: "param error",
+            status: 0
+        })
+    }
+
+    var options = [{path: 'comments'}, {path: 'author', select: 'nickname headimgurl -_id'}];
+    Article.find().skip(start).limit(limit).populate(options).exec(function (err, articles) {
+        Article.populate(articles, [{
+            path: 'comments.author',
+            model: "User",
+            select: 'nickname headimgurl'
+        }], function (err, articles) {
+            res.json({articles: articles});
+        });
+    });
+
+
+
+    //  分页查询
+
 
 }
 
@@ -205,5 +247,6 @@ module.exports = {
     getArticleById: getArticleById,
     addComment: addComment,
     deleteComment: deleteComment,
-    like: like
+    like: like,
+    list_index:list_index
 };
