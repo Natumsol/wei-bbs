@@ -1,0 +1,49 @@
+<%for (var article in articles){%>
+<div class="ui-item-box">
+    <div class="header util-clearfix ">
+        <div class="ui-avatar-s util-pull-left">
+            <img src="<%= article.author.headimgurl %>" alt="">
+        </div>
+        <div class="status util-pull-left ">
+            <h6 class="username"><%= article.author.nickname %></h6>
+            <h6 class="ui-txt-muted time">今天 8:20</h6>
+        </div>
+    </div>
+    <div class="content-wrapper util-clearfix">
+        <a class="title" href="view.html"><%= article.title %> <% if(article.hasImg){%><span class="ui-my-badge">图</span><% } %></a>
+        <h5 class="ui-txt-justify content-text">
+            <%- article.content %>
+        </h5>
+        <div class="content-image">
+            <% for(var img in article.imgs) {%>
+                <img src="<%= img.src %>" alt="">
+            <%}%>
+        </div>
+        <i class="fa fa-commenting util-pull-right"></i>
+        <i class="fa fa-thumbs-up util-pull-right"></i>
+    </div>
+    <%if(!article.comments.length){%>
+    <div class="comment-wrapper">
+        <% for(var i = 0; i < article.comments.length && i < 3; i ++){ %>
+        <div class="comment util-clearfix">
+            <div class="avatar-container util-text-center">
+                <img class="user-avatar" src="<%= article.comments[i].author.headimgurl %>">
+            </div>
+            <div class=" comment-container">
+                <a class="username"><%= article.comments[i].author.nickname %></a>
+                <span class="comment-text ui-txt-justify"><%= article.comments[i].author.body %></span>
+            </div>
+        </div>
+        <%}%>
+    </div>
+    <% if(article.comments.length - 3){ %>
+    <div class="view-all-comments util-text-center">
+        <a href="">查看全部<% article.comments.length - 3 %>条回复</a>
+    </div>
+    <% }%>
+
+    <%} else {%>
+    <span>TODO</span>
+    <%}%>
+</div>
+<%}%>
