@@ -15,4 +15,15 @@ module.exports = function (app) {
     app.post(nameSpace + "/addComment", weixinAuth.checkAuth, article.addComment);
     app.post(nameSpace + "/deleteComment", weixinAuth.checkAuth, article.deleteComment);
     app.post(nameSpace + "/like", weixinAuth.checkAuth, article.like);
+    app.get(nameSpace + "/view",weixinAuth.checkAuth, function(req, res){
+        var id = req.query.id;
+        article.getArticleById(id, function(err, article){
+            if(err) res.send(err.message);
+            console.log(article);
+            res.render("view", {
+                article:article
+            });
+        });
+
+    })
 };

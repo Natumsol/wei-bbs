@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="content-wrapper util-clearfix">
-        <a class="title" href="view.html"><%= articles[index].title %> <% if(articles[index].hasImg){%><span class="ui-my-badge">图</span><% } %></a>
+        <a class="title" href="article/view?id=<%= articles[index]._id%>"><%= articles[index].title %> <% if(articles[index].hasImg){%><span class="ui-my-badge">图</span><% } %></a>
         <h5 class="ui-txt-justify content-text">
             <%= articles[index].content %>
         </h5>

@@ -9,9 +9,6 @@ var Article = mongoose.model("Article");
 var Comment = mongoose.model("Comment");
 var User = mongoose.model("User");
 var is = require("is");
-var q = require("q");
-var defer = q.defer;
-var async = require("async");
 var formatter = require("../../tools/formatDate.js").format;
 function getInputPromise(){
     return defer.promise;
@@ -73,10 +70,17 @@ function modify(req, res, next) {
  * @param callback
  */
 function getArticleById(id, callback) {
-    Article.findOne({_id: id}, function (err, article) {
-        if (err) callback(err);
-        callback(null, article);
-    })
+    var options = [{path: 'comments'}, {path: 'author'}];
+    Article.findOne({_id: id}).populate(options).exec(function (err, article) {
+        Article.populate(article, [{
+            path: 'comments.author',
+            model: "User",
+        }], function (err, article) {
+            if (err) callback(err);
+            callback(null, article);
+        });
+    });
+
 }
 
 /**
