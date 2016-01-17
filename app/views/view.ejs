@@ -22,9 +22,10 @@
     </button>
 </header>
 <div class="ui-footer ui-footer-stable ui-btn-group ui-border-t">
-    <button class="ui-btn ui-btn-primary addComment">
-        <i class="fa fa-commenting"></i> 回复
-    </button>
+        <div class="ui-input ui-border-radius">
+            <input type="text" id="comment" name="comment" value="" placeholder="我也说一句...">
+        </div>
+        <button class="ui-btn ui-btn-primary addComment">评论</button>
 </div>
 <section class="ui-container">
     <div class="article-container">
@@ -42,19 +43,18 @@
         </div>
         <div class="action util-clearfix">
             <i class="fa fa-thumbs-up util-pull-right"></i>
-            <i class="fa fa-commenting util-pull-right"></i>
         </div>
         <div class="comment-container">
             <div class="comment-bar">
                 <i class="fa fa-commenting "> 全部回复</i>
-                <i class="fa fa-sort-amount-desc util-pull-right"> 倒叙排列</i>
+                <i class="fa fa-sort-amount-desc util-pull-right">倒序查看</i>
                 <i class="fa fa-user util-pull-right"> 只看楼主</i>
             </div>
             <div>
                 <% for(var i = 0; i < article.comments.length; i ++) { %>
                 <div class="comment">
                     <div class="comment-header util-clearfix ">
-                        <img src="http://placeholder.qiniudn.com/80x80" align="AbsMiddle">
+                        <img src="<%= article.comments[i].author.headimgurl %>" align="AbsMiddle">
                         <a class="username"><%= article.comments[i].author.nickname %></a>
                         <span class="util-pull-right ui-txt-info"><%= i + 2 %>楼</span>
                     </div>
@@ -62,7 +62,10 @@
                         <%- article.comments[i].body %>
                     </div>
                     <div class="comment-footer ui-txt-info ">
-                        <%= article.comments[i].date %>
+                        <span> <%= article.comments[i].date %></span>
+                        <% if( user._id == article.comments[i].author._id ) { %>
+                        <a class="pull-right deleteComment" id="<%= article.comments[i]._id%>">删除</a>
+                        <% } %>
                     </div>
                 </div>
                 <% } %>

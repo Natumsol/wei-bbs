@@ -17,11 +17,14 @@ module.exports = function (app) {
     app.post(nameSpace + "/like", weixinAuth.checkAuth, article.like);
     app.get(nameSpace + "/view",weixinAuth.checkAuth, function(req, res){
         var id = req.query.id;
-        article.getArticleById(id, function(err, article){
+        var isReverse = parseInt(req.query.isReverse) || 0;
+        var onlyAuthor =  parseInt(req.query.onlyAuthor) || 0;
+        article.getArticleById(id,isReverse, onlyAuthor,function(err, article){
             if(err) res.send(err.message);
             console.log(article);
             res.render("view", {
-                article:article
+                article:article,
+                user: req.session.user
             });
         });
 

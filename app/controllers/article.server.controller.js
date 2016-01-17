@@ -69,12 +69,12 @@ function modify(req, res, next) {
  * @param id
  * @param callback
  */
-function getArticleById(id, callback) {
+function getArticleById(id, isReverse, onlyAuthor,callback) {
     var options = [{path: 'comments'}, {path: 'author'}];
     Article.findOne({_id: id}).populate(options).exec(function (err, article) {
         Article.populate(article, [{
             path: 'comments.author',
-            model: "User",
+            model: "User"
         }], function (err, article) {
             if (err) callback(err);
             callback(null, article);
@@ -173,11 +173,11 @@ function remove(req, res, next) {
 function addComment(req, res, next) {
     var comment = new Comment(req.body);
     var articleId = req.body.id;
-    comment.author = req.session.user.openid;
+    comment.author = req.session.user._id;
     comment.save(function (err, comment) {
         if (err) {
             res.json({
-                errInfo: "save comment failed!",
+                errInfo: err.message,
                 status: 0
             });
         } else {

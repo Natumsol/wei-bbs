@@ -47,15 +47,18 @@ function getUserInfo(req, res, next) {
             body.push(data);
         });
         clientRes.on("end", function(){
-            req.session.user = req.weixin.user = JSON.parse(Buffer.concat(body));
+           req.weixin.user = JSON.parse(Buffer.concat(body));
             console.log(req.weixin.user);
             User.count({
-                openId:req.session.user.openId
+                openId:req.weixin.user.openId
             }, function(err, count){
                 if(!count) {
-                    (new User(req.session.user)).save(function (err, user) {
+                    (new User(req.weixin.user)).save(function (err, user) {
                         if(err) throw err;
-                        else console.log(chalk.green("用户信息保存成功~"));
+                        else{
+                            console.log(chalk.green("用户信息保存成功~"));
+                            req.session.user = user;
+                        }
                     });
                 }
             });
@@ -66,16 +69,16 @@ function getUserInfo(req, res, next) {
 
 function checkAuth(req, res, next){
     req.session.user = {
-        "_id": "568e6e9514c8f84806d0c158",
-        "openid": "oXlgUwu85jlX0lLPRA3vDBSYEVhw",
-        "nickname": "文刀十口",
-        "sex": 1,
-        "language": "zh_CN",
-        "city": "Wuhan",
-        "country": "CN",
-        "headimgurl": "http://wx.qlogo.cn/mmopen/PiajxSqBRaELcdA2GG1zGRacttOfviaAiahmIO8MBX6mfibu3qZQ1waG2sIKCBic3qu9kov41o7P6XFpBSG3ibkbBM6g/0",
-        "privileg": [],
-        "__v": 0,
+        "_id" : "569a4aada22d37007435e322",
+        "openid" : "oXlgUwkexLQQVXeCy0cIkWFiUAbE",
+        "nickname" : "小草",
+        "sex" : 2,
+        "language" : "zh_CN",
+        "city" : "Wuhan",
+        "province" : "Hubei",
+        "country" : "CN",
+        "headimgurl" : "http://wx.qlogo.cn/mmopen/ajNVdqHZLLBEib6uc6W4Q5qeJhnXvANTVPGjLjFmk6f6QjdAaZZVAQUyHvuNlGqhkoFgicxCaI50ok8luWebml8g/0",
+        "privilege" : [],
         "isAdmin": true
     };
     if(!req.session.user) {

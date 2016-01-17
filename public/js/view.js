@@ -17,7 +17,32 @@ define(["zepto", "ejs", "tools"], function ($, ejs, tools) {
         });
 
         $(".addComment").click(function(){
-            location.href = "/article/addComment?id=" + $("#articleId").val()
+            var comment = $("#comment").val();
+            tools.PostData("/article/addComment", {
+                body:comment,
+                id: $("#articleId").val()
+            }, function(result){
+                if(result.status){
+                    alert("评论成功！");
+                } else {
+                    alert("评论失败！");
+                }
+                location.reload();
+            });
+        });
+        $(".deleteComment").click(function(){
+            var id = $(this).attr("id");
+            tools.PostData("/article/deleteComment", {
+                id: id
+            }, function(result){
+                if(result.status){
+                    alert("评论删除成功！");
+                } else {
+                    alert("评论删除失败！");
+                }
+                location.reload();
+            });
+
         });
     }
     return {
