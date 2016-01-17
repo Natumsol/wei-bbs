@@ -1,5 +1,6 @@
 .index.ui-container {
     background: #EFEFEF;
+    border-bottom: 0;
 }
 
 #menu {
@@ -38,7 +39,12 @@
     margin-left: 20px;
     color: #A7A4A4;
 }
-
+.ui-item-box .ui-input-wrap{
+    margin:0 -5px;
+}
+.ui-item-box .like{
+    font-size: 14px;
+}
 .ui-my-badge {
     background: #ff7f0d;
     color: #fff;
@@ -210,7 +216,7 @@
     text-align: center;
 }
 
-/*flat color*/
+/*flat color background*/
 .flat-color-alizarin {
     background: #E74C3C;
 }
@@ -233,6 +239,32 @@
 
 .flat-color-belize-hole {
     background: #2980b9;
+}
+
+
+/*flat color text*/
+.text-flat-color-alizarin {
+    color: #E74C3C !important;
+}
+
+.text-flat-color-carrot {
+    color: #E67E22 !important;
+}
+
+.text-flat-color-turquoise {
+    color: #1abc9c !important;
+}
+
+.text-flat-color-peter-river {
+    color: #3498db !important;
+}
+
+.text-flat-color-sun-flower {
+    color: #f1c40f !important;
+}
+
+.text-flat-color-belize-hole {
+    color: #2980b9 !important;
 }
 
 /**/

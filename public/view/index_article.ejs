@@ -18,8 +18,7 @@
                 <img src="<%= img.src %>" alt="">
             <%}%>
         </div>
-        <i class="fa fa-commenting util-pull-right"></i>
-        <i class="fa fa-thumbs-up util-pull-right like" id="<%= articles[index]._id %>" data-status="<%= articles[index].isLiked %>"><%if(articles[index].isLiked) {%>已赞 <% }%></i>
+        <i class="fa fa-thumbs-up util-pull-right like <%if(articles[index].isLiked) {%>text-flat-color-turquoise <% }%> " id="<%= articles[index]._id %>" data-status="<%= articles[index].isLiked %>"><%if(articles[index].isLiked) {%> 已赞 <% }%></i>
     </div>
     <%if(articles[index].comments.length != 0){%>
     <div class="comment-wrapper">
@@ -52,6 +51,12 @@
             <%}%>
         </div>
     </div>
+    <section class="ui-input-wrap">
+        <div class="ui-input ui-border-radius">
+            <input type="text" name="addComment" value="" class="add-comment" placeholder="我也说一句...">
+        </div>
+        <button class="ui-btn ui-btn-primary addComment" data-articleId="<%= articles[index]._id %>">评论</button>
+    </section>
 
     <% }%>
 

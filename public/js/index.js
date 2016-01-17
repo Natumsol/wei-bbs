@@ -64,6 +64,11 @@ define(["zepto", "loadMore", "ejs", "tools"], function ($, loadMore, ejs, tools)
     };
 
     var init = function () {
+        // 状态变量初始化
+        counter = 0;
+        noMoreData = false;
+        $(".index").html("");
+
         $(".ui-loading-block").addClass("show");
         // 取得首页帖子数据
         getMoreDataFactory(url, {
@@ -119,6 +124,22 @@ define(["zepto", "loadMore", "ejs", "tools"], function ($, loadMore, ejs, tools)
             }
 
         });
+
+        $("body").on("click", ".addComment", function(){
+            var comment = $(this).parent().find(".add-comment").val()
+            tools.PostData("/article/addComment", {
+                body:comment,
+                id: this.dataset.articleid
+            }, function(result){
+                if(result.status){
+                    alert("评论成功！");
+                } else {
+                    alert("评论失败！");
+                }
+                init();
+            });
+        });
+
         window.addEventListener("scroll", scrollListener); // 绑定滚动事件
     };
 
