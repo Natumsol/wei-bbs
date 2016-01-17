@@ -7,6 +7,7 @@
 var mongoose = require("mongoose");
 var Article = mongoose.model("Article");
 var Comment = mongoose.model("Comment");
+var Like = mongoose.model("Like");
 var User = mongoose.model("User");
 var is = require("is");
 var formatter = require("../../tools/formatDate.js").format;
@@ -128,7 +129,7 @@ function list_index(req, res, next) {
         })
     }
 
-    var options = [{path: 'comments'}, {path: 'author', select: 'nickname headimgurl -_id'}];
+    var options = [{path: 'comments'}, {path: 'likes'}, {path: 'author', select: 'nickname headimgurl -_id'}];
     Article.find().skip(start).limit(limit).populate(options).exec(function (err, articles) {
         Article.populate(articles, [{
             path: 'comments.author',
@@ -226,21 +227,30 @@ function deleteComment(req, res, next) {
  * @param next
  */
 function like(req, res, next) {
+    var like = new Like(req.body);
     var articleId = req.body.id;
-    var author = req.session.user.openid;
-    Article.findOneAndUpdate({_id: articleId}, {$addToSet: {"likes": author}}, function (err) {
+    like.author = req.session.user._id;
+    like.save(function (err, like) {
         if (err) {
             res.json({
                 errInfo: err.message,
                 status: 0
             });
         } else {
-            res.json({
-                status: 1
-            })
+            Article.findOneAndUpdate({_id: articleId}, {$addToSet: {"likes": like._id}}, function (err) {
+                if (err) {
+                    res.json({
+                        errInfo: "article update failed!",
+                        status: 0
+                    });
+                } else {
+                    res.json({
+                        status: 1
+                    });
+                }
+            });
         }
     });
-
 }
 
 module.exports = {

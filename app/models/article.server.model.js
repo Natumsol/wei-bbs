@@ -19,6 +19,21 @@ var CommentSchema = new Schema({
         default: false
     }
 });
+var LikeSchema = new Schema({
+    author:  {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    },
+    date: {
+        type: Date,
+        default: Date.now
+    },
+    isRead: {
+        type: Boolean,
+        default: false
+    }
+});
+
 var ArticleSchema = new Schema({
     author:  {
         type: Schema.Types.ObjectId,
@@ -37,15 +52,12 @@ var ArticleSchema = new Schema({
         ref: "Comment"
     }],
     likes:[{
-        author: String,
-        date:{
-            type: Date,
-            default: Date.now
-        },
-        isRead: Boolean
+        type: Schema.Types.ObjectId,
+        ref: "Like"
     }],
     viewCount: {type: Number, dafault: 0}
 });
 
 mongoose.model('Comment', CommentSchema);
+mongoose.model('Like', LikeSchema);
 mongoose.model('Article', ArticleSchema);
