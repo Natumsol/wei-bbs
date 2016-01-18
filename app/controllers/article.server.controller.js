@@ -78,6 +78,7 @@ function getArticleById(id, isReverse, onlyAuthor,callback) {
             model: "User"
         }], function (err, article) {
             if (err) callback(err);
+            article.createDate = formatter(article.createDate); // 格式化时间
             callback(null, article);
         });
     });

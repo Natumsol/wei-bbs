@@ -269,6 +269,10 @@
     color: #2980b9 !important;
 }
 
+.text-flat-color-primary {
+    color: #00a5e0 !important;
+}
+
 /**/
 .ui-avatar-custom {
     width: 40px;
