@@ -136,6 +136,9 @@ function list_index(req, res, next) {
             model: "User",
             select: 'nickname headimgurl'
         }], function (err, articles) {
+            for(var i = 0; i < articles.length; i ++) {
+                articles[i].content = articles[i].content.substr(0, 400) + "...";
+            }
             res.json({articles: articles});
         });
     });
