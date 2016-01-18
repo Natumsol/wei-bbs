@@ -9,13 +9,14 @@ require.config({
     paths: {
         "zepto": "lib/zeptojs/zepto",
         "ejs": "lib/ejs/ejs",
-        "moment": 'lib/moment/moment'
+        "moment": "lib/moment/moment",
+        "moment-locale": "lib/moment/locale/zh-cn"
     }, // 别名
     shim: {
-        'zepto': {
-            exports: '$'
+        "zepto": {
+            exports: "$"
         },
-        'ejs': {
+        "ejs": {
             exports: "EJS"
         }// 处理不满足AMD规范的库
     }

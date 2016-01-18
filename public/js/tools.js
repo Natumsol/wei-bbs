@@ -3,7 +3,7 @@
  *@author: LiuJ
  *@date: 2016/1/15
  */
-define(['moment',"zepto"], function(moment, $){
+define(['moment',"zepto","moment-locale"], function(moment, $){
     moment.locale("zh_cn");
     function format(string) {
         return moment(new Date(string)).fromNow();
