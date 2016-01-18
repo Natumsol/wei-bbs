@@ -9,10 +9,7 @@ body {
     font-size: 16px;
     color: #000;
     background-color: #f8f8f8;
-    -webkit-user-select: none;
-    -webkit-text-size-adjust: 100%;
-    -webkit-tap-highlight-color: transparent;
-    outline: 0
+
 }
 
 h1, h2, h3, h4, h5, h6 {

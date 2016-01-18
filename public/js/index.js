@@ -103,6 +103,10 @@ define(["zepto", "loadMore", "ejs", "tools"], function ($, loadMore, ejs, tools)
             location.href = "/column";
         });
 
+        $(".add-article").click(function(){
+            location.href = "/article/add";
+        });
+
         $("body").on("click", ".view-all-comments > a", function(){
             var commentWrapper = $(this).parent().parent().find(".comment-wrapper");
             console.log(commentWrapper);

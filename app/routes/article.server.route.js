@@ -28,5 +28,10 @@ module.exports = function (app) {
             });
         });
 
-    })
+    });
+    app.get(nameSpace + "/add", weixinAuth.checkAuth, function(req, res){
+        res.render("addArticle", {
+            user: req.session.user
+        });
+    });
 };

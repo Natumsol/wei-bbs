@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>微社区 | 发帖</title>
+    <link rel="stylesheet" href="/css/frozen.css">
+    <link rel="stylesheet" href="/css/font-awesome.css">
+    <link rel="stylesheet" href="/js/lib/editor/css/editor.css">
+    <link rel="stylesheet" href="/css/util.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body ontouchstart="">
+<header class="ui-header ui-header-positive ui-border-b">
+    <input type="hidden" id="userId" value="<%= user._id%>">
+    <a href="/user"><img class="ui-avatar ui-avatar-custom" src="<%= user.headimgurl %>" alt="<%= user.nickname %>"></a>
+    <h1>主页</h1>
+    <button class="ui-btn " id="menu">
+        <i class="fa fa-bars"></i>
+    </button>
+</header>
+<div class="ui-footer ui-footer-stable ui-btn-group ui-border-t">
+    <button class="ui-btn ui-btn-primary view-all-topics">
+        <i class="fa fa-th-large"></i> 所有板块
+    </button>
+    <button class="ui-btn ui-btn-primary">
+        <i class="fa fa-pencil-square-o"></i> 发帖
+    </button>
+    <button class="ui-btn ui-btn-primary userCenter">
+        <i class="fa fa-user"></i> 个人中心
+    </button>
+</div>
+<section class="ui-container add-article-container">
+    <form action="/article/addArticle" method="post" id="form-add-article" style="height: 100%">
+        <div class="ui-input ui-border-radius">
+            <input type="text" name="title" placeholder="标题（必填）">
+        </div>
+
+        <textarea id="article" name="content" class="util-hidden" placeholder="请输入正文...">
+            <h3>济南的冬天</h3>
+				<p><font color="#ff0000">对于一个在北平住惯的人，像我，冬天要是不刮风，便觉得是奇迹；济南的冬天是没有风声的。</font></p>
+				<p>对于一个刚由伦敦回来的人，像我，冬天要能看得见日光，便觉得是怪事；济南的冬天是响晴的……<img src="http://wangeditor.github.io/expressions/20.gif"></p>
+				<blockquote style="display: block; border-left-width: 5px; border-left-style: solid; border-left-color: rgb(208, 229, 242); padding: 4px 0px 4px 10px; margin: 4px 0px; background-color: rgb(241, 241, 241);">
+                    老舍1930年前后来到山东，先后在济南齐鲁大学和青岛山东大学任教7年之久，山东被称为他的“第二故乡”。
+                </blockquote>
+				<strong>作者其他作品：</strong>
+				<ul>
+                    <li><span>骆驼祥子</span></li>
+                    <li><span>茶馆</span></li>
+                    <li><span>四世同堂</span></li>
+                </ul>
+        </textarea>
+        <div class="ui-form-item ui-border-b">
+            <label>日期</label>
+            <div class="ui-select">
+                <select>
+                    <option>2014</option>
+                    <option selected>2015</option>
+                    <option>2016</option>
+                </select>
+            </div>
+        </div>
+    </form>
+</section>
+<div class="ui-poptips ui-poptips-success util-hidden">
+    <div class="ui-poptips-cnt"><i></i>所有帖子已加载完毕~</div>
+</div>
+<section id="actionsheet">
+    <div class="ui-actionsheet">
+        <div class="ui-actionsheet-cnt">
+            <h4>全部话题筛选</h4>
+            <button class="select-top">全部</button>
+            <button class="select-top">热门</button>
+            <button class="select-top">精华</button>
+            <button class="ui-actionsheet-del">登录</button>
+            <button id="cancel">取消</button>
+        </div>
+    </div>
+</section>
+
+<div class="ui-loading-block">
+    <div class="ui-loading-cnt">
+        <i class="ui-loading-bright"></i>
+        <p>正在加载中...</p>
+    </div>
+</div>
+<script src="/js/lib/requirejs/require.js"></script>
+<script src="/js/lib/requirejs/require-config.js"></script>
+<script>
+    require(["addArticle"], function (add) {
+        add.init();
+    })
+</script>
+</body>
+
+</html>
