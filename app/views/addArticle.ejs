@@ -23,15 +23,11 @@
     </button>
 </header>
 <div class="ui-footer ui-footer-stable ui-btn-group ui-border-t">
-    <button class="ui-btn ui-btn-primary view-all-topics">
-        <i class="fa fa-th-large"></i> 所有板块
+
+    <button class="ui-btn ui-btn-primary submit-article">
+        <i class="fa fa-pencil-square-o"></i> 发布
     </button>
-    <button class="ui-btn ui-btn-primary">
-        <i class="fa fa-pencil-square-o"></i> 发帖
-    </button>
-    <button class="ui-btn ui-btn-primary userCenter">
-        <i class="fa fa-user"></i> 个人中心
-    </button>
+
 </div>
 <section class="ui-container add-article-container">
     <form action="/article/addArticle" method="post" id="form-add-article" style="height: 100%">
@@ -54,12 +50,12 @@
                 </ul>
         </textarea>
         <div class="ui-form-item ui-border-b">
-            <label>日期</label>
+            <label>发布到</label>
             <div class="ui-select">
-                <select>
-                    <option>2014</option>
-                    <option selected>2015</option>
-                    <option>2016</option>
+                <select name="column">
+                    <% for(var i = 0; i < columns.length; i ++) { %>
+                    <option value="<%= columns[i]._id%>"><%= columns[i].name%></option>
+                    <%} %>
                 </select>
             </div>
         </div>

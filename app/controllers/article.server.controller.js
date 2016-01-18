@@ -20,7 +20,7 @@ var formatter = require("../../tools/formatDate.js").format;
  */
 function add(req, res, next) {
     var article = new Article(req.body);
-    article.author = req.session.user.openid;
+    article.author = req.session.user._id;
     article.save(function (err, article) {
         if (err) {
             res.json({

@@ -4,6 +4,7 @@
  *@date: 2016/1/11
  */
 var article = require("../controllers/article.server.controller.js");
+var column = require("../controllers/column.server.controller.js");
 var weixinAuth = require("../controllers/user.server.controller.js");
 module.exports = function (app) {
     var nameSpace = "/article";
@@ -30,8 +31,13 @@ module.exports = function (app) {
 
     });
     app.get(nameSpace + "/add", weixinAuth.checkAuth, function(req, res){
-        res.render("addArticle", {
-            user: req.session.user
-        });
+        column.getAllColumns(function(err, columns){
+            if(err) throw err;
+            res.render("addArticle", {
+                user: req.session.user,
+                columns: columns
+            });
+        })
+
     });
 };

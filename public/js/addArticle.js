@@ -17,6 +17,16 @@ define(["zepto", "zepto-touch","editor"],function($){
         editor.init();
 
         console.log(editor.$txt);
+        $(".submit-article").click(function () {
+            var data = $("#form-add-article").serialize();
+            $.post("/article/add", data, function(result){
+               if(result.status) {
+                   location.href = "/article/view?id=" + result.id;
+               } else {
+                   alert(result.errInfo);
+               }
+            });
+        });
     };
     return {
         init: init
