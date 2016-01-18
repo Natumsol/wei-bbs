@@ -53,6 +53,22 @@ function list(req, res, next){
         })
     }
 }
+
+/**
+ *
+ * @param callback
+ */
+function getAllColumns(callback) {
+    Column.find().exec(function (err, columns) {
+        if (err) {
+            callback(err)
+        }
+         else {
+            callback(null, columns);
+        }
+    })
+}
+
 /**
  *
  * @param req
@@ -103,5 +119,6 @@ module.exports = {
     add: add,
     list: list,
     modify:modify,
-    remove: remove
+    remove: remove,
+    getAllColumns: getAllColumns
 };

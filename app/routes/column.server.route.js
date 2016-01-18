@@ -11,4 +11,17 @@ module.exports = function (app) {
     app.post(nameSpace + "/modify", weixinAuth.isAdmin, column.modify);
     app.post(nameSpace + "/delete", weixinAuth.isAdmin, column.remove);
     app.get(nameSpace + "/list", weixinAuth.isAdmin, column.list);
+    app.get(nameSpace, weixinAuth.checkAuth, function (req, res) {
+        column.getAllColumns(function (err, columns) {
+            if (err) {
+                throw err;
+            } else {
+                res.render("column", {
+                    columns: columns
+                });
+            }
+
+        });
+
+    })
 };

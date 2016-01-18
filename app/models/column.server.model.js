@@ -14,7 +14,17 @@ var ColumnSchema = new Schema({
     isHot: {
         type: Boolean,
         default: false
-    }
+    },
+    topics:{
+        type:Number,
+        default:0
+    },
+    posts:{
+        type:Number,
+        default:0
+    },
+    img:String,
+
 });
 
 ColumnSchema.pre("save", function(next){

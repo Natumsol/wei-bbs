@@ -81,7 +81,8 @@ define(["zepto", "loadMore", "ejs", "tools"], function ($, loadMore, ejs, tools)
 
     var eventBind = function(){
         // 事件绑定
-        $("#menu").click(function () {
+
+        $("#menu").click(function () { //菜单
             $('.ui-actionsheet').addClass('show');
         });
 
@@ -99,7 +100,7 @@ define(["zepto", "loadMore", "ejs", "tools"], function ($, loadMore, ejs, tools)
         });
 
         $(".view-all-topics").click(function () {
-            location.href = "nav.html";
+            location.href = "/column";
         });
 
         $("body").on("click", ".view-all-comments > a", function(){
