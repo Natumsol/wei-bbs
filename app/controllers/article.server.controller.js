@@ -11,9 +11,6 @@ var Like = mongoose.model("Like");
 var User = mongoose.model("User");
 var is = require("is");
 var formatter = require("../../tools/formatDate.js").format;
-function getInputPromise(){
-    return defer.promise;
-}
 
 /**
  *
