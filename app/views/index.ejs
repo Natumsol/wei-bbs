@@ -62,7 +62,8 @@
 <script src="/js/lib/requirejs/require-config.js"></script>
 <script>
     require(["index"], function (index) {
-        index.init();
+        index.initData();
+        index.eventBind();
     })
 </script>
 </body>

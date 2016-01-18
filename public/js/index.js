@@ -63,7 +63,7 @@ define(["zepto", "loadMore", "ejs", "tools"], function ($, loadMore, ejs, tools)
 
     };
 
-    var init = function () {
+    var initData = function () {
         // 状态变量初始化
         counter = 0;
         noMoreData = false;
@@ -76,6 +76,10 @@ define(["zepto", "loadMore", "ejs", "tools"], function ($, loadMore, ejs, tools)
             limit: 5
         }, callback)();
         counter++;
+
+    };
+
+    var eventBind = function(){
         // 事件绑定
         $("#menu").click(function () {
             $('.ui-actionsheet').addClass('show');
@@ -136,14 +140,14 @@ define(["zepto", "loadMore", "ejs", "tools"], function ($, loadMore, ejs, tools)
                 } else {
                     alert("评论失败！");
                 }
-                init();
+                initData();
             });
         });
 
         window.addEventListener("scroll", scrollListener); // 绑定滚动事件
-    };
-
+    }
     return {
-        init: init
+        initData: initData,
+        eventBind: eventBind
     }
 });
