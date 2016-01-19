@@ -7,7 +7,7 @@
 define(["zepto", "loadMore", "ejs", "tools"], function ($, loadMore, ejs, tools) {
     var getMoreDataFactory = loadMore.getMoreData; // 数据请求工厂函数
     var format = tools.format;
-    var url = "/article/list_index"; // 文章请求链接
+    var url = "/article/getArticles"; // 文章请求链接
     var template = new ejs({url: '/view/index_article.ejs'}); // 数据模版
     var counter = 0;
     var noMoreData = false;

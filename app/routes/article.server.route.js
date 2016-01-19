@@ -11,8 +11,8 @@ module.exports = function (app) {
     app.post(nameSpace + "/add", weixinAuth.checkAuth, article.add);
     app.post(nameSpace + "/modify", weixinAuth.checkAuth, article.modify);
     app.post(nameSpace + "/delete", weixinAuth.checkAuth, article.remove);
-    app.post(nameSpace + "/list", weixinAuth.checkAuth, article.list);
-    app.post(nameSpace + "/list_index", weixinAuth.checkAuth, article.list_index);
+    app.post(nameSpace + "/getArticlesByColumn", weixinAuth.checkAuth, article.getArticlesByColumn);
+    app.post(nameSpace + "/getArticles", weixinAuth.checkAuth, article.getArticles);
     app.post(nameSpace + "/addComment", weixinAuth.checkAuth, article.addComment);
     app.post(nameSpace + "/deleteComment", weixinAuth.checkAuth, article.deleteComment);
     app.post(nameSpace + "/like", weixinAuth.checkAuth, article.like);

@@ -98,20 +98,21 @@ function getArticlesByColumn(req, res, next) {
             status: 0
         })
     }
-
-    var options = [{path: 'comments'}, {path: 'likes'}, {path: 'author', select: 'nickname headimgurl -_id'}];
-    Article.find({column: column}).skip(start).limit(limit).populate(options).exec(function (err, articles) {
-        Article.populate(articles, [{
-            path: 'comments.author',
-            model: "User",
-            select: 'nickname headimgurl'
-        }], function (err, articles) {
-            for(var i = 0; i < articles.length; i ++) {
-                articles[i].content = articles[i].content.substr(0, 400) + "...";
-            }
-            res.json({articles: articles});
+    else {
+        var options = [{path: 'comments'}, {path: 'likes'}, {path: 'author', select: 'nickname headimgurl -_id'}];
+        Article.find({column: column}).skip(start).limit(limit).populate(options).exec(function (err, articles) {
+            Article.populate(articles, [{
+                path: 'comments.author',
+                model: "User",
+                select: 'nickname headimgurl'
+            }], function (err, articles) {
+                for(var i = 0; i < articles.length; i ++) {
+                    articles[i].content = articles[i].content.substr(0, 400) + "...";
+                }
+                res.json({articles: articles});
+            });
         });
-    });
+    }
 
 }
 
@@ -130,20 +131,22 @@ function getArticles(req, res, next) {
             status: 0
         })
     }
+    else {
+        var options = [{path: 'comments'}, {path: 'likes'}, {path: 'author', select: 'nickname headimgurl -_id'}];
+        Article.find().skip(start).limit(limit).populate(options).exec(function (err, articles) {
+            Article.populate(articles, [{
+                path: 'comments.author',
+                model: "User",
+                select: 'nickname headimgurl'
+            }], function (err, articles) {
+                for(var i = 0; i < articles.length; i ++) {
+                    articles[i].content = articles[i].content.substr(0, 400) + "...";
+                }
+                res.json({articles: articles});
+            });
+        });  //  分页查询
+    }
 
-    var options = [{path: 'comments'}, {path: 'likes'}, {path: 'author', select: 'nickname headimgurl -_id'}];
-    Article.find().skip(start).limit(limit).populate(options).exec(function (err, articles) {
-        Article.populate(articles, [{
-            path: 'comments.author',
-            model: "User",
-            select: 'nickname headimgurl'
-        }], function (err, articles) {
-            for(var i = 0; i < articles.length; i ++) {
-                articles[i].content = articles[i].content.substr(0, 400) + "...";
-            }
-            res.json({articles: articles});
-        });
-    });  //  分页查询
 
 }
 
@@ -262,5 +265,5 @@ module.exports = {
     addComment: addComment,
     deleteComment: deleteComment,
     like: like,
-    list_index:getArticles
+    getArticles:getArticles
 };
