@@ -19,9 +19,9 @@
 </header>
 
 <section class="ui-container index">
-    <ul class="ui-list ui-list-link ui-border-tb">
+    <ul class="ui-list  ui-border-tb">
         <% for(var i = 0; i < columns.length; i ++) { %>
-        <li class="ui-border-t">
+        <li class="ui-border-t list-link" data-id="<%= columns[i]._id %>">
             <div class="ui-list-img">
                 <span style="background-image:url(http://placeholder.qiniudn.com/200x136)" class="ui-tag-hot"></span>
             </div>
@@ -38,8 +38,8 @@
 <script src="/js/frozen.js"></script>
 <script>
     (function (){
-        $(".ui-list-link").click(function(){
-            location.href = "index.html";
+        $(".list-link").click(function(){
+            location.href ="/?columnId=" + this.dataset.id;
         });
     })();
 </script>

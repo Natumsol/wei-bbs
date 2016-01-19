@@ -100,7 +100,7 @@ function getArticlesByColumn(req, res, next) {
     }
     else {
         var options = [{path: 'comments'}, {path: 'likes'}, {path: 'author', select: 'nickname headimgurl -_id'}];
-        Article.find({column: column}).skip(start).limit(limit).populate(options).exec(function (err, articles) {
+        Article.find({column: column}).sort({createDate: -1}).skip(start).limit(limit).populate(options).exec(function (err, articles) {
             Article.populate(articles, [{
                 path: 'comments.author',
                 model: "User",
@@ -133,7 +133,7 @@ function getArticles(req, res, next) {
     }
     else {
         var options = [{path: 'comments'}, {path: 'likes'}, {path: 'author', select: 'nickname headimgurl -_id'}];
-        Article.find().skip(start).limit(limit).populate(options).exec(function (err, articles) {
+        Article.find().skip(start).sort({createDate: -1}).limit(limit).populate(options).exec(function (err, articles) {
             Article.populate(articles, [{
                 path: 'comments.author',
                 model: "User",

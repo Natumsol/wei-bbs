@@ -68,7 +68,21 @@ function getAllColumns(callback) {
         }
     })
 }
-
+/**
+ *
+ * @param id
+ * @param callback
+ */
+function getColumnById(id, callback){
+    Column.findOne({_id:id}).exec(function (err, column) {
+        if (err) {
+            callback(err)
+        }
+        else {
+            callback(null, column);
+        }
+    })
+}
 /**
  *
  * @param req
@@ -120,5 +134,6 @@ module.exports = {
     list: list,
     modify:modify,
     remove: remove,
-    getAllColumns: getAllColumns
+    getAllColumns: getAllColumns,
+    getColumnById: getColumnById
 };
