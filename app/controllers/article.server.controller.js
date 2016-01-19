@@ -7,6 +7,7 @@
 var mongoose = require("mongoose");
 var Article = mongoose.model("Article");
 var Comment = mongoose.model("Comment");
+var Column = mongoose.model("Column");
 var Like = mongoose.model("Like");
 var User = mongoose.model("User");
 var is = require("is");
@@ -29,7 +30,11 @@ function add(req, res, next) {
             });
         }
         else {
+            Column.findOne({_id: article.column},{$inc:{}}, function (err, column) {
+
+            });
             res.json({status: 1, id: article._id});
+
         }
     });
 }
@@ -76,8 +81,16 @@ function getArticleById(id, isReverse, onlyAuthor,callback) {
             model: "User"
         }], function (err, article) {
             if (err) callback(err);
-            if(article) article.createDate = formatter(article.createDate); // 格式化时间
-            callback(null, article);
+            var _article = article.toObject();
+            if(article) {
+                _article.createDate = formatter(_article.createDate);
+                _article.modifyDate = formatter(_article.modifyDate);
+                for(var i = 0; i < _article.comments.length; i ++) {
+                    _article.comments[i].date = formatter( _article.comments[i].date);
+                }
+                console.log(_article);
+            } // 格式化时间
+            callback(null, _article);
         });
     });
 }

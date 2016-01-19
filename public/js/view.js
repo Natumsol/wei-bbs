@@ -19,7 +19,7 @@ define(["zepto", "loadMore", "ejs", "tools"], function ($, loadMore, ejs, tools)
                 articles[index].createDate = format(article.createDate);
                 article.comments.forEach(function (comment) {
                     comment.date = format(comment.date);
-                })
+                });
                 article.likes = article.likes.map(function(like){
                     return like.author;
                 });
