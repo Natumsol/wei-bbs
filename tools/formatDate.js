@@ -8,5 +8,4 @@ moment.locale("zh_cn");
 function format(string) {
     return moment(new Date(string)).fromNow();
 }
-
 exports.format = format;

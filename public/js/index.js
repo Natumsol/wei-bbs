@@ -125,7 +125,8 @@ define(["zepto", "loadMore", "ejs", "tools"], function ($, loadMore, ejs, tools)
                 var callback = function(result){
                     if(result.status){
                         console.log("已赞！");
-                        self.innerHTML = "已赞"
+                        self.innerHTML = " 已赞";
+                        $(self).addClass("text-flat-color-primary")
                     }
                     else console.log(result.errInfo);
                 };

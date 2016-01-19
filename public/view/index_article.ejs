@@ -1,4 +1,5 @@
 <%for (var index in articles){%>
+
 <div class="ui-item-box">
     <div class="header util-clearfix ">
         <img class="ui-avatar-s util-pull-left" src="<%= articles[index].author.headimgurl %>" >
@@ -18,9 +19,11 @@
                 <img src="<%= img.src %>" alt="">
             <%}%>
         </div>
-        <i class="fa fa-thumbs-up util-pull-right like <%if(articles[index].isLiked) {%> text-flat-color-primary <% }%> " id="<%= articles[index]._id %>" data-status="<%= articles[index].isLiked %>"><%if(articles[index].isLiked) {%> 已赞 <% }%></i>
+        <i class="fa fa-thumbs-up util-pull-right like <%if(articles[index].isLiked) {%> text-flat-color-primary <% }%> " id="<%= articles[index]._id %>" data-status="<%= articles[index].isLiked %>">
+            <%if(articles[index].isLiked) {%> 已赞 <% }%>
+        </i>
     </div>
-    <%if(articles[index].comments.length != 0){%>
+    <% if(articles[index].comments.length != 0){ %>
     <div class="comment-wrapper">
         <% for(var i = 0; i < articles[index].comments.length && i < 3; i ++){ %>
         <div class="comment util-clearfix">
@@ -32,9 +35,10 @@
                 <span class="comment-text ui-txt-justify"><%= articles[index].comments[i].body %></span>
             </div>
         </div>
-        <%}%>
+        <% } %>
     </div>
-    <% if(articles[index].comments.length - 3){ %>
+
+    <% if(articles[index].comments.length - 3 > 0){ %>
     <div class="view-all-comments util-text-center">
         <a href = "">查看全部<%= articles[index].comments.length %>条回复</a>
         <div class="all-comments-container util-hidden">
@@ -51,6 +55,16 @@
             <%}%>
         </div>
     </div>
+    <% } %>
+
+    <% } else { %>
+
+    <div class="view-all-comments util-text-center">
+        <a href="javascript:void(0)">暂无评论</a>
+    </div>
+
+    <%  } %>
+
     <section class="ui-input-wrap">
         <div class="ui-input ui-border-radius">
             <input type="text" name="addComment" value="" class="add-comment" placeholder="我也说一句...">
@@ -58,12 +72,5 @@
         <button class="ui-btn ui-btn-primary addComment" data-articleId="<%= articles[index]._id %>">评论</button>
     </section>
 
-    <% }%>
-
-    <%} else {%>
-    <div class="view-all-comments util-text-center">
-        <a href="">暂无评论</a>
-    </div>
-    <%}%>
 </div>
-<%}%>
+<% } %>

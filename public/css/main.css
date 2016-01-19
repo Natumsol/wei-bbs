@@ -58,7 +58,6 @@
     background: #FAFAFA;
     margin: 0 -5px;
     border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
     padding-top: 10px;
     line-height: 18px;
     font-size: 12px;
@@ -98,6 +97,7 @@
 .view-all-comments {
     font-size: 14px;
     padding: 7px;
+    border-top: 1px solid #ddd;
 }
 
 .article-container {

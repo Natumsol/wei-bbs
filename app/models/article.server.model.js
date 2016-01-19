@@ -4,6 +4,7 @@
  */
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
+var xss = require("xss");
 var CommentSchema = new Schema({
     body: String,
     author:  {
@@ -56,6 +57,11 @@ var ArticleSchema = new Schema({
         ref: "Like"
     }],
     viewCount: {type: Number, dafault: 0}
+});
+
+ArticleSchema.pre("save", function(next){
+    this.content = xss( this.content.trim());
+    next();
 });
 
 mongoose.model('Comment', CommentSchema);

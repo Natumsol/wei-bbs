@@ -35,7 +35,7 @@ define(["zepto", "loadMore", "ejs", "tools"], function ($, loadMore, ejs, tools)
             noMoreData = true;
         }
         $(".ui-loading-block").removeClass("show");
-        if(noMoreData) {
+        if(noMoreData && counter == 1) {
             $(".ui-notice").clone().removeClass("util-hidden").appendTo($(".index"));
         }
 

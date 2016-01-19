@@ -38,7 +38,7 @@ module.exports = function (app) {
         column.getAllColumns(function(err, columns){
             if(err) throw err;
             else if(columns.length) {
-                res.render("viewArticle", {
+                res.render("addArticle", {
                     user: req.session.user,
                     columns: columns
                 });
