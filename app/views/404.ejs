@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>微社区 | 404</title>
+    <link rel="stylesheet" href="css/frozen.css">
+    <link rel="stylesheet" href="css/font-awesome.css">
+    <link rel="stylesheet" href="css/util.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body ontouchstart="">
+<header class="ui-header ui-header-positive ui-border-b">
+    <input type="hidden" id="userId" value="<%= user._id%>">
+    <a href="/user"><img class="ui-avatar ui-avatar-custom" src="<%= user.headimgurl %>" alt="<%= user.nickname %>"></a>
+    <h1>opps~ 404</h1>
+    <button class="ui-btn " id="menu">
+        <i class="fa fa-bars"></i>
+    </button>
+</header>
+<div class="ui-footer ui-footer-stable ui-btn-group ui-border-t">
+    <button class="ui-btn ui-btn-primary view-all-topics">
+        <i class="fa fa-th-large"></i> 所有板块
+    </button>
+    <button class="ui-btn ui-btn-primary add-article">
+        <i class="fa fa-pencil-square-o "></i> 发帖
+    </button>
+    <button class="ui-btn ui-btn-primary userCenter">
+        <i class="fa fa-user"></i> 个人中心
+    </button>
+</div>
+<section class="ui-container index">
+
+<h1>404 Not Found~</h1>
+</section>
+<section id="actionsheet">
+    <div class="ui-actionsheet">
+        <div class="ui-actionsheet-cnt">
+            <h4>全部话题筛选</h4>
+            <button class="select-top">全部</button>
+            <button class="select-top">热门</button>
+            <button class="select-top">精华</button>
+            <button class="ui-actionsheet-del">登录</button>
+            <button id="cancel">取消</button>
+        </div>
+    </div>
+</section>
+
+<div class="ui-loading-block">
+    <div class="ui-loading-cnt">
+        <i class="ui-loading-bright"></i>
+        <p>正在加载中...</p>
+    </div>
+</div>
+<script src="/js/lib/requirejs/require.js"></script>
+<script src="/js/lib/requirejs/require-config.js"></script>
+<script>
+    require(["index"], function (index) {
+        index.initData();
+        index.eventBind();
+    })
+</script>
+</body>
+
+</html>

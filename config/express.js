@@ -34,6 +34,10 @@ module.exports = function () {
 	require("../app/routes/article.server.route.js")(app);
 	require("../app/routes/column.server.route.js")(app);
 
+	//The 404 Route (ALWAYS Keep this as the last route)
+	app.get('*', function(req, res){
+		res.render("404");
+	});
 	app.use(express.static("./public"));
 	return app;
 };
