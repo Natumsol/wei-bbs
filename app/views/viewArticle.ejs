@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>微社区 | 查看</title>
+    <link rel="stylesheet" href="/css/frozen.css">
+    <link rel="stylesheet" href="/css/font-awesome.css">
+    <link rel="stylesheet" href="/css/util.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body ontouchstart="">
+<input type="hidden" value="<%= article._id %>" id="articleId">
+<header class="ui-header ui-header-positive ui-border-b">
+    <i class="ui-icon-return" onclick="history.back()"></i>
+    <h1>查看</h1>
+    <button class="ui-btn " id="menu">
+        <i class="fa fa-bars"></i>
+    </button>
+</header>
+<div class="ui-footer ui-footer-stable ui-btn-group ui-border-t">
+        <div class="ui-input ui-border-radius">
+            <input type="text" id="comment" name="comment" value="" placeholder="我也说一句...">
+        </div>
+        <button class="ui-btn ui-btn-primary addComment">评论</button>
+</div>
+<section class="ui-container">
+    <div class="article-container">
+        <div class="header util-clearfix ">
+            <img class="ui-avatar-s util-pull-left" src="<%= article.author.headimgurl%>"/>
+            <div class="status util-pull-left ">
+                <h6 class="username"><%= article.author.nickname%></h6>
+                <h6 class="ui-txt-muted time"><%= article.createDate %></h6>
+            </div>
+            <div class="util-pull-right louzhu ui-txt-highlight"><i class="fa fa-user"></i> 楼主</div>
+            <div class="util-clearfix"></div>
+            <% if(user._id == article.author._id){ %>
+            <div class="ui-btn-wrap util-pull-right">
+                <button class="ui-btn ui-btn-primary modify-article">
+                    修改
+                </button>
+                <button class="ui-btn ui-btn-danger delete-article">
+                    删除
+                </button>
+            </div>
+            <%} %>
+        </div>
+        <div class="article">
+            <h1 class="title"><%= article.title %></h1>
+            <%- article.content %>
+        </div>
+        <div class="action util-clearfix">
+            <i class="fa fa-thumbs-up util-pull-right"></i>
+        </div>
+        <div class="comment-container">
+            <div class="comment-bar">
+                <i class="fa fa-commenting "> 全部回复</i>
+                <i class="fa fa-sort-amount-desc util-pull-right">倒序查看</i>
+                <i class="fa fa-user util-pull-right"> 只看楼主</i>
+            </div>
+            <div>
+                <% for(var i = 0; i < article.comments.length; i ++) { %>
+                <div class="comment">
+                    <div class="comment-header util-clearfix ">
+                        <img src="<%= article.comments[i].author.headimgurl %>" align="AbsMiddle">
+                        <a class="username"><%= article.comments[i].author.nickname %></a>
+                        <span class="util-pull-right ui-txt-info"><%= i + 2 %>楼</span>
+                    </div>
+                    <div class="comment-body">
+                        <%- article.comments[i].body %>
+                    </div>
+                    <div class="comment-footer ui-txt-info ">
+                        <span> <%= article.comments[i].date %></span>
+                        <% if( user._id == article.comments[i].author._id ) { %>
+                        <a class="pull-right deleteComment" id="<%= article.comments[i]._id%>">删除</a>
+                        <% } %>
+                    </div>
+                </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="actionsheet">
+    <div class="ui-actionsheet">
+        <div class="ui-actionsheet-cnt">
+            <h4>全部话题筛选</h4>
+            <button class="select-top">全部</button>
+            <button class="select-top">热门</button>
+            <button class="select-top">精华</button>
+            <button class="ui-actionsheet-del">登录</button>
+            <button id="cancel">取消</button>
+        </div>
+    </div>
+</section>
+<script src="/js/lib/requirejs/require.js"></script>
+<script src="/js/lib/requirejs/require-config.js"></script>
+<script>
+    require(["viewArticle"], function (view) {
+        view.init();
+    })
+</script>
+</body>
+
+</html>
