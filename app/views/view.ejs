@@ -15,7 +15,7 @@
 <body ontouchstart="">
 <header class="ui-header ui-header-positive ui-border-b">
     <input type="hidden" id="userId" value="<%= user._id%>">
-    <a href="/user"><img class="ui-avatar ui-avatar-custom" src="<%= user.headimgurl %>" alt="<%= user.nickname %>"></a>
+    <i class="ui-icon-return" onclick="history.back()"></i>
     <h1><%= column.name %></h1>
     <button class="ui-btn " id="menu">
         <i class="fa fa-bars"></i>
@@ -36,6 +36,13 @@
 <section class="ui-container index">
 
 
+</section>
+<section class="ui-notice util-hidden">
+    <i></i>
+    <p>没有数据</p>
+    <div class="ui-notice-btn">
+        <button class="ui-btn-primary ui-btn-lg" onclick="history.back()">查看其他版块</button>
+    </div>
 </section>
 <div class="ui-poptips ui-poptips-success util-hidden">
     <div class="ui-poptips-cnt"><i></i>所有帖子已加载完毕~</div>
