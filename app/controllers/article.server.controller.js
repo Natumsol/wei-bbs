@@ -56,7 +56,8 @@ function modify(req, res, next) {
             })
         } else {
             res.json({
-                status: 1
+                status: 1,
+                id: article._id
             })
         }
     })
@@ -68,18 +69,17 @@ function modify(req, res, next) {
  * @param callback
  */
 function getArticleById(id, isReverse, onlyAuthor,callback) {
-    var options = [{path: 'comments'}, {path: 'author'}];
+    var options = [{path: 'comments'}, {path: 'author'}, {path: "column"}];
     Article.findOne({_id: id}).populate(options).exec(function (err, article) {
         Article.populate(article, [{
             path: 'comments.author',
             model: "User"
         }], function (err, article) {
             if (err) callback(err);
-            article.createDate = formatter(article.createDate); // 格式化时间
+            if(article) article.createDate = formatter(article.createDate); // 格式化时间
             callback(null, article);
         });
     });
-
 }
 
 /**

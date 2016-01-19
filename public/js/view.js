@@ -44,6 +44,20 @@ define(["zepto", "ejs", "tools"], function ($, ejs, tools) {
             });
 
         });
+
+        $(".delete-article").click(function(){
+            $.post("/article/delete", {id: $("#articleId").val()}, function(result){
+                if(result.status) {
+                    location.href = "/";
+                } else {
+                    alert(result.errInfo);
+                }
+            });
+        });
+
+        $(".modify-article").click(function(){
+            location.href = "/article/modify?id=" + $("#articleId").val();
+        });
     }
     return {
         init: init

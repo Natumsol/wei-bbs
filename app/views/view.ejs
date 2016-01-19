@@ -36,6 +36,17 @@
                 <h6 class="ui-txt-muted time"><%= article.createDate %></h6>
             </div>
             <div class="util-pull-right louzhu ui-txt-highlight"><i class="fa fa-user"></i> 楼主</div>
+            <div class="util-clearfix"></div>
+            <% if(user._id == article.author._id){ %>
+            <div class="ui-btn-wrap util-pull-right">
+                <button class="ui-btn ui-btn-primary modify-article">
+                    修改
+                </button>
+                <button class="ui-btn ui-btn-danger delete-article">
+                    删除
+                </button>
+            </div>
+            <%} %>
         </div>
         <div class="article">
             <h1 class="title"><%= article.title %></h1>
