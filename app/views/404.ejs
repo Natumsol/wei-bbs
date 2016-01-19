@@ -6,17 +6,17 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
     <title>微社区 | 404</title>
-    <link rel="stylesheet" href="css/frozen.css">
-    <link rel="stylesheet" href="css/font-awesome.css">
-    <link rel="stylesheet" href="css/util.css">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="/css/frozen.css">
+    <link rel="stylesheet" href="/css/font-awesome.css">
+    <link rel="stylesheet" href="/css/util.css">
+    <link rel="stylesheet" href="/css/main.css">
 </head>
 
 <body ontouchstart="">
 <header class="ui-header ui-header-positive ui-border-b">
     <input type="hidden" id="userId" value="<%= user._id%>">
-    <a href="/user"><img class="ui-avatar ui-avatar-custom" src="<%= user.headimgurl %>" alt="<%= user.nickname %>"></a>
-    <h1>opps~ 404</h1>
+    <i class="ui-icon-return" onclick="history.back()"></i>
+    <h1>opps~</h1>
     <button class="ui-btn " id="menu">
         <i class="fa fa-bars"></i>
     </button>
@@ -58,10 +58,6 @@
 <script src="/js/lib/requirejs/require.js"></script>
 <script src="/js/lib/requirejs/require-config.js"></script>
 <script>
-    require(["index"], function (index) {
-        index.initData();
-        index.eventBind();
-    })
 </script>
 </body>
 

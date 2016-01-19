@@ -23,7 +23,7 @@ module.exports = function (app) {
         article.getArticleById(id,isReverse, onlyAuthor,function(err, article){
             if(err) res.send(err.message);
             else if(article) {
-                res.render("view", {
+                res.render("viewArticle", {
                     article:article,
                     user: req.session.user
                 });
@@ -38,7 +38,7 @@ module.exports = function (app) {
         column.getAllColumns(function(err, columns){
             if(err) throw err;
             else if(columns.length) {
-                res.render("addArticle", {
+                res.render("viewArticle", {
                     user: req.session.user,
                     columns: columns
                 });

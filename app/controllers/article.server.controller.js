@@ -88,7 +88,8 @@ function getArticleById(id, isReverse, onlyAuthor,callback) {
  * @param res
  * @param next
  */
-function list(req, res, next) {
+function getArticlesByColumn(req, res, next) {
+    var column = req.body.column;
     var start = parseInt(req.body.start);
     var limit = parseInt(req.body.limit) || 10;
     if (!is.integer(start) || !is.integer(limit)) {
@@ -98,15 +99,18 @@ function list(req, res, next) {
         })
     }
 
-    //  分页查询
-    Article.find().skip(start).limit(limit).exec(function (err, articles) {
-        if (err) {
-            res.json({
-                errInfo: "数据库查询出错",
-                status: 0
-            })
-        }
-        res.json(articles);
+    var options = [{path: 'comments'}, {path: 'likes'}, {path: 'author', select: 'nickname headimgurl -_id'}];
+    Article.find({column: column}).skip(start).limit(limit).populate(options).exec(function (err, articles) {
+        Article.populate(articles, [{
+            path: 'comments.author',
+            model: "User",
+            select: 'nickname headimgurl'
+        }], function (err, articles) {
+            for(var i = 0; i < articles.length; i ++) {
+                articles[i].content = articles[i].content.substr(0, 400) + "...";
+            }
+            res.json({articles: articles});
+        });
     });
 
 }
@@ -117,7 +121,7 @@ function list(req, res, next) {
  * @param res
  * @param next
  */
-function list_index(req, res, next) {
+function getArticles(req, res, next) {
     var start = parseInt(req.body.start);
     var limit = parseInt(req.body.limit) || 10;
     if (!is.integer(start) || !is.integer(limit)) {
@@ -139,12 +143,7 @@ function list_index(req, res, next) {
             }
             res.json({articles: articles});
         });
-    });
-
-
-
-    //  分页查询
-
+    });  //  分页查询
 
 }
 
@@ -257,11 +256,11 @@ function like(req, res, next) {
 module.exports = {
     add: add,
     modify: modify,
-    list: list,
+    getArticlesByColumn: getArticlesByColumn,
     remove: remove,
     getArticleById: getArticleById,
     addComment: addComment,
     deleteComment: deleteComment,
     like: like,
-    list_index:list_index
+    list_index:getArticles
 };

@@ -33,11 +33,12 @@ module.exports = function () {
 	require("../app/routes/webchat.server.route.js")(app);
 	require("../app/routes/article.server.route.js")(app);
 	require("../app/routes/column.server.route.js")(app);
-
+	app.use(express.static("./public"));
 	//The 404 Route (ALWAYS Keep this as the last route)
 	app.get('*', function(req, res){
-		res.render("404");
+		res.render("404",{
+			user: req.session.user
+		});
 	});
-	app.use(express.static("./public"));
 	return app;
 };
