@@ -6,6 +6,10 @@
 var article = require("../controllers/article.server.controller.js");
 var column = require("../controllers/column.server.controller.js");
 var weixinAuth = require("../controllers/user.server.controller.js");
+var multer = require('multer');
+var upload  = multer({
+    dest: __dirname + '../../public/uploads/',
+})
 module.exports = function (app) {
     var nameSpace = "/article";
     app.post(nameSpace + "/add", weixinAuth.checkAuth, article.add);
@@ -71,4 +75,11 @@ module.exports = function (app) {
         });
 
     });
+
+    app.post("/upload", upload.single('image'), function(req, res){
+        res.end("ok!");
+    });
+    app.get("/upload", function(req, res){
+        res.render("upload");
+    })
 };
