@@ -26,8 +26,8 @@
                 <span style="background-image:url(http://placeholder.qiniudn.com/200x136)" class="ui-tag-hot"></span>
             </div>
             <div class="ui-list-info">
-                <h4 class="ui-nowrap"><%= columns[i].name%> <span class="ui-txt-highlight">（）</span></h4>
-                <p class="ui-nowrap"><span class="ui-txt-info">主题<%= columns[i].topics%> 帖数<%= columns[i].posts%></span></p>
+                <h4 class="ui-nowrap"><%= columns[i].name%> <span class="ui-txt-highlight">（<%= columns[i].topics %>）</span></h4>
+                <p class="ui-nowrap"><span class="ui-txt-info">主题<%= columns[i].topics || 0%> 帖数<%= columns[i].posts || 0%></span></p>
             </div>
         </li>
         <% } %>

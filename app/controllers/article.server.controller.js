@@ -11,6 +11,7 @@ var Column = mongoose.model("Column");
 var Like = mongoose.model("Like");
 var User = mongoose.model("User");
 var is = require("is");
+var chalk = require("chalk");
 var formatter = require("../../tools/formatDate.js").format;
 
 /**
@@ -30,10 +31,13 @@ function add(req, res, next) {
             });
         }
         else {
-            Column.findOne({_id: article.column},{$inc:{}}, function (err, column) {
-
+            Column.findOneAndUpdate({_id: article.column},{$inc:{posts: 1, topics: 1}}, function (err, column) {
+                if(err) throw err;
+                else {
+                    console.log(chalk.green("column update ok!"));
+                    res.json({status: 1, id: article._id});
+                }
             });
-            res.json({status: 1, id: article._id});
 
         }
     });
@@ -75,24 +79,31 @@ function modify(req, res, next) {
  */
 function getArticleById(id, isReverse, onlyAuthor,callback) {
     var options = [{path: 'comments'}, {path: 'author'}, {path: "column"}];
+    Article.findOneAndUpdate({_id: id}, {$inc:{viewCount: 1}}, function(err){
+        if(err) throw(err);
+        else {
+            console.log(chalk.green("article's viewCount update ok!"));
+        }
+    });
     Article.findOne({_id: id}).populate(options).exec(function (err, article) {
         Article.populate(article, [{
             path: 'comments.author',
             model: "User"
         }], function (err, article) {
             if (err) callback(err);
-            var _article = article.toObject();
+            var _article;
             if(article) {
+                 _article = article.toObject();
                 _article.createDate = formatter(_article.createDate);
                 _article.modifyDate = formatter(_article.modifyDate);
                 for(var i = 0; i < _article.comments.length; i ++) {
                     _article.comments[i].date = formatter( _article.comments[i].date);
                 }
-                console.log(_article);
             } // 格式化时间
             callback(null, _article);
         });
     });
+
 }
 
 /**
@@ -175,6 +186,29 @@ function remove(req, res, next) {
             errInfo: "delete error",
             status: 0
         });
+        for(var i = 0; i < article.comments.length; i ++) {
+            Comment.findOneAndRemove({_id:article.comments[i]}, function(err){
+                if(err) throw(err);
+                else {
+                    console.log("delete comments ok!");
+                }
+            });
+        }
+        for(i = 0; i < article.likes.length; i ++) {
+            Like.findOneAndRemove({_id: article.likes[i]}, function(err){
+                if(err) throw(err);
+                else {
+                    console.log("delete likes ok!");
+                }
+            });
+        }
+        Column.findOneAndUpdate({_id: article.column}, {$inc:{posts: -1, topics: -(1 + article.comments.length)}}, function (err) {
+            if(err) throw(err);
+            else {
+                console.log("update column ok!");
+            }
+        });
+
         res.json({
             status: 1
         });
@@ -198,16 +232,23 @@ function addComment(req, res, next) {
                 status: 0
             });
         } else {
-            Article.findOneAndUpdate({_id: articleId}, {$push: {"comments": comment._id}}, function (err) {
+            Article.findOneAndUpdate({_id: articleId}, {$push: {"comments": comment._id}}, function (err, article) {
                 if (err) {
                     res.json({
                         errInfo: "article update failed!",
                         status: 0
                     });
                 } else {
-                    res.json({
-                        status: 1
+                    Column.findOneAndUpdate({_id: article.column},{$inc:{ topics: 1}}, function (err, column) {
+                        if(err) throw err;
+                        else {
+                            console.log(chalk.green("column update ok!"));
+                            res.json({
+                                status: 1
+                            });
+                        }
                     });
+
                 }
             });
         }
@@ -229,9 +270,15 @@ function deleteComment(req, res, next) {
                 status: 0
             });
         } else {
-            res.json({
-                status: 1
-            })
+            Column.findOneAndUpdate({_id: article.column},{$inc:{ topics: -1}}, function (err, column) {
+                if(err) throw err;
+                else {
+                    console.log(chalk.green("column update ok!"));
+                    res.json({
+                        status: 1
+                    });
+                }
+            });
         }
     });
 }

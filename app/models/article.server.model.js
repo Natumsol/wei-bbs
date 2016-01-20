@@ -63,7 +63,11 @@ ArticleSchema.pre("save", function(next){
     this.content = xss( this.content.trim());
     next();
 });
+ArticleSchema.pre('remove', function(next) {
+    // 删除文章时，删除所以评论和赞
 
+    next();
+});
 mongoose.model('Comment', CommentSchema);
 mongoose.model('Like', LikeSchema);
 mongoose.model('Article', ArticleSchema);
