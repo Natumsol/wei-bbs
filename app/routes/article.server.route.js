@@ -8,7 +8,7 @@ var column = require("../controllers/column.server.controller.js");
 var weixinAuth = require("../controllers/user.server.controller.js");
 var multer = require('multer');
 var upload  = multer({
-    dest: '../../public/uploads/',
+    dest: 'uploads/',
 })
 module.exports = function (app) {
     var nameSpace = "/article";
