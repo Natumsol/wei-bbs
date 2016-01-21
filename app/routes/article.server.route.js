@@ -7,9 +7,29 @@ var article = require("../controllers/article.server.controller.js");
 var column = require("../controllers/column.server.controller.js");
 var weixinAuth = require("../controllers/user.server.controller.js");
 var multer = require('multer');
-var upload  = multer({
-    dest: 'uploads/',
-})
+var crypto = require('crypto')
+var mime = require("mime");
+var fs = require('fs-extra');
+var path = require("path");
+
+/** 上传配置信息 **/
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        var dir = "public/uploads/images/";
+        fs.ensureDir(dir, function (err) {
+           if(err) throw err;
+           else cb(null, dir);
+        })
+    },
+    filename: function (req, file, cb) {
+        crypto.pseudoRandomBytes(16, function (err, raw) {
+            cb(err, err ? undefined : raw.toString('hex') + '.' + mime.extension(file.mimetype))
+        })
+    }
+});
+
+var upload = multer({ storage: storage }); // 上传中间件
+
 module.exports = function (app) {
     var nameSpace = "/article";
     app.post(nameSpace + "/add", weixinAuth.checkAuth, article.add);
@@ -38,6 +58,7 @@ module.exports = function (app) {
         });
 
     });
+
     app.get(nameSpace + "/add", weixinAuth.checkAuth, function(req, res, next){
         column.getAllColumns(function(err, columns){
             if(err) throw err;
@@ -53,6 +74,7 @@ module.exports = function (app) {
         })
 
     });
+
     app.get(nameSpace + "/modify", weixinAuth.checkAuth, function(req, res, next){
         var id = req.query.id || "";
         var isReverse = parseInt(req.query.isReverse) || 0;
@@ -76,9 +98,12 @@ module.exports = function (app) {
 
     });
 
-    app.post("/upload", upload.single('image'), function(req, res){
-        res.end("ok!");
+    app.post("/upload", upload.array('image',5), function(req, res){
+        console.log(req.files);
+        var file = req.files[0];
+        res.redirect("uploads/images/" + file.filename);
     });
+
     app.get("/upload", function(req, res){
         res.render("upload");
     })

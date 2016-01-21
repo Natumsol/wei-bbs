@@ -29,12 +29,18 @@ module.exports = function () {
 	app.set('view engine', 'ejs');
 	app.engine("ejs", require("ejs").renderFile);
 
+	/*app.get("/upload/images/:id", function(req, res){
+
+	});*/
 	require("../app/routes/user.server.route.js")(app);//引入路由信息
 	require("../app/routes/webchat.server.route.js")(app);
 	require("../app/routes/article.server.route.js")(app);
 	require("../app/routes/column.server.route.js")(app);
 	app.use(express.static("./public"));
 	//The 404 Route (ALWAYS Keep this as the last route)
-
+	app.use(function(err, req, res, next) {
+		console.log(err);
+		next(err);
+	});
 	return app;
 };

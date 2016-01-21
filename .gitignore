@@ -1,6 +1,16 @@
 # Created by .ignore support plugin (hsz.mobi)
+
+#weixin config
 /config/weixinAuthConfig.js
 
+#dependence
 node_modules
+
+# webstorm config
 .idea
+
+# db config
 /config/env/development.js
+
+# upload dir
+/public/uploads
