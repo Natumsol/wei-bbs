@@ -98,10 +98,17 @@ module.exports = function (app) {
 
     });
 
-    app.post("/upload", upload.array('image',5), function(req, res){
-        console.log(req.files);
-        var file = req.files[0];
-        res.redirect("uploads/images/" + file.filename);
+    app.post("/upload", upload.single('wangEditorMobileFile'), function(req, res){
+        var file = req.file;
+        var result;
+        if(file) {
+            result = "/uploads/images/" + file.filename;
+
+        } else {
+            result = 'error|save error';
+        }
+        res.setHeader('Content-type','text/html');
+        res.send(result);
     });
 
     app.get("/upload", function(req, res){

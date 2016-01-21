@@ -42,7 +42,7 @@ define(["zepto", "loadMore", "ejs", "tools"], function ($, loadMore, ejs, tools)
     // 懒加载监听函数
     var scrollListener = function () {
 
-        var scrollTop = $(this).scrollTop();
+        var scrollTop = this.scrollTop;
         var scrollHeight = $(document).height();
         var windowHeight = $(this).height();
 

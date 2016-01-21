@@ -13,7 +13,7 @@ define(['moment',"zepto","moment-locale"], function(moment, $){
             url: url,
             data: data,
             type: "POST",
-            dateType: "json",
+            dataType: "json",
             success: callback
         });
     }
