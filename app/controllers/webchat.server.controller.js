@@ -94,7 +94,7 @@ webchat.textMsg(function(msg) {
                     fromUserName : msg.toUserName,
                     toUserName : msg.fromUserName,
                     msgType : "text",
-                    content :  user.nickname + "， 傻逼喜欢你~",
+                    content :  "你好，" + user.nickname,
                     funcFlag : 0
                 };
                 webchat.sendMsg(resMsg);

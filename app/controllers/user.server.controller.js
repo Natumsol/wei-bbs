@@ -79,7 +79,7 @@ function getUserInfo(req, res, next) {
 }
 
 function checkAuth(req, res, next){
-    req.session.user = {
+    /*req.session.user = {
         "_id" : "569a4aada22d37007435e322",
         "openid" : "oXlgUwkexLQQVXeCy0cIkWFiUAbE",
         "nickname" : "小草",
@@ -91,7 +91,7 @@ function checkAuth(req, res, next){
         "headimgurl" : "http://wx.qlogo.cn/mmopen/ajNVdqHZLLBEib6uc6W4Q5qeJhnXvANTVPGjLjFmk6f6QjdAaZZVAQUyHvuNlGqhkoFgicxCaI50ok8luWebml8g/0",
         "privilege" : [],
         "isAdmin": true
-    };
+    };*/
     if(!req.session.user) {
         res.end("请在微信打开。");
     } else {

@@ -171,12 +171,18 @@
 .article-container .comment-container .comment-footer {
     font-size: 12px;
 }
+.article-container .article img {
+    max-width:250px;
+}
 
 .container {
     margin-top: 21px;
     background: #ddd;
 }
 
+.content-wrapper img{
+    max-width:250px;
+}
 .user-card {
     background-image: url(/img/user-card.jpg);
     background-repeat: no-repeat;
