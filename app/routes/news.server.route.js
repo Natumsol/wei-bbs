@@ -20,7 +20,7 @@ module.exports = function (app) {
     app.post(nameSpace + "/getNews", weixinAuth.isAdmin, news.getNews);
     app.get(nameSpace, function(req, res, next){
 
-        res.render("news/list",{news:news});
+        res.render("news/list");
     });
     app.get(nameSpace + "/view", function(req, res, next){
         var id = req.query.id || "";

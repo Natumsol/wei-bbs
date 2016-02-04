@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
-    <title>资讯查看 | <%= news.title %></title>
+    <title>产品查看 | <%= product.name %></title>
     <link rel="stylesheet" href="/css/frozen.css">
     <link rel="stylesheet" href="/css/font-awesome.css">
     <link rel="stylesheet" href="/css/util.css">
@@ -14,7 +14,7 @@
 <body ontouchstart="">
 <header class="ui-header ui-header-positive ui-border-b">
     <i class="ui-icon-return" onclick="history.back()"></i>
-    <h1>资讯查看 | <%= news.title %></h1>
+    <h1>产品查看 | <%= product.name %></h1>
 </header>
 <footer class="ui-footer ui-footer-btn ui-footer-custom">
     <ul class="ui-tiled ui-border-t">
@@ -48,16 +48,28 @@
 </footer>
 
 <section class="ui-container">
-    <div class="news-container">
-        <p class="title"><%= news.title %></p>
-        <div class="date ui-txt-muted"><%= news.createDate %></div>
-        <div class="news ui-txt-info"><%- news.content %></div>
-        <div class="news-refer">
-            <% if(prevNews) { %>
-            <p class="ui-txt-info">下一条：<a href="/news/view?id=<%= prevNews._id %>"><%= prevNews.title %></a></p>
+    <div class="product-container">
+        <table class="ui-table ui-border">
+
+            <tr>
+                <td width="150">产品名称</td>
+                <td><%= product.name %></td>
+            </tr>
+            <tr>
+                <td>图片</td>
+                <td style="padding: 5px 0;"><img src="<%= product.image_url %>"alt=""></td>
+            </tr>
+            <tr>
+                <td>产品简介</td>
+                <td><%= product.introduction %></td>
+            </tr>
+        </table>
+        <div class="product-refer">
+            <% if(prevProduct) { %>
+            <p class="ui-txt-info">下一条：<a href="/product/view?id=<%= prevProduct._id %>"><%= prevProduct.name %></a></p>
             <% } %>
-            <% if(nextNews) { %>
-            <p class="ui-txt-info">上一条：<a href="/news/view?id=<%= nextNews._id %>"><%= nextNews.title %></a></p>
+            <% if(nextProduct) { %>
+            <p class="ui-txt-info">上一条：<a href="/product/view?id=<%= nextProduct._id %>"><%= nextProduct.name %></a></p>
             <% } %>
         </div>
     </div>
@@ -66,7 +78,7 @@
 <script src="/js/lib/requirejs/require.js"></script>
 <script src="/js/lib/requirejs/require-config.js"></script>
 <script>
-    require(["js/news/view.js"], function (view) {
+    require(["js/product/view.js"], function (view) {
         view.init();
     })
 </script>

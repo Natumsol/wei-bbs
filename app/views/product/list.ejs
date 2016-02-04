@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
-    <title>资讯查看 | <%= news.title %></title>
+    <title>产品展厅</title>
     <link rel="stylesheet" href="/css/frozen.css">
     <link rel="stylesheet" href="/css/font-awesome.css">
     <link rel="stylesheet" href="/css/util.css">
@@ -14,7 +14,7 @@
 <body ontouchstart="">
 <header class="ui-header ui-header-positive ui-border-b">
     <i class="ui-icon-return" onclick="history.back()"></i>
-    <h1>资讯查看 | <%= news.title %></h1>
+    <h1>产品展厅</h1>
 </header>
 <footer class="ui-footer ui-footer-btn ui-footer-custom">
     <ul class="ui-tiled ui-border-t">
@@ -47,30 +47,23 @@
     </ul>
 </footer>
 
-<section class="ui-container">
-    <div class="news-container">
-        <p class="title"><%= news.title %></p>
-        <div class="date ui-txt-muted"><%= news.createDate %></div>
-        <div class="news ui-txt-info"><%- news.content %></div>
-        <div class="news-refer">
-            <% if(prevNews) { %>
-            <p class="ui-txt-info">下一条：<a href="/news/view?id=<%= prevNews._id %>"><%= prevNews.title %></a></p>
-            <% } %>
-            <% if(nextNews) { %>
-            <p class="ui-txt-info">上一条：<a href="/news/view?id=<%= nextNews._id %>"><%= nextNews.title %></a></p>
-            <% } %>
-        </div>
+<section class="ui-container index ui-panel-product">
+    <ul class="ui-grid-trisect">
+
+    </ul>
+    <div style="margin: 10px 0; width:100%; text-align: center;">
+        <button class="load-more-data">
+            查看更多>>
+        </button>
     </div>
 </section>
-
 <script src="/js/lib/requirejs/require.js"></script>
 <script src="/js/lib/requirejs/require-config.js"></script>
 <script>
-    require(["js/news/view.js"], function (view) {
-        view.init();
+    require(["js/product/list.js"], function (list) {
+        list.init();
     })
 </script>
 </body>
 
 </html>
-

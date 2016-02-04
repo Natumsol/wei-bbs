@@ -420,3 +420,17 @@ body{
 .news-container .news-refer p{
     margin-bottom: 5px;
 }
+.product-container {
+    padding:20px 30px;
+}
+.product-container table {
+    line-height:40px;
+}
+.product-container table img{
+    max-height: 150px;
+    vertical-align: middle;
+}
+.product-container .product-refer{
+    padding: 10px 0;
+    font-size: 14px;
+}

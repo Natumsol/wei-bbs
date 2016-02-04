@@ -73,24 +73,19 @@ function getProduct(req, res, next) {
     }
     else {
         Product.find().skip(start).sort({createDate: -1}).limit(limit).exec(function (err, product) {
-            res.json({product: product});
+            res.json({products: product});
         });  //  分页查询
     }
 }
 
 function getProductById(id, callback) {
     Product.findOne({_id: id}).exec(function (err, product) {
-        var _product;
-        if(product) {
-            _product = product.toObject();
-            _product.date = formatter(_product.date);
-        } // 格式化时间
-        callback(null, _product);
+        callback(null, product);
     });
 
 }
 function getIndexProduct(callback) {
-    Product.find().sort({date: -1}).limit(9).exec(function(err, products){
+    Product.find().sort({date: -1}).limit(6).exec(function(err, products){
         products = products.map(function(value){
             return value.toObject();
         });
@@ -100,11 +95,23 @@ function getIndexProduct(callback) {
         callback(err, products);
     });
 }
+function getNextProduct(product, callback){
+    Product.find({date:{$gt: product.date}}).sort({date: 1}).limit(1).exec(function(err, product){
+        callback(err, product);
+    });
+}
+function getPrevProduct(product, callback){
+    Product.find({date:{$lt: product.date}}).sort({date: -1}).limit(1).exec(function(err, product){
+        callback(err, product);
+    });
+}
 module.exports = {
     add: add,
     modify: modify,
     remove: remove,
     getProduct: getProduct,
     getProductById: getProductById,
-    getIndexProduct:getIndexProduct
+    getIndexProduct:getIndexProduct,
+    getNextProduct: getNextProduct,
+    getPrevProduct: getPrevProduct
 };
