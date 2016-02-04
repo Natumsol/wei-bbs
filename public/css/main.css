@@ -1,7 +1,8 @@
 .index.ui-container {
-    background: #EFEFEF;
+    background: #fff;
     border-bottom: 0;
-    margin-bottom:80px;
+    margin-bottom:45px;
+    padding-bottom:45px;
 }
 
 #menu {
@@ -314,4 +315,47 @@
     border-radius: 4px;
     height: 400px;
     -webkit-user-select:all;
+}
+
+/** 自定义首页样式 **/
+.ui-footer-custom{
+    height:45px;
+    background: #00a5e0;
+    color: #fff;
+}
+.ui-footer-custom div.fa{
+    position: relative;
+    top: 4px;
+    font-size: 24px
+}
+#news-slider{
+    height:150px;
+}
+.ui-panel{
+    margin-top:10px;
+}
+.ui-panel h2{
+    font-size: 18px;
+    margin-bottom:10px;
+    line-height: 28px;
+}
+.ui-panel-product h2{
+    border-left:6px solid #3498db;
+}
+.ui-panel-product .product-img{
+    height:200px;
+    width: 100%;
+    border-radius: 10px;
+}
+.ui-panel-news h2{
+    border-left:6px solid #1abc9c;
+}
+.ui-panel-news .ui-list h3{
+    padding-left:0;
+    font-weight:700;
+    color: #000;
+    line-height: 25px;
+}
+.ui-panel-company h2{
+    border-left:6px solid #E74C3C;
 }

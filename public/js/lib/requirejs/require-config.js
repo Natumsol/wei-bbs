@@ -22,6 +22,7 @@ require.config({
             exports: "EJS"
         },// 处理不满足AMD规范的库
         "zepto-touch":["zepto"],
-        "editor":["zepto"]
+        "editor":["zepto"],
+        "frozen": ["zepto"]
     }
 });

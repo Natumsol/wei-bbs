@@ -26,7 +26,7 @@ module.exports = function(app){
                 }
             });
         } else {
-            res.render("index", {
+            res.render("index_", {
                 user: req.session.user,
             });
         }
