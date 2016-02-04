@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>资讯查看 | <%= news.title %></title>
+    <link rel="stylesheet" href="/css/frozen.css">
+    <link rel="stylesheet" href="/css/font-awesome.css">
+    <link rel="stylesheet" href="/css/util.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body ontouchstart="">
+<header class="ui-header ui-header-positive ui-border-b">
+    <i class="ui-icon-return" onclick="history.back()"></i>
+    <h1>资讯查看 | <%= news.title %></h1>
+</header>
+<footer class="ui-footer ui-footer-btn ui-footer-custom">
+    <ul class="ui-tiled ui-border-t">
+        <li >
+            <a class="navigation-menu" href="/">
+                <div class="fa fa-home" ></div>
+                <div style="font-size: 12px">主页</div>
+            </a>
+        </li>
+        <li >
+            <a class="navigation-menu" href="/product">
+                <div class="fa fa-th" ></div>
+                <div style="font-size: 12px">产品展厅</div>
+            </a>
+        </li>
+        <li >
+            <a class="navigation-menu" href="/bbs">
+                <div class="fa fa-beer" ></div>
+                <div style="font-size: 12px">以酒会友</div>
+            </a>
+        </li>
+        <li >
+            <a class="navigation-menu" href="/about.html">
+                <div class="fa fa-phone" ></div>
+                <div style="font-size: 12px">关于我们</div>
+            </a>
+        </li>
+
+
+    </ul>
+</footer>
+
+<section class="ui-container">
+    <div class="news-container">
+        <p class="title"><%= news.title %></p>
+        <div class="date ui-txt-muted"><%= news.createDate %></div>
+        <div class="news ui-txt-info"><%- news.content %></div>
+        <div class="news-refer">
+            <% if(prevNews) { %>
+            <p class="ui-txt-info">上一条：<a href="/news/view?id=<%= prevNews._id %>"><%= prevNews.title %></a></p>
+            <% } %>
+            <% if(nextNews) { %>
+            <p class="ui-txt-info">下一条：<a href="/news/view?id=<%= nextNews._id %>"><%= nextNews.title %></a></p>
+            <% } %>
+        </div>
+    </div>
+</section>
+
+<script src="/js/lib/requirejs/require.js"></script>
+<script src="/js/lib/requirejs/require-config.js"></script>
+<script>
+    require(["js/news/view.js"], function (view) {
+        view.init();
+    })
+</script>
+</body>
+
+</html>
+

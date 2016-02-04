@@ -1,0 +1,6 @@
+<% for(var i = 0; i < news.length; i ++){ %>
+<li class="ui-border-t">
+    <a href="/news/view?id=<%= news[i]._id %>"><h3><%= news[i].title%></h3></a>
+    <p><span class="date"><%= news[i].createDate %></span></p>
+</li>
+<% } %>

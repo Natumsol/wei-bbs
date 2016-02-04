@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>微社区 | 资讯列表</title>
+    <link rel="stylesheet" href="/css/frozen.css">
+    <link rel="stylesheet" href="/css/font-awesome.css">
+    <link rel="stylesheet" href="/css/util.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body ontouchstart="">
+<header class="ui-header ui-header-positive ui-border-b">
+    <i class="ui-icon-return" onclick="history.back()"></i>
+    <h1>资讯列表</h1>
+</header>
+<footer class="ui-footer ui-footer-btn ui-footer-custom">
+    <ul class="ui-tiled ui-border-t">
+        <li >
+            <a class="navigation-menu" href="/">
+                <div class="fa fa-home" ></div>
+                <div style="font-size: 12px">主页</div>
+            </a>
+        </li>
+        <li >
+            <a class="navigation-menu" href="/product">
+                <div class="fa fa-th" ></div>
+                <div style="font-size: 12px">产品展厅</div>
+            </a>
+        </li>
+        <li >
+            <a class="navigation-menu" href="/bbs">
+                <div class="fa fa-beer" ></div>
+                <div style="font-size: 12px">以酒会友</div>
+            </a>
+        </li>
+        <li >
+            <a class="navigation-menu" href="/about.html">
+                <div class="fa fa-phone" ></div>
+                <div style="font-size: 12px">关于我们</div>
+            </a>
+        </li>
+
+
+    </ul>
+</footer>
+
+<section class="ui-container index ui-panel-news">
+    <ul class="ui-list ui-list-pure ui-border-tb">
+
+    </ul>
+    <div style="margin: 10px 0; width:100%; text-align: center;">
+        <button class="load-more-data">
+            查看更多>>
+        </button>
+    </div>
+</section>
+<script src="/js/lib/requirejs/require.js"></script>
+<script src="/js/lib/requirejs/require-config.js"></script>
+<script>
+    require(["js/news/list.js"], function (list) {
+        list.init();
+    })
+</script>
+</body>
+
+</html>

@@ -5,10 +5,14 @@
  */
 require("../config/mongoose.js")();
 var mongoose = require("mongoose");
-var User = mongoose.model("User");
-User.findOne({_id:"568e6e9514c8f84806d0c158"}, function(err, user){
+var News = mongoose.model("News");
+News.findOne({_id:"56b3154ae814d77904093b27"}, function(err, news){
     if(err) throw  err;
-    if(!user) console.log("查询为空！");
-    else console.log(user._id);
-    process.exit();
+    console.log(news);
+
+    News.find({createDate:{$lt: news.createDate}}).limit(1).exec(function(err, _news){
+        if(err) throw err;
+        else console.log(_news);
+        process.exit();
+    });
 });

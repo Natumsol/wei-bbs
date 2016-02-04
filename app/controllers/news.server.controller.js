@@ -73,15 +73,18 @@ function getNews(req, res, next) {
     }
     else {
         var options = [{path: 'author', select: 'nickname headimgurl -_id'}];
-        News.find().skip(start).sort({createDate: -1}).limit(limit).populate(options).exec(function (err, news) {
+        News.find().select("title createDate").skip(start).sort({createDate: -1}).limit(limit).populate(options).exec(function (err, news) {
+            news = news.map(function(value){
+                return value.toObject();
+            });
             for(var i = 0; i < news.length; i ++) {
-                news[i].content = news[i].content.substr(0, 400) + "...";
+                news[i].createDate = moment(news[i].createDate).format("YYYY-MM-DD");
             }
-
             res.json({news: news});
         });  //  分页查询
     }
 }
+
 
 function getNewsById(id, callback) {
     var options = [{path: 'author'}];
@@ -93,13 +96,8 @@ function getNewsById(id, callback) {
     });
 
     News.findOne({_id: id}).populate(options).exec(function (err, news) {
-        var _news;
-        if(news) {
-            _news = news.toObject();
-            _news.date = formatter(_news.date);
 
-        } // 格式化时间
-        callback(null, _news);
+        callback(null, news);
     });
 
 }
@@ -121,6 +119,17 @@ function getIndexNews(callback) {
         callback(err, news);
     });
 }
+
+function getNextNews(news, callback){
+    News.find({createDate:{$gt: news.createDate}}).sort({createDate: 1}).limit(1).exec(function(err, news){
+        callback(err, news);
+    });
+}
+function getPrevNews(news, callback){
+    News.find({createDate:{$lt: news.createDate}}).sort({createDate: -1}).limit(1).exec(function(err, news){
+        callback(err, news);
+    });
+}
 module.exports = {
     add: add,
     modify: modify,
@@ -128,5 +137,7 @@ module.exports = {
     getNews: getNews,
     getNewsById: getNewsById,
     getSliderNews: getSliderNews,
-    getIndexNews: getIndexNews
+    getIndexNews: getIndexNews,
+    getPrevNews: getPrevNews,
+    getNextNews: getNextNews
 };
