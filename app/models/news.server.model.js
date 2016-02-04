@@ -12,6 +12,14 @@ var NewsSchema = new Schema({
     },
     title: String,
     content: String,
+    isSlider: {
+        type: Boolean,
+        default: false
+    },
+    sliderImg:{
+        type: String,
+        default: null
+    },
     createDate: {type: Date, default: Date.now},
     modifyDate: {type: Date, default: Date.now},
     viewCount: {type: Number, dafault: 0}

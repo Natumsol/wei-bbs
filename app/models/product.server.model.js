@@ -5,11 +5,14 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var ProductSchema = new Schema({
-    image_url: String,
-    introduction: String,
-    author:  {
-        type: Schema.Types.ObjectId,
-        ref: "User"
+    name: String,
+    image_url: {
+        type: String,
+        default: null
+    },
+    introduction: {
+        type: String,
+        default: null
     },
     date: {
         type: Date,

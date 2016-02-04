@@ -33,6 +33,8 @@ module.exports = function () {
 	require("../app/routes/webchat.server.route.js")(app);
 	require("../app/routes/article.server.route.js")(app);
 	require("../app/routes/column.server.route.js")(app);
+	require("../app/routes/news.server.route.js")(app);
+	require("../app/routes/product.server.route.js")(app);
 	app.use(express.static("./public"));
 	//The 404 Route (ALWAYS Keep this as the last route)
 	app.use(function(err, req, res, next) {

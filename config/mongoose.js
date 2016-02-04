@@ -13,5 +13,7 @@ module.exports = function(){
 	require("../app/models/user.server.model.js");
 	require("../app/models/column.server.model.js");
 	require("../app/models/article.server.model.js");
+	require("../app/models/news.server.model.js");
+	require("../app/models/product.server.model.js");
 	return db;
 };

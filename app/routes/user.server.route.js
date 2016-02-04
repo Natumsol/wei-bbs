@@ -6,30 +6,32 @@
 
 var weixinAuth = require("../controllers/user.server.controller.js");
 var generateMenu =  require("../controllers/webchat.server.controller.js").generateMenu;
-var column = require("../controllers/column.server.controller.js");
+var news = require("../controllers/news.server.controller.js");
+var product = require("../controllers/product.server.controller.js");
 module.exports = function(app){
 
     app.get("/weixin/auth", weixinAuth.getCode, weixinAuth.getAccessCode, weixinAuth.getUserInfo, function(req, res){
         res.redirect("/");
     });
     app.get("/",weixinAuth.checkAuth, function(req, res, next){
-        if(req.query.columnId) {
-            column.getColumnById(req.query.columnId, function(err, column){
-                if(err) throw err;
-                else if(column) {
-                    res.render('view', {
+
+        news.getSliderNews(function(err, sliderNews){
+            if(err) {
+                sliderNews = [];
+            }
+            news.getIndexNews(function(err, news){
+                if(err) news = [];
+                product.getIndexProduct(function(err, products){
+                    if(err) products = [];
+                    res.render("index", {
                         user: req.session.user,
-                        column:column
+                        sliderNews: sliderNews,
+                        news: news,
+                        products: products
                     });
-                } else {
-                    next();
-                }
+                });
             });
-        } else {
-            res.render("index_", {
-                user: req.session.user,
-            });
-        }
+        });
 
     });
     app.get("/test", weixinAuth.checkAuth, function(req, res){

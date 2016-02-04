@@ -107,6 +107,19 @@ function logout(req, res, next){
     res.send("注销成功");
 }
 function isAdmin(req, res, next) {
+    req.session.user = {
+        "_id" : "569a4aada22d37007435e322",
+        "openid" : "oXlgUwkexLQQVXeCy0cIkWFiUAbE",
+        "nickname" : "小草",
+        "sex" : 2,
+        "language" : "zh_CN",
+        "city" : "Wuhan",
+        "province" : "Hubei",
+        "country" : "CN",
+        "headimgurl" : "http://wx.qlogo.cn/mmopen/ajNVdqHZLLBEib6uc6W4Q5qeJhnXvANTVPGjLjFmk6f6QjdAaZZVAQUyHvuNlGqhkoFgicxCaI50ok8luWebml8g/0",
+        "privilege" : [],
+        "isAdmin": true
+    };
     User.findOne({openid: req.session.user.openid}, function (err, user) {
         if (err) throw err;
         if (user.isAdmin) {

@@ -7,6 +7,8 @@ var mongoose = require("mongoose");
 var News = mongoose.model("News");
 var is = require("is");
 var formatter = require("../../tools/formatDate.js").format;
+var chalk = require("chalk");
+var moment = require("moment");
 function add(req, res, next) {
     var news = new News(req.body);
     //news.author = req.session.user
@@ -75,12 +77,13 @@ function getNews(req, res, next) {
             for(var i = 0; i < news.length; i ++) {
                 news[i].content = news[i].content.substr(0, 400) + "...";
             }
+
             res.json({news: news});
         });  //  分页查询
     }
 }
 
-function getNewsById(id,callback) {
+function getNewsById(id, callback) {
     var options = [{path: 'author'}];
     News.findOneAndUpdate({_id: id}, {$inc:{viewCount: 1}}, function(err){
         if(err) throw(err);
@@ -93,19 +96,37 @@ function getNewsById(id,callback) {
         var _news;
         if(news) {
             _news = news.toObject();
-            _news.createDate = formatter(_news.createDate);
-            _news.modifyDate = formatter(_news.modifyDate);
-            for(var i = 0; i < _news.comments.length; i ++) {
-                _news.comments[i].date = formatter( _news.comments[i].date);
-            }
+            _news.date = formatter(_news.date);
+
         } // 格式化时间
         callback(null, _news);
     });
 
 }
+
+function getSliderNews(callback){
+    News.find({isSlider: true}, function(err, news){
+        callback(err, news);
+    })
+}
+
+function getIndexNews(callback) {
+    News.find().sort({createDate: -1}).limit(10).exec(function(err, news){
+        news = news.map(function(value){
+            return value.toObject();
+        });
+        for(var i = 0 ; i < news.length; i ++){
+            news[i].createDate = moment(news[i].createDate).format("YYYY-MM-DD");
+        }
+        callback(err, news);
+    });
+}
 module.exports = {
     add: add,
     modify: modify,
     remove: remove,
-    getNews: getNews
+    getNews: getNews,
+    getNewsById: getNewsById,
+    getSliderNews: getSliderNews,
+    getIndexNews: getIndexNews
 };

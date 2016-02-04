@@ -8,7 +8,7 @@ define(["zepto", "frozen"], function ($) {
         role: 'slider',
         indicator: true,
         autoplay: true,
-        interval: 3000
+        interval: 4000
     });
-
+    $("#news-slider .title").show();
 });
