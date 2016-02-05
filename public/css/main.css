@@ -399,7 +399,7 @@ body{
     border-radius: 3px;
 }
 .news-container{
-    padding:20px 30px;
+    padding:20px 5px;
 }
 .news-container .title{
     font-size:20px;
@@ -421,10 +421,21 @@ body{
     margin-bottom: 5px;
 }
 .product-container {
-    padding:20px 30px;
+    padding:20px 5px;
 }
 .product-container table {
-    line-height:40px;
+    line-height:30px;
+}
+
+.product-container table td {
+    padding:4px;
+}
+.product-container table .key{
+    text-align: right;
+}
+
+.product-container table .value{
+    text-align: left;
 }
 .product-container table img{
     max-height: 150px;

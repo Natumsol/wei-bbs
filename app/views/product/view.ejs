@@ -52,16 +52,16 @@
         <table class="ui-table ui-border">
 
             <tr>
-                <td width="150">产品名称</td>
-                <td><%= product.name %></td>
+                <td width="100" class="key">产品名称</td>
+                <td class="value"><%= product.name %></td>
             </tr>
             <tr>
-                <td>图片</td>
-                <td style="padding: 5px 0;"><img src="<%= product.image_url %>"alt=""></td>
+                <td class="key">图片</td>
+                <td style="padding: 5px 0;" class="value"><img src="<%= product.image_url %>"alt=""></td>
             </tr>
             <tr>
-                <td>产品简介</td>
-                <td><%= product.introduction %></td>
+                <td class="key">产品简介</td>
+                <td class="value"><%= product.introduction %></td>
             </tr>
         </table>
         <div class="product-refer">
