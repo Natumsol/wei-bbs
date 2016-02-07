@@ -6,6 +6,7 @@ body{
     border-bottom: 0;
     margin-bottom:45px;
     padding-bottom:45px;
+    overflow: hidden;
 }
 
 #menu {
@@ -38,7 +39,7 @@ body{
 .ui-item-box .content-image img {
     border-radius: 5px;
     width: 30%;
-    height: 200px;
+    height: 150px;
 }
 
 .ui-item-box .fa {

@@ -3,7 +3,7 @@
  *@author: Sulfer
  *@date: 2/6 0006
  */
-define(['zepto'], function($){
+define(['zepto', "zepto-touch"], function($){
     function UploadImg(options){
         this.url = options.url || "/upload";
         this.timeout = options.timeout || 10000;
@@ -13,10 +13,12 @@ define(['zepto'], function($){
 
     UploadImg.prototype.init = function() {
         var self = this;
+        $("body").on("tap",".remove-img", function(){
+            $(this).parent().remove();
+        });
         $("body").on("click",".remove-img", function(){
             $(this).parent().remove();
         });
-
         $("#" + this.fileId).change(function(){
             var file = this.files[0];
             if(!file) return;
