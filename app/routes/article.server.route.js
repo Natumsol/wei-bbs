@@ -75,14 +75,10 @@ module.exports = function (app) {
         article.getArticleById(id,isReverse, onlyAuthor,function(err, article){
             if(err) res.send(err.message);
             else if(article) {
-                column.getAllColumns(function(err, columns){
-                    if(err) throw err;
-                    res.render("bbs/modify", {
-                        article:article,
-                        columns: columns,
-                        user: req.session.user
-                    });
-                })
+                res.render("bbs/modify", {
+                    article:article,
+                    user: req.session.user
+                });
             } else {
                 next();
             }

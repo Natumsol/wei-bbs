@@ -16,13 +16,8 @@
 
 <body ontouchstart="">
 <header class="ui-header ui-header-positive ui-border-b">
-    <input type="hidden" id="userId" value="<%= user._id%>">
     <i class="ui-icon-return" onclick="history.back()"></i>
-    <!--<a href="/user"><img class="ui-avatar ui-avatar-custom" src="<%= user.headimgurl %>" alt="<%= user.nickname %>"></a>-->
     <h1>修改</h1>
-    <button class="ui-btn " id="menu">
-        <i class="fa fa-bars"></i>
-    </button>
 </header>
 <div class="ui-footer ui-footer-stable ui-btn-group ui-border-t">
 
@@ -33,55 +28,36 @@
 </div>
 <section class="ui-container add-article-container">
     <form action="/article/addArticle" method="post" id="form-add-article" style="height: 100%">
-        <input type="hidden" name="id" value="<%= article._id%>">
+        <input type="hidden" name="id" value="<%= article._id %>">
         <div class="ui-input ui-border-radius">
-            <input type="text" name="title" placeholder="标题（必填）" value="<%= article.title%>">
+            <input type="text" name="title" placeholder="标题（必填）" value="<%= article.title %>">
         </div>
 
         <textarea id="article" name="content" class="util-hidden" placeholder="请输入正文...">
-            <%= article.content%>
+        <%- article.content %>
         </textarea>
-        <div class="ui-form-item ui-border-b">
-            <label>发布到</label>
-            <div class="ui-select">
-                <select name="column">
-                    <option value="">--请选择--</option>
-                    <% for(var i = 0; i < columns.length; i ++) { %>
-                    <option value="<%= columns[i]._id%>" <% if(article.column._id.toString() === columns[i]._id.toString()){%> selected <%}%> >
-                        <%= columns[i].name%>
-                    </option>
-                    <%} %>
-                </select>
+        <div class="img-container">
+            <% for(var i in article.images){ %>
+            <div class="img">
+                <li class="fa fa-remove remove-img"></li>
+                <img src="<%= article.images[i]%>" alt="">
+                <input name="images" type="hidden" value="<%= article.images[i]%>">
+            </div>
+            <%} %>
+            <div class="upload-image-btn">
+                <label for="upload-img" class="">
+                    <div class="cross-vertical"></div>
+                    <div class="cross-horizon"></div>
+                </label>
+                <input type="file" accept="image/*" class="util-hidden" id="upload-img">
             </div>
         </div>
     </form>
 </section>
-<div class="ui-poptips ui-poptips-success util-hidden">
-    <div class="ui-poptips-cnt"><i></i>所有帖子已加载完毕~</div>
-</div>
-<section id="actionsheet">
-    <div class="ui-actionsheet">
-        <div class="ui-actionsheet-cnt">
-            <h4>全部话题筛选</h4>
-            <button class="select-top">全部</button>
-            <button class="select-top">热门</button>
-            <button class="select-top">精华</button>
-            <button class="ui-actionsheet-del">登录</button>
-            <button id="cancel">取消</button>
-        </div>
-    </div>
-</section>
-
-<div class="ui-loading-block">
-    <div class="ui-loading-cnt">
-        <i class="ui-loading-bright"></i>
-        <p>正在加载中...</p>
-    </div>
-</div>
 <script src="/js/lib/requirejs/require.js"></script>
 <script src="/js/lib/requirejs/require-config.js"></script>
 <script>
-    require(["modifyArticle"], function (modify) {
+    require(["/js/bbs/modify.js"], function (modify) {
         modify.init();
     })
 </script>

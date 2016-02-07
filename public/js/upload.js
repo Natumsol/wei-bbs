@@ -13,6 +13,10 @@ define(['zepto'], function($){
 
     UploadImg.prototype.init = function() {
         var self = this;
+        $("body").on("click",".remove-img", function(){
+            $(this).parent().remove();
+        });
+
         $("#" + this.fileId).change(function(){
             var file = this.files[0];
             if(!file) return;
@@ -30,9 +34,7 @@ define(['zepto'], function($){
                     img.attr("src", imgSrc);
                     img.appendTo(imgContainer);
                     imgContainer.prependTo($(self.container));
-                    $(".remove-img", imgContainer).click(function(){
-                        imgContainer.remove();
-                    });
+
                 } else {
                     console.log("不支持预览。。");
                     //    TODO
