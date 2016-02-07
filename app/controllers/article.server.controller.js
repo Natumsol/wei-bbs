@@ -7,13 +7,12 @@
 var mongoose = require("mongoose");
 var Article = mongoose.model("Article");
 var Comment = mongoose.model("Comment");
-var Column = mongoose.model("Column");
-var Like = mongoose.model("Like");
 var User = mongoose.model("User");
 var is = require("is");
 var chalk = require("chalk");
 var formatter = require("../../tools/formatDate.js").format;
-
+var fs = require('fs-extra')
+var path = require("path");
 /**
  *
  * @param req
@@ -31,14 +30,15 @@ function add(req, res, next) {
             });
         }
         else {
-            Column.findOneAndUpdate({_id: article.column},{$inc:{posts: 1, topics: 1}}, function (err, column) {
-                if(err) throw err;
-                else {
-                    console.log(chalk.green("column update ok!"));
-                    res.json({status: 1, id: article._id});
-                }
-            });
-
+            for(var i = 0; i < article.images.length; i ++) {
+                var oriFile = "public/uploads/temp/" + path.parse(article.images[i]).base;
+                var targetFile = "public/uploads/images/" + path.parse(article.images[i]).base;
+                fs.move(oriFile, targetFile, function(err) {
+                    if (err) return console.error(err)
+                    console.log(oriFile + " move success!");
+                })
+            }
+            res.json({status: 1, id: article._id});
         }
     });
 }
@@ -55,8 +55,7 @@ function modify(req, res, next) {
     Article.findOneAndUpdate({_id: id}, {
         title: article.title,
         content: article.content,
-        modifyDate: article.modifyDate,
-        column: article.column
+        modifyDate: article.modifyDate
     }, function (err, article) {
         if (err) {
             res.json({
@@ -103,40 +102,6 @@ function getArticleById(id, isReverse, onlyAuthor,callback) {
             callback(null, _article);
         });
     });
-
-}
-
-/**
- *
- * @param req
- * @param res
- * @param next
- */
-function getArticlesByColumn(req, res, next) {
-    var column = req.body.column;
-    var start = parseInt(req.body.start);
-    var limit = parseInt(req.body.limit) || 10;
-    if (!is.integer(start) || !is.integer(limit)) {
-        res.json({
-            errInfo: "param error",
-            status: 0
-        })
-    }
-    else {
-        var options = [{path: 'comments'}, {path: 'likes'}, {path: 'author', select: 'nickname headimgurl -_id'}];
-        Article.find({column: column}).sort({createDate: -1}).skip(start).limit(limit).populate(options).exec(function (err, articles) {
-            Article.populate(articles, [{
-                path: 'comments.author',
-                model: "User",
-                select: 'nickname headimgurl'
-            }], function (err, articles) {
-                for(var i = 0; i < articles.length; i ++) {
-                    articles[i].content = articles[i].content.substr(0, 400) + "...";
-                }
-                res.json({articles: articles});
-            });
-        });
-    }
 
 }
 
@@ -194,21 +159,6 @@ function remove(req, res, next) {
                 }
             });
         }
-        for(i = 0; i < article.likes.length; i ++) {
-            Like.findOneAndRemove({_id: article.likes[i]}, function(err){
-                if(err) throw(err);
-                else {
-                    console.log("delete likes ok!");
-                }
-            });
-        }
-        Column.findOneAndUpdate({_id: article.column}, {$inc:{posts: -1, topics: -(1 + article.comments.length)}}, function (err) {
-            if(err) throw(err);
-            else {
-                console.log("update column ok!");
-            }
-        });
-
         res.json({
             status: 1
         });
@@ -239,16 +189,9 @@ function addComment(req, res, next) {
                         status: 0
                     });
                 } else {
-                    Column.findOneAndUpdate({_id: article.column},{$inc:{ topics: 1}}, function (err, column) {
-                        if(err) throw err;
-                        else {
-                            console.log(chalk.green("column update ok!"));
-                            res.json({
-                                status: 1
-                            });
-                        }
+                    res.json({
+                        status: 1
                     });
-
                 }
             });
         }
@@ -270,14 +213,8 @@ function deleteComment(req, res, next) {
                 status: 0
             });
         } else {
-            Column.findOneAndUpdate({_id: article.column},{$inc:{ topics: -1}}, function (err, column) {
-                if(err) throw err;
-                else {
-                    console.log(chalk.green("column update ok!"));
-                    res.json({
-                        status: 1
-                    });
-                }
+            res.json({
+                status: 1
             });
         }
     });
@@ -319,7 +256,6 @@ function like(req, res, next) {
 module.exports = {
     add: add,
     modify: modify,
-    getArticlesByColumn: getArticlesByColumn,
     remove: remove,
     getArticleById: getArticleById,
     addComment: addComment,

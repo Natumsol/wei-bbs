@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>微社区 | 发帖</title>
+    <link rel="stylesheet" href="/css/frozen.css">
+    <link rel="stylesheet" href="/css/font-awesome.css">
+    <link rel="stylesheet" href="/js/lib/editor/css/editor.css">
+    <link rel="stylesheet" href="/css/util.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body ontouchstart="">
+<header class="ui-header ui-header-positive ui-border-b">
+    <i class="ui-icon-return" onclick="history.back()"></i>
+    <h1>发帖</h1>
+</header>
+<div class="ui-footer ui-footer-stable ui-btn-group ui-border-t">
+
+    <button class="ui-btn ui-btn-primary submit-article">
+        <i class="fa fa-pencil-square-o"></i> 发布
+    </button>
+
+</div>
+<section class="ui-container add-article-container">
+    <form action="/article/addArticle" method="post" id="form-add-article" style="height: 100%">
+        <div class="ui-input ui-border-radius">
+            <input type="text" name="title" placeholder="标题（必填）">
+        </div>
+
+        <textarea id="article" name="content" class="util-hidden" placeholder="请输入正文...">
+
+        </textarea>
+        <div class="img-container">
+            <div class="upload-image-btn">
+                <label for="upload-img" class="">
+                    <div class="cross-vertical"></div>
+                    <div class="cross-horizon"></div>
+                </label>
+                <input type="file" accept="image/*" class="util-hidden" id="upload-img">
+            </div>
+        </div>
+    </form>
+</section>
+<script src="/js/lib/requirejs/require.js"></script>
+<script src="/js/lib/requirejs/require-config.js"></script>
+<script>
+    require(["/js/bbs/add.js"], function (add) {
+        add.init();
+    })
+</script>
+</body>
+
+</html>

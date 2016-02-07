@@ -7,8 +7,8 @@
 define(["zepto", "loadMore", "ejs", "tools"], function ($, loadMore, ejs, tools) {
     var getMoreDataFactory = loadMore.getMoreData; // 数据请求工厂函数
     var format = tools.format;
-    var url = "/article/getArticles"; // 文章请求链接
-    var template = new ejs({url: '/view/index_article.ejs'}); // 数据模版
+    var url = "/bbs/getArticles"; // 文章请求链接
+    var template = new ejs({url: '/view/articleList.ejs'}); // 数据模版
     var counter = 0;
     var noMoreData = false;
     var callback = function (articles) {// 文章数据处理函数
@@ -19,13 +19,7 @@ define(["zepto", "loadMore", "ejs", "tools"], function ($, loadMore, ejs, tools)
                 articles[index].createDate = format(article.createDate);
                 article.comments.forEach(function (comment) {
                     comment.date = format(comment.date);
-                })
-                article.likes = article.likes.map(function(like){
-                    return like.author;
                 });
-                if(article.likes.indexOf(userId) != -1) {
-                    article.isLiked = true;
-                }
             });
 
             console.log(articles);
@@ -81,33 +75,15 @@ define(["zepto", "loadMore", "ejs", "tools"], function ($, loadMore, ejs, tools)
 
     var eventBind = function(){
         // 事件绑定
-
-        $("#menu").click(function () { //菜单
-            $('.ui-actionsheet').addClass('show');
-        });
-
-        $("#cancel").click(function () {
-            $('.ui-actionsheet').removeClass('show');
-        });
-
-        $(".select-top").click(function () {
-            $('.ui-actionsheet').removeClass('show');
-            location.reload();
-        });
-
         $(".userCenter").click(function () {
             location.href = "user/";
         });
 
-        $(".view-all-topics").click(function () {
-            location.href = "/column";
-        });
-
         $(".add-article").click(function(){
-            location.href = "/article/add";
+            location.href = "/bbs/add";
         });
 
-        $("body").on("click", ".view-all-comments > a", function(){
+        $("body").on("click", ".view-all-comments-link", function(){
             var commentWrapper = $(this).parent().parent().find(".comment-wrapper");
             console.log(commentWrapper);
             $(".all-comments-container", $(this).parent()).appendTo(commentWrapper).show();
@@ -115,29 +91,10 @@ define(["zepto", "loadMore", "ejs", "tools"], function ($, loadMore, ejs, tools)
             return false;
         });
 
-        $("body").on("click", ".like", function(){
-            if(! this.dataset.status) {
-                var url =  "/article/like";
-                var data = {
-                    id: this.id
-                };
-                var self = this;
-                var callback = function(result){
-                    if(result.status){
-                        console.log("已赞！");
-                        self.innerHTML = " 已赞";
-                        $(self).addClass("text-flat-color-primary")
-                    }
-                    else console.log(result.errInfo);
-                };
-                tools.PostData(url, data, callback);
-            }
-
-        });
 
         $("body").on("click", ".addComment", function(){
             var comment = $(this).parent().find(".add-comment").val()
-            tools.PostData("/article/addComment", {
+            tools.PostData("/bbs/addComment", {
                 body:comment,
                 id: this.dataset.articleid
             }, function(result){
@@ -151,7 +108,7 @@ define(["zepto", "loadMore", "ejs", "tools"], function ($, loadMore, ejs, tools)
         });
 
         window.addEventListener("scroll", scrollListener); // 绑定滚动事件
-    }
+    };
     return {
         initData: initData,
         eventBind: eventBind

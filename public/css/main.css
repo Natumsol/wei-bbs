@@ -37,6 +37,8 @@ body{
 
 .ui-item-box .content-image img {
     border-radius: 5px;
+    width: 30%;
+    height: 200px;
 }
 
 .ui-item-box .fa {
@@ -147,6 +149,21 @@ body{
     margin-bottom: 10px;
 }
 
+.article .article-image-container {
+
+}
+.article .article-image {
+    display: inline-block;
+    height: 150px;
+    width:30%;
+    -webkit-border-radius:10px;
+    -moz-border-radius:10px;
+    border-radius:10px;
+}
+.article .article-image img{
+    width:100%;
+    height:100%;
+}
 .article-container .comment-bar .fa {
     padding: 15px 5px;
     font-size: 12px;
@@ -175,10 +192,6 @@ body{
 .article-container .comment-container .comment-footer {
     font-size: 12px;
 }
-.article-container .article img {
-    max-width:250px;
-}
-
 .container {
     margin-top: 21px;
     background: #ddd;
@@ -432,6 +445,7 @@ body{
 }
 .product-container table .key{
     text-align: right;
+    vertical-align: top;
 }
 
 .product-container table .value{
@@ -444,4 +458,72 @@ body{
 .product-container .product-refer{
     padding: 10px 0;
     font-size: 14px;
+}
+.product-container .product-refer p{
+    margin-bottom:5px;
+}
+.add-article{
+    position: absolute;
+    right: 5px;
+    top: 8px;
+    font-size: 28px;
+}
+.upload-image-btn {
+    display: inline-block;
+}
+.upload-image-btn label{
+    position: relative;
+    display: block;
+    width: 50px;
+    height: 50px;
+    border: 1px solid #ddd;
+}
+.upload-image-btn .cross-vertical{
+    width: 1px;
+    height: 44px;
+    background: #ddd;
+    position: absolute;
+    left: 48%;
+    top:3px;
+}
+.upload-image-btn .cross-horizon {
+    width: 44px;
+    height: 1px;
+    background: #ddd;
+    position: absolute;
+    top: 49%;
+    left:3px;
+}
+
+.img-container {
+    margin:7px 10px;
+}
+
+.img-container .img{
+    width: 50px;
+    height:50px;
+    border: 1px solid #ddd;
+    display: inline-block;
+    position: relative;
+    margin-right: 3px;
+}
+.img-container .img img{
+    height:100%;
+    width:100%;
+}
+.img-container .img .img-loading{
+    position: absolute;
+    color: #fff;
+    background: #000;
+    opacity: 0.7;
+    font-size: 12px;
+    top: 17px;
+    width: 100%;
+    text-align: center;
+}
+.img-container .img .remove-img{
+    position: absolute;
+    color: red;
+    top: -7px;
+    right: -4px;
 }

@@ -32,7 +32,6 @@ module.exports = function () {
 	require("../app/routes/user.server.route.js")(app);//引入路由信息
 	require("../app/routes/webchat.server.route.js")(app);
 	require("../app/routes/article.server.route.js")(app);
-	require("../app/routes/column.server.route.js")(app);
 	require("../app/routes/news.server.route.js")(app);
 	require("../app/routes/product.server.route.js")(app);
 	app.use(express.static("./public"));

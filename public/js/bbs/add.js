@@ -4,7 +4,7 @@
  *@date: 2016/1/18
  */
 
-define(["zepto", "zepto-touch","editor"],function($){
+define(["zepto", "/js/upload.js", "zepto-touch","editor",],function($, upload){
     var init = function (){
         // ___E 三个下划线
         var editor = new ___E('article');
@@ -16,12 +16,16 @@ define(["zepto", "zepto-touch","editor"],function($){
         // 初始化
         editor.init();
 
-        console.log(editor.$txt);
+
+        (new upload.UploadImg({
+            container: ".img-container" ,
+            fileId: "upload-img"
+        })).init();
         $(".submit-article").click(function () {
             var data = $("#form-add-article").serialize();
-            $.post("/article/add", data, function(result){
+            $.post("/bbs/add", data, function(result){
                if(result.status) {
-                   location.href = "/article/view?id=" + result.id;
+                   location.href = "/bbs/view?id=" + result.id;
                } else {
                    alert(result.errInfo);
                }
