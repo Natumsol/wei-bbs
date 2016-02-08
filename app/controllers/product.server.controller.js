@@ -29,8 +29,8 @@ function add(req, res, next) {
                     if (err) return console.error(err)
                     console.log(oriFile + " move success!");
                 });
-                res.json({status: 1, id: product._id});
             }
+            res.json({status: 1, id: product._id});
         }
     });
 }

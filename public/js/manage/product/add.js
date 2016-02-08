@@ -20,11 +20,11 @@ $(function(){
 
             }
             if(result.status == 1)
-                alert("添加成功！", function(){
+                myalert("添加成功！", function(){
                 window.location.href = "/manage" + nameSpace;
             });
             else {
-                alert(result.errInfo, function(){
+                myalert(result.errInfo, function(){
                     window.location.reload();
                 });
             }

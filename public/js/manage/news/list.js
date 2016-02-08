@@ -5,17 +5,17 @@
  */
 
 $(function() {
-    var nameSpace = "/product";
+    var nameSpace = "/news";
 
     var table = $('#productList').DataTable({
         "ajax": {
-            "url": nameSpace + "/getProduct",
+            "url": nameSpace + "/getNews",
             "data": {
                 start: 0,
                 limit: 10000
             },
             "type": "post",
-            "dataSrc": "products"
+            "dataSrc": "news"
         },
         "autoWidth": false,
         "info": false,
@@ -24,13 +24,10 @@ $(function() {
             "bSortable": false // 禁止某一列排序
         }, {
             "width": "30px"
+        },{
+            "data": "title"
         }, {
-            "data": "name",
-            "width": "200px"
-        }, {
-            "data": "introduction"
-        }, {
-            "data": "date",
+            "data": "createDate",
             "width": "150px"
         }],
         "columnDefs": [{
@@ -49,7 +46,7 @@ $(function() {
             "targets": 2,
             "data": null,
             "render": function(data, type, full, meta) {
-                return "<a href = '/manage/product/view?id=" + full._id + "'>" + data + "</a>";
+                return "<a href = '/manage/news/view?id=" + full._id + "'>" + data + "</a>";
             }
         }],
         "oLanguage" : {
@@ -99,7 +96,7 @@ $(function() {
         selected.each(function(){
             id.push(this.id);
         });
-        var confirmCallback = function (){
+        var myconfirmCallback = function (){
             $.ajax({
                 url: nameSpace + "/delete",
                 data:{
@@ -116,7 +113,7 @@ $(function() {
                 }
             });
         };
-        myconfirm("确定删除所选数据？", confirmCallback);
+        myconfirm("确定删除所选数据？", myconfirmCallback);
     });
 
 });

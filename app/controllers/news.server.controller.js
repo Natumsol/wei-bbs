@@ -9,6 +9,9 @@ var is = require("is");
 var formatter = require("../../tools/formatDate.js").format;
 var chalk = require("chalk");
 var moment = require("moment");
+var async = require("async");
+var fs = require("fs-extra");
+var path = require("path");
 function add(req, res, next) {
     var news = new News(req.body);
     //news.author = req.session.user
@@ -20,14 +23,29 @@ function add(req, res, next) {
             });
         }
         else {
+            if(news.sliderImg) {
+                var oriFile = "public/uploads/temp/" + path.parse(news.sliderImg).base;
+                var targetFile = "public/uploads/images/" + path.parse(news.sliderImg).base;
+                fs.move(oriFile, targetFile, function(err) {
+                    if (err) return console.error(err)
+                    console.log(oriFile + " move success!");
+                });
+            }
             res.json({status: 1, id: news._id});
         }
     });
 }
 
 function remove(req, res, next){
-    var id = req.body.id;
-    News.findOneAndRemove({_id: id}, function(err, news){
+    var ids = req.body.id;
+    if(!is.array(ids)) {
+        ids = [ids];
+    }
+    async.each(ids, function(id, callback){
+        News.findOneAndRemove({_id: id}, function(err, news){
+            callback(err, news);
+        });
+    }, function(err){
         if (err) {
             res.json({
                 errInfo: err.message,
@@ -78,7 +96,7 @@ function getNews(req, res, next) {
                 return value.toObject();
             });
             for(var i = 0; i < news.length; i ++) {
-                news[i].createDate = moment(news[i].createDate).format("YYYY-MM-DD");
+                news[i].createDate = moment(news[i].createDate).format("YYYY-MM-DD ");
             }
             res.json({news: news});
         });  //  分页查询

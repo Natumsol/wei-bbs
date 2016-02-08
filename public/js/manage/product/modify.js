@@ -19,11 +19,11 @@ $(function(){
         var product = $("#addProduct").serialize()
         $.post(nameSpace + "/modify", product, function(result){
             if(result.status == 1)
-                alert("修改成功！", function(){
+                myalert("修改成功！", function(){
                 window.location.href = "/manage" + nameSpace;
             });
             else {
-                alert(result.errInfo, function(){
+                myalert(result.errInfo, function(){
                     window.location.reload();
                 });
             }

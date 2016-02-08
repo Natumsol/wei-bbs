@@ -86,17 +86,42 @@ module.exports = function (app) {
         });
 
     });
+    var cpUpload = upload.fields([{ name: 'myImage', maxCount: 1 }, { name: 'upload', maxCount: 1 }])
+    app.post("/upload", cpUpload, function(req, res, next){
+        if(req.files['myImage']) {
+            var file = req.files['myImage'][0];
+            var result;
+            if(file) {
+                result = "/uploads/images/" + file.filename;
+            } else {
+                result = 'error|save error';
+            }
+            res.setHeader('Content-type','text/html');
+            res.send(result);
+        } else if(req.files['upload']) {
+            var file = req.files['upload'][0];
+            var result;
+            if(file) {
+                var url = "/uploads/images/" + file.filename;
+                result = "<span style='font-size: 12px'>图片地址为: <a href='" + url + "'>" + url + "</a></span>";
+            } else {
+                result = 'error|save error';
+            }
+            var oriFile = "public/uploads/temp/" + file.filename;
+            var targetFile = "public/uploads/images/" + file.filename;
+            fs.move(oriFile, targetFile, function (err) {
+                if (err) {
+                    return console.error(err)
+                } else{
+                    res.setHeader('Content-type','text/html');
+                    res.send(result);
+                }
+            });
 
-    app.post("/upload", upload.single('myImage'), function(req, res){
-        var file = req.file;
-        var result;
-        if(file) {
-            result = "/uploads/images/" + file.filename;
         } else {
-            result = 'error|save error';
+            next();
         }
-        res.setHeader('Content-type','text/html');
-        res.send(result);
+
     });
 
     app.get("/upload", function(req, res){

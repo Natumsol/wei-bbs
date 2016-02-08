@@ -13,9 +13,9 @@ $(function(){
                window.location.href = "/manage/product";
            };
             if(result.status == 1) {
-                alert("删除成功！！",toList);
+                myalert("删除成功！！",toList);
             } else {
-                alert(result.errInfo, toList);
+                myalert(result.errInfo, toList);
             }
        });
    });

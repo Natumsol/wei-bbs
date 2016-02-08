@@ -4,12 +4,15 @@
  *@date: 2/7 0007
  */
 var product = require("../controllers/product.server.controller.js");
+var news = require("../controllers/news.server.controller.js");
 var moment = require("moment");
 module.exports = function (app) {
     var nameSpace = "/manage"
     app.get(nameSpace, function(req, res){
         res.render("manage/index");
     });
+
+    /** product **/
     app.get(nameSpace + "/product", function(req, res){
         res.render("manage/product/list");
     });
@@ -59,4 +62,57 @@ module.exports = function (app) {
             }
         })
     });
+
+    /** news **/
+
+    app.get(nameSpace + "/news", function(req, res){
+        res.render("manage/news/list");
+    });
+    app.get(nameSpace + "/news/add", function(req, res){
+        res.render("manage/news/add");
+    });
+    app.get(nameSpace + "/news/view", function(req, res, next){
+        var id = req.query.id || "";
+        news.getNewsById(id, function(err, _news){
+            if(err) res.send(err.message);
+            else if(_news) {
+                news.getPrevNews(_news, function(err, prevNews){
+                    if(err) prevNews = null;
+                    news.getNextNews(_news, function(err, nextNews){
+                        if(err) {
+                            nextNews = null;
+                            throw err;
+                        }
+                        console.log(prevNews);
+                        console.log(nextNews);
+
+                        _news = _news.toObject();
+                        _news.createDate = moment(_news.createDate).format("YYYY-MM-DD");
+                        // 格式化时间
+
+                        res.render("manage/news/view", {
+                            product:_news,
+                            prevNews: prevNews && prevNews[0],
+                            nextNews: nextNews && nextNews[0],
+                            user: req.session.user
+                        });
+                    });
+                });
+            } else {
+                next();
+            }
+
+        });
+    });
+    app.get(nameSpace + "/news/modify", function(req, res, next){
+        var id = req.query.id || "";
+        news.getNewsById(id, function(err, news){
+            if(news) {
+                res.render("manage/news/modify", {news: news});
+            } else {
+                next();
+            }
+        })
+    });
+
 };
