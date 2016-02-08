@@ -26,7 +26,7 @@ module.exports = function (app) {
         var id = req.query.id || "";
         product.getProductById(id, function(err, _product){
             if(err) res.send(err.message);
-            else if(product) {
+            else if(_product) {
                 product.getPrevProduct(_product, function(err, prevProduct){
                     if(err) prevProduct = null;
                     product.getNextProduct(_product, function(err, nextProduct){
@@ -58,7 +58,7 @@ module.exports = function (app) {
     });
 
     app.get(nameSpace + "/add", weixinAuth.isAdmin, function(req, res, next){
-        res.render("addProduct", {
+        res.render("manage/add", {
             user: req.session.user
         });
 

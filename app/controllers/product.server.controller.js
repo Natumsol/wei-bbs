@@ -8,6 +8,9 @@ var Product = mongoose.model("Product");
 var is = require("is");
 var formatter = require("../../tools/formatDate.js").format;
 var moment = require("moment");
+var async = require("async");
+var fs = require("fs-extra");
+var path = require("path");
 function add(req, res, next) {
     var product = new Product(req.body);
     //product.author = req.session.user
@@ -19,14 +22,29 @@ function add(req, res, next) {
             });
         }
         else {
-            res.json({status: 1, id: product._id});
+            if(product.image_url) {
+                var oriFile = "public/uploads/temp/" + path.parse(product.image_url).base;
+                var targetFile = "public/uploads/images/" + path.parse(product.image_url).base;
+                fs.move(oriFile, targetFile, function(err) {
+                    if (err) return console.error(err)
+                    console.log(oriFile + " move success!");
+                });
+                res.json({status: 1, id: product._id});
+            }
         }
     });
 }
 
 function remove(req, res, next){
-    var id = req.body.id;
-    Product.findOneAndRemove({_id: id}, function(err, product){
+    var ids = req.body.id;
+    if(!is.array(ids)) {
+        ids = [ids];
+    }
+    async.each(ids, function(id, callback){
+        Product.findOneAndRemove({_id: id}, function(err, product){
+            callback(err, product);
+        });
+    }, function(err){
         if (err) {
             res.json({
                 errInfo: err.message,
@@ -54,6 +72,14 @@ function modify(req, res, next){
                 status: 0
             })
         } else {
+            if(product.image_url) {
+                var oriFile = "public/uploads/temp/" + path.parse(product.image_url).base;
+                var targetFile = "public/uploads/images/" + path.parse(product.image_url).base;
+                fs.move(oriFile, targetFile, function (err) {
+                    if (err) return console.error(err)
+                    console.log(oriFile + " move success!");
+                });
+            }
             res.json({
                 status: 1,
                 id: product._id
@@ -72,8 +98,17 @@ function getProduct(req, res, next) {
         })
     }
     else {
-        Product.find().skip(start).sort({createDate: -1}).limit(limit).exec(function (err, product) {
-            res.json({products: product});
+        Product.find().skip(start).sort({createDate: -1}).limit(limit).exec(function (err, products) {
+            products = products.map(function(value){
+                return value.toObject();
+            });
+
+            for(var i = 0; i < products.length; i ++) {
+                products[i].introduction = products[i].introduction.length > 50 ?
+                products[i].introduction.substr(0, 50) + "..." :  products[i].introduction;
+                products[i].date = moment(products[i].date).format("YYYY-MM-DD HH:mm:ss");
+            }
+            res.json({products: products});
         });  //  分页查询
     }
 }
