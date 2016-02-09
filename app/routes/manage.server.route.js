@@ -91,7 +91,7 @@ module.exports = function (app) {
                         // 格式化时间
 
                         res.render("manage/news/view", {
-                            product:_news,
+                            news:_news,
                             prevNews: prevNews && prevNews[0],
                             nextNews: nextNews && nextNews[0],
                             user: req.session.user

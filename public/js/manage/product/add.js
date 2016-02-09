@@ -21,7 +21,7 @@ $(function(){
             }
             if(result.status == 1)
                 myalert("添加成功！", function(){
-                window.location.href = "/manage" + nameSpace;
+                window.location.href = "/manage" + nameSpace + "/view?id=" + result.id;
             });
             else {
                 myalert(result.errInfo, function(){

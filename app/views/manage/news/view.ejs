@@ -162,12 +162,12 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                产品管理
+                资讯管理
                 <small>查看</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
-                <li class="active">产品管理</li>
+                <li class="active">资讯管理</li>
             </ol>
         </section>
 
@@ -176,38 +176,29 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box box-primary">
-                        <div class="box-header">
-                            <h3 class="box-title">产品查看</h3>
-                        </div><!-- /.box-header -->
                         <div class="box-body">
-                            <div class="btn-group pull-right" style="margin-bottom: 10px">
-                                <a class="btn btn-default" href="/manage/product/add">添加</a>
-                                <a class="btn btn-default" href="/manage/product/modify?id=<%= product._id%>" id="modify">修改</a>
-                                <button class="btn btn-default" id="delete" data-id="<%= product._id%>">删除</button>
-                                <%if(prevProduct) {%>
-                                <a class="btn btn-default" href="/manage/product/view?id=<%= prevProduct._id %>">上一条</a>
+                            <div class="btn-group pull-right">
+                                <a class="btn btn-default" href="/manage/news/add" data-toggle="tooltip" title="添加"><i class="fa fa-plus-circle"></i></a>
+                                <a class="btn btn-default" href="/manage/news/modify?id=<%= news._id%>" id="modify" data-toggle="tooltip" title="修改"><i class="fa fa-edit"></i></a>
+                                <button class="btn btn-default" id="delete" data-id="<%= news._id%>" data-toggle="tooltip" title="删除"><i class="fa fa-trash-o"></i></button>
+                                <%if(prevNews) {%>
+                                <a class="btn btn-default" href="/manage/news/view?id=<%= prevNews._id %>" data-toggle="tooltip" title="上一条"><i class="fa fa-backward"></i></a>
                                 <%} %>
-                                <%if(nextProduct) {%>
-                                <a class="btn btn-default" href="/manage/product/view?id=<%= nextProduct._id %>">下一条</a>
+                                <%if(nextNews) {%>
+                                <a class="btn btn-default" href="/manage/news/view?id=<%= nextNews._id %>" data-toggle="tooltip" title="上一条"><i class="fa fa-forward"></i></a>
+
                                 <%} %>
-                                <a class="btn btn-default" href="/manage/product/">返回</a>
+                                <a class="btn btn-default" href="/manage/news/" data-toggle="tooltip" title="返回"> <i class="fa fa-reply"></i></a>
                             </div>
                             <div class="clearfix"></div>
-                           <table class="table table-bordered table-hover">
-                               <tr>
-                                   <td class="text-light-blue" width="100"><strong>产品名称</strong></td>
-                                   <td><%= product.name%></td>
-                               </tr>
-                               <tr>
-                                   <td class="text-light-blue"><strong>产品简介</strong></td>
-                                   <td><%= product.introduction%></td>
-                               </tr>
-                               <tr>
-                                   <td class="text-light-blue"><strong>产品图片</strong></td>
-                                   <td><img src="<%= product.image_url%>" alt="" style="max-height: 300px;"/></td>
-                               </tr>
-                           </table>
-                        </div><!-- /.box-body -->
+                            <div class="mailbox-read-info">
+                                <h2><strong><%= news.title%></strong></h2>
+                                <h5 class="text-muted"><i class="fa fa-user"> 管理员</i> <i class="fa fa-calendar"> <%= news.createDate%></i></h5>
+                            </div><!-- /.mailbox-read-info -->
+                            <div class="mailbox-read-message">
+                                <%- news.content%>
+                            </div><!-- /.mailbox-read-message -->
+                        </div>
                     </div><!-- /.box -->
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -240,6 +231,6 @@
 <!--util-->
 <script src="/js/manage/util.js"></script>
 <script src="/js/manage/upload.js"></script>
-<script src="/js/manage/product/view.js"></script>
+<script src="/js/manage/news/view.js"></script>
 </body>
 </html>

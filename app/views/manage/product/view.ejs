@@ -176,21 +176,19 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box box-primary">
-                        <div class="box-header">
-                            <h3 class="box-title">产品查看</h3>
-                        </div><!-- /.box-header -->
                         <div class="box-body">
                             <div class="btn-group pull-right" style="margin-bottom: 10px">
-                                <a class="btn btn-default" href="/manage/product/add">添加</a>
-                                <a class="btn btn-default" href="/manage/product/modify?id=<%= product._id%>" id="modify">修改</a>
-                                <button class="btn btn-default" id="delete" data-id="<%= product._id%>">删除</button>
+                                <a class="btn btn-default" href="/manage/product/add" data-toggle="tooltip" title="添加"><i class="fa fa-plus-circle"></i></a>
+                                <a class="btn btn-default" href="/manage/product/modify?id=<%= product._id%>" id="modify" data-toggle="tooltip" title="修改"><i class="fa fa-edit"></i></a>
+                                <button class="btn btn-default" id="delete" data-id="<%= product._id%>" data-toggle="tooltip" title="删除"><i class="fa fa-trash-o"></i></button>
                                 <%if(prevProduct) {%>
-                                <a class="btn btn-default" href="/manage/product/view?id=<%= prevProduct._id %>">上一条</a>
+                                <a class="btn btn-default" href="/manage/product/view?id=<%= prevProduct._id %>" data-toggle="tooltip" title="上一条"><i class="fa fa-backward"></i></a>
                                 <%} %>
                                 <%if(nextProduct) {%>
-                                <a class="btn btn-default" href="/manage/product/view?id=<%= nextProduct._id %>">下一条</a>
+                                <a class="btn btn-default" href="/manage/product/view?id=<%= nextProduct._id %>" data-toggle="tooltip" title="上一条"><i class="fa fa-forward"></i></a>
+
                                 <%} %>
-                                <a class="btn btn-default" href="/manage/product/">返回</a>
+                                <a class="btn btn-default" href="/manage/product/" data-toggle="tooltip" title="返回"> <i class="fa fa-reply"></i></a>
                             </div>
                             <div class="clearfix"></div>
                            <table class="table table-bordered table-hover">

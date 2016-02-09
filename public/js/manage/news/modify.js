@@ -29,7 +29,7 @@ $(function(){
         $.post(nameSpace + "/modify", $("#addNews").serialize(), function(result){
             if(result.status == 1) {
                 myalert("修改成功！！", function(){
-                    location.href = "/manage" + nameSpace;
+                    window.location.href = "/manage" + nameSpace + "/view?id=" + $("input[name='id']").val();
                 });
             } else {
                 myalert(result.errInfo, function(){
