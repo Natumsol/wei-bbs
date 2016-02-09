@@ -5,6 +5,8 @@
  */
 var product = require("../controllers/product.server.controller.js");
 var news = require("../controllers/news.server.controller.js");
+var article = require("../controllers/article.server.controller.js");
+var about = require("../controllers/about.server.controller.js");
 var moment = require("moment");
 module.exports = function (app) {
     var nameSpace = "/manage"
@@ -113,6 +115,78 @@ module.exports = function (app) {
                 next();
             }
         })
+    });
+
+    /** bbs **/
+    app.get(nameSpace + "/bbs", function(req, res){
+        res.render("manage/bbs/list");
+    });
+    app.get(nameSpace + "/bbs/add", function(req, res){
+        res.render("manage/bbs/add");
+    });
+    app.get(nameSpace + "/bbs/view", function(req, res, next){
+        var id = req.query.id || "";
+        article.getArticleById(id, function(err, _article){
+            if(err) res.send(err.message);
+            else if(_article) {
+                article.getPrevArticle(_article, function(err, prevArticle){
+                    if(err) prevArticle = null;
+                    article.getNextArticle(_article, function(err, nextArticle){
+                        if(err) {
+                            nextArticle = null;
+                            throw err;
+                        }
+                        console.log(prevArticle);
+                        console.log(nextArticle);
+
+                        _article = _article.toObject();
+                        _article.createDate = moment(_article.createDate).format("YYYY-MM-DD");
+                        // 格式化时间
+
+                        res.render("manage/bbs/view", {
+                            article:_article,
+                            prevArticle: prevArticle && prevArticle[0],
+                            nextArticle: nextArticle && nextArticle[0],
+                            user: req.session.user
+                        });
+                    });
+                });
+            } else {
+                next();
+            }
+
+        });
+    });
+    app.get(nameSpace + "/bbs/modify", function(req, res, next){
+        var id = req.query.id || "";
+        article.getArticleById(id, function(err, article){
+            if(article) {
+                res.render("manage/bbs/modify", {article: article});
+            } else {
+                next();
+            }
+        })
+    });
+
+    /** about **/
+    app.get(nameSpace + "/about", function(req, res, next){
+        about.getAbout(function(err, about) {
+            if (about) {
+                res.render("manage/about/view", {about: about});
+            } else {
+                next();
+            }
+        });
+    });
+
+    app.get(nameSpace + "/about/modify", function(req, res, next){
+        about.getAbout(function(err, about) {
+            if (about) {
+                res.render("manage/about/modify", {about: about});
+            } else {
+                next();
+            }
+        });
     });
 
 };

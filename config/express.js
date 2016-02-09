@@ -13,9 +13,10 @@ module.exports = function () {
 		app.use(compress());
 	}
 	app.use(bodyParser.urlencoded({
-		extended: true
+		extended: true,
+		limit: "500kb"
 	}));
-	app.use(bodyParser.json());
+	app.use(bodyParser.json({limit: "500kb"}));
 	app.use(methodOverride());
 	app.use(session({
 		saveUninitialized: true,
@@ -35,6 +36,7 @@ module.exports = function () {
 	require("../app/routes/news.server.route.js")(app);
 	require("../app/routes/product.server.route.js")(app);
 	require("../app/routes/manage.server.route.js")(app);
+	require("../app/routes/about.server.route.js")(app);
 	app.use(express.static("./public"));
 	//The 404 Route (ALWAYS Keep this as the last route)
 	app.use(function(err, req, res, next) {

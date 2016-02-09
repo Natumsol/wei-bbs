@@ -13,6 +13,7 @@ var chalk = require("chalk");
 var formatter = require("../../tools/formatDate.js").format;
 var fs = require('fs-extra')
 var path = require("path");
+var moment = require("moment");
 /**
  *
  * @param req
@@ -85,7 +86,7 @@ function modify(req, res, next) {
  * @param id
  * @param callback
  */
-function getArticleById(id, isReverse, onlyAuthor,callback) {
+function getArticleById(id, callback) {
     var options = [{path: 'comments'}, {path: 'author'}, {path: "column"}];
     Article.findOneAndUpdate({_id: id}, {$inc:{viewCount: 1}}, function(err){
         if(err) throw(err);
@@ -99,16 +100,7 @@ function getArticleById(id, isReverse, onlyAuthor,callback) {
             model: "User"
         }], function (err, article) {
             if (err) callback(err);
-            var _article;
-            if(article) {
-                 _article = article.toObject();
-                _article.createDate = formatter(_article.createDate);
-                _article.modifyDate = formatter(_article.modifyDate);
-                for(var i = 0; i < _article.comments.length; i ++) {
-                    _article.comments[i].date = formatter( _article.comments[i].date);
-                }
-            } // 格式化时间
-            callback(null, _article);
+            callback(null, article);
         });
     });
 
@@ -137,8 +129,12 @@ function getArticles(req, res, next) {
                 model: "User",
                 select: 'nickname headimgurl'
             }], function (err, articles) {
+                articles = articles.map(function(value){
+                    return value.toObject();
+                });
                 for(var i = 0; i < articles.length; i ++) {
                     articles[i].content = articles[i].content.substr(0, 400) + "...";
+                    articles[i].createDate = moment(articles[i].createDate).format("YYYY-MM-DD HH:mm:ss");
                 }
                 res.json({articles: articles});
             });
@@ -262,6 +258,16 @@ function like(req, res, next) {
     });
 }
 
+function getNextArticle(article, callback){
+    Article.find({createDate:{$gt: article.createDate}}).sort({createDate: 1}).limit(1).exec(function(err, article){
+        callback(err, article);
+    });
+}
+function getPrevArticle(article, callback){
+    Article.find({createDate:{$lt: article.createDate}}).sort({createDate: -1}).limit(1).exec(function(err, article){
+        callback(err, article);
+    });
+}
 module.exports = {
     add: add,
     modify: modify,
@@ -270,5 +276,7 @@ module.exports = {
     addComment: addComment,
     deleteComment: deleteComment,
     like: like,
-    getArticles:getArticles
+    getArticles:getArticles,
+    getPrevArticle: getPrevArticle,
+    getNextArticle: getNextArticle
 };
