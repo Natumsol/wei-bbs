@@ -8,10 +8,16 @@ var news = require("../controllers/news.server.controller.js");
 var article = require("../controllers/article.server.controller.js");
 var about = require("../controllers/about.server.controller.js");
 var statistics = require("../controllers/statistics.server.controller.js");
+var user = require("../controllers/user.server.controller.js");
 var moment = require("moment");
 module.exports = function (app) {
-    var nameSpace = "/manage"
-    app.get(nameSpace, function(req, res){
+    var nameSpace = "/manage";
+    app.get(nameSpace + "/login", function(req, res){
+        res.render("manage/login",{errInfo:null});
+    });
+    app.get(nameSpace + "/logout", user.adminLogout);
+    app.post(nameSpace + "/login", user.adminLogin);
+    app.get(nameSpace, user.checkAdminLogin, function(req, res){
         statistics.getIndexInfo(function(err, result){
             res.render("manage/index",{
                 err: err,
@@ -21,13 +27,13 @@ module.exports = function (app) {
     });
 
     /** product **/
-    app.get(nameSpace + "/product", function(req, res){
+    app.get(nameSpace + "/product", user.checkAdminLogin, function(req, res){
         res.render("manage/product/list");
     });
-    app.get(nameSpace + "/product/add", function(req, res){
+    app.get(nameSpace + "/product/add", user.checkAdminLogin, function(req, res){
         res.render("manage/product/add");
     });
-    app.get(nameSpace + "/product/view", function(req, res, next){
+    app.get(nameSpace + "/product/view", user.checkAdminLogin, function(req, res, next){
         var id = req.query.id || "";
         product.getProductById(id, function(err, _product){
             if(err) res.send(err.message);
@@ -60,7 +66,7 @@ module.exports = function (app) {
 
         });
     });
-    app.get(nameSpace + "/product/modify", function(req, res, next){
+    app.get(nameSpace + "/product/modify", user.checkAdminLogin, function(req, res, next){
         var id = req.query.id || "";
         product.getProductById(id, function(err, product){
             if(product) {
@@ -73,13 +79,13 @@ module.exports = function (app) {
 
     /** news **/
 
-    app.get(nameSpace + "/news", function(req, res){
+    app.get(nameSpace + "/news", user.checkAdminLogin, function(req, res){
         res.render("manage/news/list");
     });
-    app.get(nameSpace + "/news/add", function(req, res){
+    app.get(nameSpace + "/news/add", user.checkAdminLogin, function(req, res){
         res.render("manage/news/add");
     });
-    app.get(nameSpace + "/news/view", function(req, res, next){
+    app.get(nameSpace + "/news/view", user.checkAdminLogin, function(req, res, next){
         var id = req.query.id || "";
         news.getNewsById(id, function(err, _news){
             if(err) res.send(err.message);
@@ -112,7 +118,7 @@ module.exports = function (app) {
 
         });
     });
-    app.get(nameSpace + "/news/modify", function(req, res, next){
+    app.get(nameSpace + "/news/modify", user.checkAdminLogin, function(req, res, next){
         var id = req.query.id || "";
         news.getNewsById(id, function(err, news){
             if(news) {
@@ -124,13 +130,13 @@ module.exports = function (app) {
     });
 
     /** bbs **/
-    app.get(nameSpace + "/bbs", function(req, res){
+    app.get(nameSpace + "/bbs", user.checkAdminLogin, function(req, res){
         res.render("manage/bbs/list");
     });
-    app.get(nameSpace + "/bbs/add", function(req, res){
+    app.get(nameSpace + "/bbs/add", user.checkAdminLogin, function(req, res){
         res.render("manage/bbs/add");
     });
-    app.get(nameSpace + "/bbs/view", function(req, res, next){
+    app.get(nameSpace + "/bbs/view", user.checkAdminLogin, function(req, res, next){
         var id = req.query.id || "";
         article.getArticleById(id, function(err, _article){
             if(err) res.send(err.message);
@@ -163,7 +169,7 @@ module.exports = function (app) {
 
         });
     });
-    app.get(nameSpace + "/bbs/modify", function(req, res, next){
+    app.get(nameSpace + "/bbs/modify", user.checkAdminLogin, function(req, res, next){
         var id = req.query.id || "";
         article.getArticleById(id, function(err, article){
             if(article) {
@@ -175,7 +181,7 @@ module.exports = function (app) {
     });
 
     /** about **/
-    app.get(nameSpace + "/about", function(req, res, next){
+    app.get(nameSpace + "/about", user.checkAdminLogin, function(req, res, next){
         about.getAbout(function(err, about) {
             if (about) {
                 res.render("manage/about/view", {about: about});
@@ -185,7 +191,7 @@ module.exports = function (app) {
         });
     });
 
-    app.get(nameSpace + "/about/modify", function(req, res, next){
+    app.get(nameSpace + "/about/modify", user.checkAdminLogin, function(req, res, next){
         about.getAbout(function(err, about) {
             if (about) {
                 res.render("manage/about/modify", {about: about});

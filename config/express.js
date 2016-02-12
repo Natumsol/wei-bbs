@@ -1,6 +1,6 @@
 var config = require("./config");
 var express = require("express");
-var morgan = require("morgan");//logger
+var morgan = require("morgan"); //logger
 var compress = require("compression");
 var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
@@ -30,15 +30,19 @@ module.exports = function () {
 	app.set('view engine', 'ejs');
 	app.engine("ejs", require("ejs").renderFile);
 
-	require("../app/routes/user.server.route.js")(app);//引入路由信息
+    app.use(express.static("./public")); // 设置静态资源路径
+
+    require("../app/routes/statistics.server.route.js")(app);//引入路由信息
+	require("../app/routes/user.server.route.js")(app);
 	require("../app/routes/webchat.server.route.js")(app);
 	require("../app/routes/article.server.route.js")(app);
 	require("../app/routes/news.server.route.js")(app);
 	require("../app/routes/product.server.route.js")(app);
 	require("../app/routes/manage.server.route.js")(app);
 	require("../app/routes/about.server.route.js")(app);
-	app.use(express.static("./public"));
+
 	//The 404 Route (ALWAYS Keep this as the last route)
+
 	app.use(function(err, req, res, next) {
 		console.log(err);
 		next(err);

@@ -15,5 +15,6 @@ module.exports = function(){
 	require("../app/models/news.server.model.js");
 	require("../app/models/product.server.model.js");
 	require("../app/models/about.server.model.js");
+	require("../app/models/statistics.server.model.js");
 	return db;
 };
