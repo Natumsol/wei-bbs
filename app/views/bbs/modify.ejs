@@ -37,7 +37,7 @@
         <%- article.content %>
         </textarea>
         <div class="img-container">
-            <% for(var i in article.images){ %>
+            <% for(var i = 0; i < article.images.length; i++){ %>
             <div class="img">
                 <li class="fa fa-remove remove-img"></li>
                 <img src="<%= article.images[i]%>" alt="">

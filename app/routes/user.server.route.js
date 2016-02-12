@@ -1,5 +1,5 @@
 /**
- *@description: column router
+ *@description: user router
  *@author: LiuJ
  *@date: 2016/1/6
  */

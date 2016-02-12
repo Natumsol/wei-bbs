@@ -70,7 +70,7 @@ module.exports = function (app) {
         var id = req.query.id || "";
         var isReverse = parseInt(req.query.isReverse) || 0;
         var onlyAuthor =  parseInt(req.query.onlyAuthor) || 0;
-        article.getArticleById(id,isReverse, onlyAuthor,function(err, article){
+        article.getArticleById(id, function(err, article){
             if(err) res.send(err.message);
             else if(article) {
                 res.render("bbs/modify", {
