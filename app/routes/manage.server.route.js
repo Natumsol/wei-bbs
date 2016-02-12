@@ -7,11 +7,17 @@ var product = require("../controllers/product.server.controller.js");
 var news = require("../controllers/news.server.controller.js");
 var article = require("../controllers/article.server.controller.js");
 var about = require("../controllers/about.server.controller.js");
+var statistics = require("../controllers/statistics.server.controller.js");
 var moment = require("moment");
 module.exports = function (app) {
     var nameSpace = "/manage"
     app.get(nameSpace, function(req, res){
-        res.render("manage/index");
+        statistics.getIndexInfo(function(err, result){
+            res.render("manage/index",{
+                err: err,
+                indexInfo: result
+            })
+        })
     });
 
     /** product **/
