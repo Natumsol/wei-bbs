@@ -17,7 +17,7 @@ module.exports = function (app) {
     app.post(nameSpace + "/add", weixinAuth.isAdmin, news.add);
     app.post(nameSpace + "/modify", weixinAuth.isAdmin, news.modify);
     app.post(nameSpace + "/delete", weixinAuth.isAdmin, news.remove);
-    app.post(nameSpace + "/getNews", weixinAuth.isAdmin, news.getNews);
+    app.post(nameSpace + "/getNews", news.getNews);
     app.get(nameSpace, function(req, res, next){
 
         res.render("news/list");
@@ -78,20 +78,4 @@ module.exports = function (app) {
 
     });
 
-    /*app.post("/upload", upload.single('wangEditorMobileFile'), function(req, res){
-        var file = req.file;
-        var result;
-        if(file) {
-            result = "/uploads/images/" + file.filename;
-
-        } else {
-            result = 'error|save error';
-        }
-        res.setHeader('Content-type','text/html');
-        res.send(result);
-    });
-
-    app.get("/upload", function(req, res){
-        res.render("upload");
-    })*/
 };

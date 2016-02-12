@@ -21,10 +21,10 @@ function getAccessCode(req, res, next) {
 
     https.get(url, function (clientRes) {
         var body = [];
-        clientRes.on("data", function(data){
+        clientRes.on("data", function (data) {
             body.push(data);
         });
-        clientRes.on("end", function(){
+        clientRes.on("end", function () {
             body = JSON.parse(Buffer.concat(body));
             req.weixin.access_token = body.access_token;
             req.weixin.refresh_token = body.refresh_token;
@@ -42,24 +42,24 @@ function getUserInfo(req, res, next) {
         openid: req.weixin.openid
     };
     var url = weixinAuthConfig.getUserInfoURL + "?" + querystring.stringify(params);
-    https.get(url, function(clientRes){
+    https.get(url, function (clientRes) {
         var body = [];
-        clientRes.on("data", function(data){
+        clientRes.on("data", function (data) {
             body.push(data);
         });
-        clientRes.on("end", function(){
+        clientRes.on("end", function () {
             req.weixin.user = JSON.parse(Buffer.concat(body));
             console.log(req.weixin.user);
             User.findOne({
-                openid:req.weixin.user.openid
-            }, function(err, user){
-                if(err) res.end("登录出错！");
-                if(!user) { // 找不到，则新建用户
+                openid: req.weixin.user.openid
+            }, function (err, user) {
+                if (err) res.end("登录出错！");
+                if (!user) { // 找不到，则新建用户
                     (new User(req.weixin.user)).save(function (err, user) {
-                        if(err) throw err;
-                        else{
+                        if (err) throw err;
+                        else {
                             console.log(chalk.green("用户信息保存成功~"));
-                            req.session.regenerate(function(){
+                            req.session.regenerate(function () {
                                 req.session.user = user;
                                 next();
                             });
@@ -67,7 +67,7 @@ function getUserInfo(req, res, next) {
                         }
                     });
                 } else {
-                    req.session.regenerate(function(){
+                    req.session.regenerate(function () {
                         req.session.user = user; // 找得到，则直接登录
                         next();
                     });
@@ -79,47 +79,35 @@ function getUserInfo(req, res, next) {
     })
 }
 
-function checkAuth(req, res, next){
+function checkAuth(req, res, next) {
     req.session.user = {
-        "_id" : "569a4aada22d37007435e322",
-        "openid" : "oXlgUwkexLQQVXeCy0cIkWFiUAbE",
-        "nickname" : "小草",
-        "sex" : 2,
-        "language" : "zh_CN",
-        "city" : "Wuhan",
-        "province" : "Hubei",
-        "country" : "CN",
-        "headimgurl" : "http://wx.qlogo.cn/mmopen/ajNVdqHZLLBEib6uc6W4Q5qeJhnXvANTVPGjLjFmk6f6QjdAaZZVAQUyHvuNlGqhkoFgicxCaI50ok8luWebml8g/0",
-        "privilege" : [],
+        "_id": "569a4aada22d37007435e322",
+        "openid": "oXlgUwkexLQQVXeCy0cIkWFiUAbE",
+        "nickname": "小草",
+        "sex": 2,
+        "language": "zh_CN",
+        "city": "Wuhan",
+        "province": "Hubei",
+        "country": "CN",
+        "headimgurl": "http://wx.qlogo.cn/mmopen/ajNVdqHZLLBEib6uc6W4Q5qeJhnXvANTVPGjLjFmk6f6QjdAaZZVAQUyHvuNlGqhkoFgicxCaI50ok8luWebml8g/0",
+        "privilege": [],
         "isAdmin": true
     };
-    if(!req.session.user) {
+    if (!req.session.user) {
         res.end("请在微信打开。");
     } else {
         console.log(chalk.red("验证通过"));
         next();
     }
 }
-function logout(req, res, next){
+function logout(req, res, next) {
     delete req.session.user;
-    res.setHeader("Location","/");
+    res.setHeader("Location", "/");
     res.statusCode = 301;
     res.send("注销成功");
 }
 function isAdmin(req, res, next) {
-    req.session.user = {
-        "_id" : "569a4aada22d37007435e322",
-        "openid" : "oXlgUwkexLQQVXeCy0cIkWFiUAbE",
-        "nickname" : "小草",
-        "sex" : 2,
-        "language" : "zh_CN",
-        "city" : "Wuhan",
-        "province" : "Hubei",
-        "country" : "CN",
-        "headimgurl" : "http://wx.qlogo.cn/mmopen/ajNVdqHZLLBEib6uc6W4Q5qeJhnXvANTVPGjLjFmk6f6QjdAaZZVAQUyHvuNlGqhkoFgicxCaI50ok8luWebml8g/0",
-        "privilege" : [],
-        "isAdmin": true
-    };
+
     User.findOne({openid: req.session.user.openid}, function (err, user) {
         if (err) throw err;
         if (user.isAdmin) {
@@ -130,11 +118,58 @@ function isAdmin(req, res, next) {
     })
 }
 
+function adminLogin(req, res, next) {
+    var username = req.body.username;
+    var password = req.body.password;
+    var originUrl = req.originUrl || "/manage";
+    User.findOne({username: username}, function (err, user) {
+            if (err) send("Error!");
+            else if (user) {
+                if(user.authenticate(password))  {
+                    req.session.regenerate(function(){
+                        req.session.user = user;
+                        res.redirect(originUrl);
+                    })
+                } else {
+                    req.session.regenerate(function(){
+                        res.render("manage/login", {
+                            errInfo:"用户名或密码错误！"
+                        });
+                    })
+
+                }
+            } else {
+                req.session.regenerate(function(){
+                    res.render("manage/login", {
+                        errInfo:"用户不存在"
+                    });
+                })
+
+            }
+        }
+    );
+}
+
+function checkAdminLogin(req, res, next){
+    if(req.session.user && req.session.user.isAdmin) {
+        next();
+    } else {
+        res.redirect("/manage/login");
+    }
+}
+
+function adminLogout(req, res, next) {
+    delete req.session.user;
+    res.redirect("/manage/login");
+}
 module.exports = {
     getCode: getCode,
     getAccessCode: getAccessCode,
     getUserInfo: getUserInfo,
     checkAuth: checkAuth,
     logout: logout,
-    isAdmin: isAdmin
+    adminLogin: adminLogin,
+    isAdmin: isAdmin,
+    checkAdminLogin: checkAdminLogin,
+    adminLogout: adminLogout
 };
