@@ -10,7 +10,7 @@ module.exports = function (app) {
     var nameSpace = "/statistics";
     app.use(statistics.doStatistics);
     app.post(nameSpace + "/getVisitors", user.checkAdminLogin, statistics.getVisitors);
-    app.get(nameSpace + "/getPieData", user.checkAdminLogin, function(req, res, next){
+    app.post(nameSpace + "/getPieData", user.checkAdminLogin, function(req, res, next){
         statistics.getPieData(function(err, result){
             if(err) res.send(err.message);
             else res.json(result);

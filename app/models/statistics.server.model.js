@@ -20,10 +20,6 @@ var VisitorSchema = new Schema({
         type: String,
         default: ""
     },
-    bit: {
-        type: String,
-        default: ""
-    },
     browser: {
         type: String,
         default: ""

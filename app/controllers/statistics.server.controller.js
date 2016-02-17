@@ -15,8 +15,8 @@ var async = require("async");
 function doStatistics(req, res, next){
     if(!/\/css|js|img|plugins|uploads|font|test|view\//.test(req.url)) {
         var visitor = new Visitor(getRequestInfo.getUserInformation(req));
-        //visitor.date = new Date(moment(new Date()).format("YYYY-MM-DD"));
-        visitor.date = new Date("2016-02-" + parseInt((Math.random() * 30) % 30));
+        visitor.date = new Date(moment(new Date()).format("YYYY-MM-DD"));
+        //visitor.date = new Date("2016-02-" + parseInt((Math.random() * 30) % 30));
         visitor.save(function (err) {
             if (err) throw err;
             else {

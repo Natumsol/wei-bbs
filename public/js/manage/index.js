@@ -25,6 +25,7 @@ $(function () {
     // Get context with jQuery - using jQuery's .get() method.
 
     var init = false;
+    var pieInit = false;
     var prevLineChart;
     var areaChartOptions = {
         //Boolean - If we should show the scale at all
@@ -99,19 +100,13 @@ $(function () {
 
     }
 
-    $("#getLineData").click(function(){
-        drawLineChart();
-    });
 
-    drawLineChart();
 
 
     //-------------
     //- PIE CHART -
     //-------------
     // Get context with jQuery - using jQuery's .get() method.
-    var pieChartCanvas = $("#pieChart").get(0).getContext("2d");
-    var pieChart = new Chart(pieChartCanvas);
 
     var pieOptions = {
         //Boolean - Whether we should show a stroke on each segment
@@ -139,38 +134,63 @@ $(function () {
     };
     //Create pie or douhnut chart
     // You can switch between pie and douhnut using the method below.
+    function drawPieChart(){
+        var pieChartCanvas = $("#pieChart").get(0).getContext("2d");
+        var pieChart = new Chart(pieChartCanvas);
 
-    $.get("/statistics/getPieData", {"date":"2016-02"}, function(result){
-        var PieData = [
-            {
-                value: result[0],
-                color: "#f56954",
-                highlight: "#f56954",
-                label: "Android"
-            },
-            {
-                value: result[1],
-                color: "#00a65a",
-                highlight: "#00a65a",
-                label: "IOS"
-            },
-            {
-                value: result[2],
-                color: "#f39c12",
-                highlight: "#f39c12",
-                label: "Windows"
-            },
-            {
-                value: result[3],
-                color: "#00c0ef",
-                highlight: "#00c0ef",
-                label: "Linux"
+        var date = $(".datepicker").val() ? new Date($(".datepicker").val()) : new Date();
+        $.post("/statistics/getPieData", {"date":(date.getFullYear() + "-" + (date.getMonth() + 1))}, function(result){
+            $(".pie-chart-title .year").text(date.getFullYear());
+            $(".pie-chart-title .month").text((date.getMonth() + 1));
+            var PieData = [
+                {
+                    value: result[0],
+                    color: "#f56954",
+                    highlight: "#f56954",
+                    label: "Android"
+                },
+                {
+                    value: result[1],
+                    color: "#00a65a",
+                    highlight: "#00a65a",
+                    label: "IOS"
+                },
+                {
+                    value: result[2],
+                    color: "#f39c12",
+                    highlight: "#f39c12",
+                    label: "Windows"
+                },
+                {
+                    value: result[3],
+                    color: "#00c0ef",
+                    highlight: "#00c0ef",
+                    label: "Linux"
+                }
+            ];
+
+            $(".deviceData .info-box").each(function(index, value){
+                $(".info-box-number-custom", this).text(result[index])
+            })
+            if(!pieInit){
+                pieChart.Doughnut(PieData, pieOptions);
+                pieInit = true;
+            } else {
+                pieChart.destroy();
+                pieChart.Doughnut(PieData, pieOptions);
             }
-        ];
-        pieChart.Doughnut(PieData, pieOptions);
-        $(".deviceData .info-box").each(function(index, value){
-            $(".info-box-number-custom", this).text(result[index])
+
         })
+
+    }
+
+    $("#getLineData").click(function(){
+        drawLineChart();
+        drawPieChart();
     });
+
+    drawLineChart();
+    drawPieChart();
+
 
 });

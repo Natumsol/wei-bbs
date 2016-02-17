@@ -9,13 +9,28 @@ var UserSchema = new mongoose.Schema({
     password:String,
     username:String,
     salt: String,
-    nickname: String,
+    nickname: {
+        type:String,
+        default: null
+    },
     sex: Number,
-    language: String,
+    language: {
+        type:String,
+        default: null
+    },
     city: String,
-    provinc: String,
-    country:String,
-    headimgurl: String,
+    provinc: {
+        type:String,
+        default: null
+    },
+    country:{
+        type:String,
+        default: null
+    },
+    headimgurl: {
+        type:String,
+        default: ''
+    },
     isAdmin: {
         type: Boolean,
         default: false
@@ -26,6 +41,12 @@ var UserSchema = new mongoose.Schema({
  * save方法前进行密码哈希化
  */
 UserSchema.pre('save', function(next) {
+    if(!this.username) {
+        this.username = crypto.randomBytes(16).toString('base64');
+    }
+    if(!this.password) {
+        this.password = crypto.randomBytes(16).toString('base64');
+    }
     if (this.password && this.password.length > 6) {
         this.salt = new Buffer(crypto.randomBytes(16).toString('base64'), 'base64');
         this.password = this.hashPassword(this.password);
