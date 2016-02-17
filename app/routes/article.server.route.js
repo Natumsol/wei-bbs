@@ -10,11 +10,12 @@ var crypto = require('crypto');
 var mime = require("mime");
 var fs = require('fs-extra');
 var path = require("path");
+var config = require("../../config/config");
 
 /** 上传配置信息 **/
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        var dir = "public/uploads/temp/";
+        var dir = config.statics + "/uploads/temp/";
         fs.ensureDir(dir, function (err) {
            if(err) throw err;
            else cb(null, dir);

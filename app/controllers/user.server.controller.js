@@ -80,7 +80,7 @@ function getUserInfo(req, res, next) {
 }
 
 function checkAuth(req, res, next) {
-    req.session.user = {
+    /*req.session.user = {
         "_id" : "569e2f7bb0b028ac1261fdcf",
         "openid" : "oXlgUwu85jlX0lLPRA3vDBSYEVhw",
         "nickname" : "文刀十口",
@@ -92,7 +92,7 @@ function checkAuth(req, res, next) {
         "privileg" : [],
         "isAdmin" : false,
         "__v" : 0
-    };
+    };*/
     if (!req.session.user) {
         res.setHeader("Content-Type","text/html;charset=utf-8");
         res.send("<h1>请在微信打开。</h1>");

@@ -12,6 +12,8 @@ var moment = require("moment");
 var async = require("async");
 var fs = require("fs-extra");
 var path = require("path");
+var config = require("../../config/config");
+
 function add(req, res, next) {
     var news = new News(req.body);
     //news.author = req.session.user
@@ -24,8 +26,8 @@ function add(req, res, next) {
         }
         else {
             if(news.sliderImg) {
-                var oriFile = "public/uploads/temp/" + path.parse(news.sliderImg).base;
-                var targetFile = "public/uploads/images/" + path.parse(news.sliderImg).base;
+                var oriFile = config.statics + "/uploads/temp/" + path.parse(news.sliderImg).base;
+                var targetFile = config.statics + "/uploads/images/" + path.parse(news.sliderImg).base;
                 fs.move(oriFile, targetFile, function(err) {
                     if (err) return console.error(err)
                     console.log(oriFile + " move success!");
@@ -74,8 +76,8 @@ function modify(req, res, next){
             })
         } else {
             if(news.sliderImg) {
-                var oriFile = "public/uploads/temp/" + path.parse(news.sliderImg).base;
-                var targetFile = "public/uploads/images/" + path.parse(news.sliderImg).base;
+                var oriFile = config.statics + "/uploads/temp/" + path.parse(news.sliderImg).base;
+                var targetFile = config.statics + "/uploads/images/" + path.parse(news.sliderImg).base;
                 fs.move(oriFile, targetFile, function(err) {
                     if (err) return console.error(err)
                     console.log(oriFile + " move success!");

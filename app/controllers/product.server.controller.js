@@ -11,6 +11,8 @@ var moment = require("moment");
 var async = require("async");
 var fs = require("fs-extra");
 var path = require("path");
+var config = require("../../config/config");
+
 function add(req, res, next) {
     var product = new Product(req.body);
     //product.author = req.session.user
@@ -23,8 +25,8 @@ function add(req, res, next) {
         }
         else {
             if(product.image_url) {
-                var oriFile = "public/uploads/temp/" + path.parse(product.image_url).base;
-                var targetFile = "public/uploads/images/" + path.parse(product.image_url).base;
+                var oriFile = config.statics + "/uploads/temp/" + path.parse(product.image_url).base;
+                var targetFile = config.statics + "/uploads/images/" + path.parse(product.image_url).base;
                 fs.move(oriFile, targetFile, function(err) {
                     if (err) return console.error(err)
                     console.log(oriFile + " move success!");
@@ -73,8 +75,8 @@ function modify(req, res, next){
             })
         } else {
             if(product.image_url) {
-                var oriFile = "public/uploads/temp/" + path.parse(product.image_url).base;
-                var targetFile = "public/uploads/images/" + path.parse(product.image_url).base;
+                var oriFile = config.statics + "/uploads/temp/" + path.parse(product.image_url).base;
+                var targetFile = config.statics + "/uploads/images/" + path.parse(product.image_url).base;
                 fs.move(oriFile, targetFile, function (err) {
                     if (err) return console.error(err)
                     console.log(oriFile + " move success!");

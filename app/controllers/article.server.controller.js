@@ -14,6 +14,8 @@ var formatter = require("../../tools/formatDate.js").format;
 var fs = require('fs-extra')
 var path = require("path");
 var moment = require("moment");
+var config = require("../../config/config");
+
 /**
  *
  * @param req
@@ -32,8 +34,8 @@ function add(req, res, next) {
         }
         else {
             for(var i = 0; i < article.images.length; i ++) {
-                var oriFile = "public/uploads/temp/" + path.parse(article.images[i]).base;
-                var targetFile = "public/uploads/images/" + path.parse(article.images[i]).base;
+                var oriFile = config.statics + "/uploads/temp/" + path.parse(article.images[i]).base;
+                var targetFile = config.statics + "/uploads/images/" + path.parse(article.images[i]).base;
                 fs.move(oriFile, targetFile, function(err) {
                     if (err) return console.error(err)
                     console.log(oriFile + " move success!");
@@ -66,8 +68,8 @@ function modify(req, res, next) {
             })
         } else {
             for(var i = 0; i < article.images.length; i ++) {
-                var oriFile = "public/uploads/temp/" + path.parse(article.images[i]).base;
-                var targetFile = "public/uploads/images/" + path.parse(article.images[i]).base;
+                var oriFile = config.statics + "/uploads/temp/" + path.parse(article.images[i]).base;
+                var targetFile = config.statics + "/uploads/images/" + path.parse(article.images[i]).base;
                 fs.move(oriFile, targetFile, function(err) {
                     if (err) return console.error(err)
                     console.log(oriFile + " move success!");
