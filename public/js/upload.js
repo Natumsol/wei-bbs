@@ -38,8 +38,8 @@ define(['zepto', "zepto-touch"], function($){
                     imgContainer.prependTo($(self.container));
 
                 } else {
-                    console.log("不支持预览。。");
-                    //    TODO
+                    img.appendTo(imgContainer);
+                    imgContainer.prependTo($(self.container));
                 }
                 xhr = new XMLHttpRequest();
                 formData = new FormData();
@@ -73,6 +73,9 @@ define(['zepto', "zepto-touch"], function($){
                     } else {
                         // 返回正确的图片地址
                         imgContainer.css("opacity","1");
+                        if(!img.attr("src")) {
+                            img.attr("src", resultSrc.replace("images", "temp"));
+                        }
                         $(".img-loading",imgContainer).hide();
                         $("<input name='images' type='hidden'/>").val(resultSrc).appendTo(imgContainer);
                     }

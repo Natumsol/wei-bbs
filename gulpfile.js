@@ -14,6 +14,7 @@ gulp.task('copy', function(){
 
     return merge(tasks);
 });
+
 gulp.task('js', function () {
     gulp.src(['public/js/**/*.js','public/js/**/*.min.js'])
         .pipe(uglify().on('error', gutil.log)) // notice the error event here
