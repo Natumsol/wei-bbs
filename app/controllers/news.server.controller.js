@@ -64,7 +64,8 @@ function modify(req, res, next){
     News.findOneAndUpdate({_id: id}, {
         title: news.title,
         content: news.content,
-        modifyDate: news.modifyDate
+        modifyDate: news.modifyDate,
+        sliderImg: news.sliderImg
     }, function (err, news) {
         if (err) {
             res.json({
@@ -72,6 +73,14 @@ function modify(req, res, next){
                 status: 0
             })
         } else {
+            if(news.sliderImg) {
+                var oriFile = "public/uploads/temp/" + path.parse(news.sliderImg).base;
+                var targetFile = "public/uploads/images/" + path.parse(news.sliderImg).base;
+                fs.move(oriFile, targetFile, function(err) {
+                    if (err) return console.error(err)
+                    console.log(oriFile + " move success!");
+                });
+            }
             res.json({
                 status: 1,
                 id: news._id
