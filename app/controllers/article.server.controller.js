@@ -100,7 +100,16 @@ function getArticleById(id, callback) {
             model: "User"
         }], function (err, article) {
             if (err) callback(err);
-            callback(null, article);
+            else {
+                if(article){
+                    article = article.toObject();
+                    article.createDate = moment(article.createDate).format("YYYY-MM-DD HH:mm:ss");
+                    for(var i = 0 ; i < article.comments.length; i ++) {
+                        article.comments[i].date =  moment(article.comments[i].date).format("YYYY-MM-DD HH:mm:ss");
+                    }
+                }
+                callback(null, article);
+            }
         });
     });
 

@@ -15,5 +15,9 @@ node_modules
 # upload dir
 /public/uploads
 
+
 # env
 /config/env
+
+#bulid files
+/statics

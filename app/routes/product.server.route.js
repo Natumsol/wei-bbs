@@ -17,8 +17,8 @@ module.exports = function (app) {
     app.post(nameSpace + "/add", weixinAuth.isAdmin, product.add);
     app.post(nameSpace + "/modify", weixinAuth.isAdmin, product.modify);
     app.post(nameSpace + "/delete", weixinAuth.isAdmin, product.remove);
-    app.post(nameSpace + "/getProduct", weixinAuth.isAdmin, product.getProduct);
-    app.get(nameSpace, function(req, res, next){
+    app.post(nameSpace + "/getProduct", product.getProduct);
+    app.get(nameSpace,function(req, res, nextS){
         res.render("product/list");
     });
 

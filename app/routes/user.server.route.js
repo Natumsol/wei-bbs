@@ -13,7 +13,7 @@ module.exports = function(app){
     app.get("/weixin/auth", weixinAuth.getCode, weixinAuth.getAccessCode, weixinAuth.getUserInfo, function(req, res){
         res.redirect("/");
     });
-    app.get("/",weixinAuth.checkAuth, function(req, res, next){
+    app.get("/", function(req, res, next){
 
         news.getSliderNews(function(err, sliderNews){
             if(err) {
@@ -24,7 +24,6 @@ module.exports = function(app){
                 product.getIndexProduct(function(err, products){
                     if(err) products = [];
                     res.render("index", {
-                        user: req.session.user,
                         sliderNews: sliderNews,
                         news: news,
                         products: products
