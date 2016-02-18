@@ -72,8 +72,8 @@ $(function () {
         var areaChart = new Chart(areaChartCanvas);
         var date = $(".datepicker").val() ? new Date($(".datepicker").val()) : new Date();
         $.post("/statistics/getVisitors", {"date":(date.getFullYear() + "-" + (date.getMonth() + 1))}, function(result){
-            $(".line-chart-title .year").text(date.getFullYear());
-            $(".line-chart-title .month").text((date.getMonth() + 1));
+            $(".line-chart-title.year").text(date.getFullYear());
+            $(".line-chart-title.month").text((date.getMonth() + 1));
                                                                                                 var areaChartData = {
                 labels: result.label,
                 datasets: [
