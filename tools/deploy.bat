@@ -1,1 +1,0 @@
-ngrok -config=ngrok.cfg -subdomain natumsol 80
