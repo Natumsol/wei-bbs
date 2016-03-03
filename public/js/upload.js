@@ -9,8 +9,13 @@ define(['zepto', "zepto-touch"], function($){
         this.timeout = options.timeout || 10000;
         this.fileId = options.fileId || "file";
         this.container = options.container || "body";
+        this.imgTemplate = '<li class="weui_uploader_file weui_uploader_status"> <span class="remove-img weui_icon_clear"></span>'
+                                +'<div class="weui_uploader_status_content"></div>'
+                         + '</li>';
     }
-
+    function isInteger(obj) {
+        return typeof obj === 'number' && obj % 1 === 0
+    }
     UploadImg.prototype.init = function() {
         var self = this;
         $("body").on("tap",".remove-img", function(){
@@ -28,33 +33,36 @@ define(['zepto', "zepto-touch"], function($){
                     formData,
                     timeout = self.timeout,
                     imgSrc;
-                var imgContainer = $("<div class='img' style='opacity:0.2;'><li class='fa fa-remove remove-img'></li><span class='img-loading'>上传中..</span></div>")
-                var img = $("<img />");
+                var img = $(self.imgTemplate).clone();
                 // ---------- 显示预览 ----------
                 if (window.URL && window.URL.createObjectURL) {
                     imgSrc = window.URL.createObjectURL(file);
-                    img.attr("src", imgSrc);
-                    img.appendTo(imgContainer);
-                    imgContainer.prependTo($(self.container));
+                    img.css("background", "url(" + imgSrc + ")");
+                    img.prependTo($(self.container));
 
                 } else {
-                    img.appendTo(imgContainer);
-                    imgContainer.prependTo($(self.container));
+                    img.prependTo($(self.container));
                 }
                 xhr = new XMLHttpRequest();
                 formData = new FormData();
 
                 function timeoutCallback() {
-
-                    alert('上传超时，请重试');
-                    $(".img-loading",imgContainer).text("上传失败！");
-
+                    img.find(".weui_uploader_status_content").html('<i class="weui_icon_warn"></i>');
                 }
 
                 xhr.open('POST', "/upload", true);
 
                 // 计时开始
                 timeoutId = setTimeout(timeoutCallback, self.timeout);
+
+                xhr.onprogress = function(evt){
+                    var progress = (evt.loaded / evt.total)*100;
+                    if(isInteger(progress)) {
+                        img.find(".weui_uploader_status_content").text("%" + progress);
+                    } else {
+                        img.find(".weui_uploader_status_content").html('<i class="weui_icon_warn"></i>');
+                    }
+                };
 
                 xhr.onload = function () {
                     // 得到消息之后，清除计时
@@ -72,12 +80,12 @@ define(['zepto', "zepto-touch"], function($){
                         alert('上传图片错误: \n' + erroInfo);
                     } else {
                         // 返回正确的图片地址
-                        imgContainer.css("opacity","1");
-                        if(!img.attr("src")) {
-                            img.attr("src", resultSrc.replace("images", "temp"));
+                        //img.removeClass("weui_uploader_status");
+                        //img.find(".weui_uploader_status_content").text("");
+                        if(img.css("background-image") == "none") {
+                            img.css("background-image", "url(" + resultSrc.replace("images", "temp") + ")");
                         }
-                        $(".img-loading",imgContainer).hide();
-                        $("<input name='images' type='hidden'/>").val(resultSrc).appendTo(imgContainer);
+                        $("<input name='images' type='hidden'/>").val(resultSrc).appendTo(img);
                     }
                 };
                 formData.append('myImage', file);

@@ -8,6 +8,7 @@
     <meta name="format-detection" content="telephone=no">
     <title>微社区 | 发帖</title>
     <link rel="stylesheet" href="/css/frozen.css">
+    <link rel="stylesheet" href="/css/weui.css">
     <link rel="stylesheet" href="/css/font-awesome.css">
     <link rel="stylesheet" href="/js/lib/editor/css/editor.css">
     <link rel="stylesheet" href="/css/util.css">
@@ -28,14 +29,45 @@
 </div>
 <section class="ui-container add-article-container">
     <form action="/article/addArticle" method="post" id="form-add-article" style="height: 100%">
-        <div class="ui-input ui-border-radius">
-            <input type="text" name="title" placeholder="标题（必填）">
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" name="title" placeholder="标题（必填）" class="weui_textarea">
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <textarea class="weui_textarea" placeholder="请输入正文" rows="3" name="content"></textarea>
+                    <div class="weui_textarea_counter"><span>0</span>/200</div>
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <div class="weui_uploader">
+                        <div class="weui_uploader_hd weui_cell">
+                            <div class="weui_cell_bd weui_cell_primary">图片上传</div>
+                            <div class="weui_cell_ft">0/2</div>
+                        </div>
+
+                        <div class="weui_uploader_bd">
+                            <ul class="weui_uploader_files img-container">
+
+                            </ul>
+                            <div class="weui_uploader_input_wrp">
+                                <input id="upload-img" class="weui_uploader_input" type="file" accept="image/jpg,image/jpeg,image/png,image/gif" multiple="">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <textarea id="article" name="content" class="util-hidden" placeholder="请输入正文...">
-
-        </textarea>
-        <div class="img-container">
+        <!--<div class="img-container">
             <div class="upload-image-btn">
                 <label for="upload-img" class="">
                     <div class="cross-vertical"></div>
@@ -43,12 +75,15 @@
                 </label>
                 <input type="file" class="util-hidden" id="upload-img">
             </div>
-        </div>
+        </div>-->
     </form>
 </section>
 <script src="/js/lib/requirejs/require.js"></script>
 <script src="/js/lib/requirejs/require-config.js"></script>
 <script>
+    window.onerror = function(err){
+        alert(err);
+    }
     require(["/js/bbs/add.js"], function (add) {
         add.init();
     })

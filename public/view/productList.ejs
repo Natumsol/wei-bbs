@@ -3,8 +3,8 @@
     <div class="">
         <a href="/product/view?id=<%= products[i]._id %>"><img src="<%= products[i].image_url%>" alt="" class="product-img"></a>
         <div>
-            <h5 class="ui-nowrap-multi ui-txt-warning"><%= products[i].name%></h5>
-            <h6 class="ui-nowrap ui-txt-info"><%= products[i].introduction%></h6>
+            <h5 class="ui-nowrap ui-whitespace ui-txt-warning product-name"><a href="/product/view?id=<%= products[i]._id %>"><%= products[i].name%></a></h5>
+            <h6 class="ui-nowrap ui-txt-info product-intro"><%= products[i].introduction%></h6>
         </div>
     </div>
 </li>

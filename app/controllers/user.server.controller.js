@@ -80,19 +80,21 @@ function getUserInfo(req, res, next) {
 }
 
 function checkAuth(req, res, next) {
-    /*req.session.user = {
-        "_id" : "569e2f7bb0b028ac1261fdcf",
+    req.session.user = {
+        "_id" : "56c44c6d74b354f023d1acf4",
+        "username" : "kWKEyAk14/QvU1oz4GY1gA==",
         "openid" : "oXlgUwu85jlX0lLPRA3vDBSYEVhw",
-        "nickname" : "文刀十口",
         "sex" : 1,
-        "language" : "zh_CN",
         "city" : "Wuhan",
-        "country" : "CN",
-        "headimgurl" : "http://wx.qlogo.cn/mmopen/PiajxSqBRaELcdA2GG1zGRacttOfviaAiahmIO8MBX6mfibu3qZQ1waG2sIKCBic3qu9kov41o7P6XFpBSG3ibkbBM6g/0",
         "privileg" : [],
         "isAdmin" : false,
+        "headimgurl" : "http://wx.qlogo.cn/mmopen/OxUBpiaYgpHjwibjCdQ68BgOnU9669ClWdpEg5pibJoe39s6icdZG0Pd3EeqwDOkqFMtQsyLKTHYia14gWdfMHlaoog/0",
+        "country" : "CN",
+        "provinc" : null,
+        "language" : "zh_CN",
+        "nickname" : "文刀十口",
         "__v" : 0
-    };*/
+    };
     if (!req.session.user) {
         res.setHeader("Content-Type","text/html;charset=utf-8");
         res.send("<h1>请在微信打开。</h1>");

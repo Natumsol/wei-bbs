@@ -6,7 +6,7 @@
 
 define(["zepto", "/js/upload.js", "zepto-touch","editor",],function($, upload){
     var init = function (){
-        // ___E 三个下划线
+       /* // ___E 三个下划线
         var editor = new ___E('article');
         // 自定义配置
         editor.config.uploadImgUrl = '/upload';
@@ -14,7 +14,7 @@ define(["zepto", "/js/upload.js", "zepto-touch","editor",],function($, upload){
         // editor.config.menus = ['bold', 'quote', 'list','img'];
 
         // 初始化
-        editor.init();
+        editor.init();*/
 
 
         (new upload.UploadImg({

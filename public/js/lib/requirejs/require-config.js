@@ -24,5 +24,7 @@ require.config({
         "zepto-touch":["zepto"],
         "editor":["zepto"],
         "frozen": ["zepto"]
-    }
+    },
+    urlArgs: 'ver=' + Date.now()
+
 });

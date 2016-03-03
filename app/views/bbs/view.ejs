@@ -16,10 +16,7 @@
 <input type="hidden" value="<%= article._id %>" id="articleId">
 <header class="ui-header ui-header-positive ui-border-b">
     <i class="ui-icon-return" onclick="history.back()"></i>
-    <h1>查看</h1>
-    <button class="ui-btn " id="menu">
-        <i class="fa fa-bars"></i>
-    </button>
+    <h1 class="ui-nowrap ui-whitespace view-title"><%= article.title%></h1>
 </header>
 <div class="ui-footer ui-footer-stable ui-btn-group ui-border-t">
         <div class="ui-input ui-border-radius">
@@ -87,18 +84,6 @@
                 </div>
                 <% } %>
             </div>
-        </div>
-    </div>
-</section>
-<section id="actionsheet">
-    <div class="ui-actionsheet">
-        <div class="ui-actionsheet-cnt">
-            <h4>全部话题筛选</h4>
-            <button class="select-top">全部</button>
-            <button class="select-top">热门</button>
-            <button class="select-top">精华</button>
-            <button class="ui-actionsheet-del">登录</button>
-            <button id="cancel">取消</button>
         </div>
     </div>
 </section>

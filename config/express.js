@@ -30,7 +30,7 @@ module.exports = function () {
 	app.set('view engine', 'ejs');
 	app.engine("ejs", require("ejs").renderFile);
 
-    app.use(express.static(config.statics)); // 设置静态资源路径
+    app.use(express.static(config.statics, config.staticsOptions)); // 设置静态资源路径
 
     require("../app/routes/statistics.server.route.js")(app);//引入路由信息
 	require("../app/routes/user.server.route.js")(app);
