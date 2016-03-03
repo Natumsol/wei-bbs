@@ -80,8 +80,8 @@ define(['zepto', "zepto-touch"], function($){
                         alert('上传图片错误: \n' + erroInfo);
                     } else {
                         // 返回正确的图片地址
-                        //img.removeClass("weui_uploader_status");
-                        //img.find(".weui_uploader_status_content").text("");
+                        img.removeClass("weui_uploader_status");
+                        img.find(".weui_uploader_status_content").text("");
                         if(img.css("background-image") == "none") {
                             img.css("background-image", "url(" + resultSrc.replace("images", "temp") + ")");
                         }
