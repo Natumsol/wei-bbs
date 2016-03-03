@@ -76,7 +76,7 @@
         <ul class="ui-grid-trisect">
             <%  for(var i = 0 ; i < products.length; i ++) { %>
             <li>
-                <div class="">
+                <div class="util-text-center">
                     <a href="/product/view?id=<%= products[i]._id %>"><img src="<%= products[i].image_url%>" alt="" class="product-img"></a>
                     <div>
                         <h5 class="ui-nowrap ui-whitespace ui-txt-warning product-name"><a href="/product/view?id=<%= products[i]._id %>"><%= products[i].name%></a></h5>

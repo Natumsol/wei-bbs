@@ -389,7 +389,7 @@ body{
 }
 .ui-panel-product .product-img{
     height:120px;
-    width: 100%;
+    max-width: 100%;
     border-radius: 10px;
 }
 .ui-panel-news h2{
