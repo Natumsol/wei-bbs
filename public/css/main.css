@@ -391,6 +391,7 @@ body{
     height:120px;
     max-width: 100%;
     border-radius: 10px;
+    border: 1px solid#ddd;
 }
 .ui-panel-news h2{
     border-left:6px solid #1abc9c;
