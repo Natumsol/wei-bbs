@@ -4,14 +4,12 @@ var uglify  = require("gulp-uglify");
 var gutil = require('gulp-util');
 var minifyCss = require('gulp-minify-css');
 var gulpsync = require('gulp-sync')(gulp);
-var folders = ['font', 'img', 'uploads', 'view'];
+var folders = ['font', 'img', 'uploads', 'view','plugins'];
 var merge = require("merge-stream");
 var del = require('del');
 
 gulp.task("clean", function(){ // 清理文件
-    return del([
-        'statics/**/*'
-    ]);
+    return del(["statics/test/**/*", "!statics/test/img", "!statics/test/img/*"])
 });
 
 gulp.task('copy', function(){ // 复制静态资源
