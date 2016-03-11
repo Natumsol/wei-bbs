@@ -1,14 +1,14 @@
 module.exports = {
 	// production configuration options
 	sessionSecret:"productionSessionSecret",
-	db:"mongodb://http:localhost/wei-bbs",
+	db:"mongodb://127.0.0.1/wei-bbs",
 	statics: "./statics",
 	staticsOptions:{
 		dotfiles: 'ignore',
-		etag: false,
+		etag: true,
 		extensions: ['htm', 'html'],
 		index: false,
-		maxAge: '1d',
+		maxAge: '30d',
 		redirect: false,
 		setHeaders: function (res, path, stat) {
 			res.set('x-timestamp', Date.now());
