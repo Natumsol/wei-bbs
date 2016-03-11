@@ -4,7 +4,7 @@
  *@date: 2016/1/14
  */
 
-define(["zepto", "loadMore", "ejs", "tools"], function ($, loadMore, ejs, tools) {
+define(["zepto", "loadmore", "ejs", "tools"], function ($, loadMore, ejs, tools) {
     var getMoreDataFactory = loadMore.getMoreData; // 数据请求工厂函数
     var format = tools.format;
     var url = "/bbs/getArticles"; // 文章请求链接
