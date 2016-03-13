@@ -151,7 +151,6 @@ module.exports = function (app) {
                         console.log(prevArticle);
                         console.log(nextArticle);
 
-                        _article = _article.toObject();
                         _article.createDate = moment(_article.createDate).format("YYYY-MM-DD");
                         // 格式化时间
 

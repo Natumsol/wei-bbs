@@ -16,7 +16,11 @@ $(function(){
     uploadImg.counter ++;
 
     $("#submit").click(function(){
-        var product = $("#addProduct").serialize()
+        var product = $("#addProduct").serialize();
+        if($("#productName").val().trim() == "") {
+            myalert("请输入产品名称！");
+            return false;
+        }
         $.post(nameSpace + "/modify", product, function(result){
             if(result.status == 1)
                 myalert("修改成功！", function(){

@@ -100,7 +100,7 @@ function getProduct(req, res, next) {
         })
     }
     else {
-        Product.find().skip(start).sort({createDate: -1}).limit(limit).exec(function (err, products) {
+        Product.find().skip(start).sort({date: -1}).limit(limit).exec(function (err, products) {
             products = products.map(function(value){
                 return value.toObject();
             });
@@ -133,12 +133,12 @@ function getIndexProduct(callback) {
     });
 }
 function getNextProduct(product, callback){
-    Product.find({date:{$gt: product.date}}).sort({date: 1}).limit(1).exec(function(err, product){
+    Product.find({date:{$lt: product.date}}).sort({date: -1}).limit(1).exec(function(err, product){
         callback(err, product);
     });
 }
 function getPrevProduct(product, callback){
-    Product.find({date:{$lt: product.date}}).sort({date: -1}).limit(1).exec(function(err, product){
+    Product.find({date:{$gt: product.date}}).sort({date: 1}).limit(1).exec(function(err, product){
         callback(err, product);
     });
 }

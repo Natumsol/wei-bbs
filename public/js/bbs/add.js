@@ -23,6 +23,10 @@ define(["zepto", "/js/upload.js", "zepto-touch","editor",],function($, upload){
         })).init();// 初始化图片上传组件
 
         $(".submit-article").click(function () {
+            if($("#form-add-article input[name='title']").val() == "") {
+                alert("标题不能为空！")
+                return;
+            }
             var data = $("#form-add-article").serialize();
             $.post("/bbs/add", data, function(result){
                if(result.status) {

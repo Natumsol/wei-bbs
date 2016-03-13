@@ -107,7 +107,7 @@ function getNews(req, res, next) {
                 return value.toObject();
             });
             for(var i = 0; i < news.length; i ++) {
-                news[i].createDate = moment(news[i].createDate).format("YYYY-MM-DD ");
+                news[i].createDate = moment(news[i].createDate).format("YYYY-MM-DD HH:mm:ss");
             }
             res.json({news: news});
         });  //  分页查询
@@ -143,19 +143,19 @@ function getIndexNews(callback) {
             return value.toObject();
         });
         for(var i = 0 ; i < news.length; i ++){
-            news[i].createDate = moment(news[i].createDate).format("YYYY-MM-DD");
+            news[i].createDate = moment(news[i].createDate).format("YYYY-MM-DD HH:mm:ss");
         }
         callback(err, news);
     });
 }
 
 function getNextNews(news, callback){
-    News.find({createDate:{$gt: news.createDate}}).sort({createDate: 1}).limit(1).exec(function(err, news){
+    News.find({createDate:{$lt: news.createDate}}).sort({createDate: -1}).limit(1).exec(function(err, news){
         callback(err, news);
     });
 }
 function getPrevNews(news, callback){
-    News.find({createDate:{$lt: news.createDate}}).sort({createDate: -1}).limit(1).exec(function(err, news){
+    News.find({createDate:{$gt: news.createDate}}).sort({createDate: 1}).limit(1).exec(function(err, news){
         callback(err, news);
     });
 }

@@ -15,6 +15,7 @@ var fs = require('fs-extra')
 var path = require("path");
 var moment = require("moment");
 var config = require("../../config/config");
+var async = require("async");
 
 /**
  *
@@ -162,23 +163,33 @@ function getArticles(req, res, next) {
  * @param next
  */
 function remove(req, res, next) {
-    Article.findOneAndRemove({_id: req.body.id}, function (err, article) {
-        if (err) res.json({
-            errInfo: "delete error",
-            status: 0
+    var ids = req.body.id;
+    if(!is.array(ids)) {
+        ids = [ids];
+    }
+    async.each(ids, function(id, callback){
+        Article.findOneAndRemove({_id: id}, function(err, article){
+            for(var i = 0; i < article.comments.length; i ++) {
+                Comment.findOneAndRemove({_id:article.comments[i]}, function(err){
+                    if(err) throw(err);
+                    else {
+                        console.log("delete comments ok!");
+                    }
+                });
+            }
+            callback(err, article);
         });
-        for(var i = 0; i < article.comments.length; i ++) {
-            Comment.findOneAndRemove({_id:article.comments[i]}, function(err){
-                if(err) throw(err);
-                else {
-                    console.log("delete comments ok!");
-                }
+    }, function(err){
+        if (err) {
+            res.json({
+                errInfo: err.message,
+                status: 0
             });
         }
-        res.json({
-            status: 1
-        });
-    })
+        else {
+            res.json({status: 1});
+        }
+    });
 }
 
 /**
@@ -270,12 +281,12 @@ function like(req, res, next) {
 }
 
 function getNextArticle(article, callback){
-    Article.find({createDate:{$gt: article.createDate}}).sort({createDate: 1}).limit(1).exec(function(err, article){
+    Article.find({createDate:{$lt: article.createDate}}).sort({createDate: -1}).limit(1).exec(function(err, article){
         callback(err, article);
     });
 }
 function getPrevArticle(article, callback){
-    Article.find({createDate:{$lt: article.createDate}}).sort({createDate: -1}).limit(1).exec(function(err, article){
+    Article.find({createDate:{$gt: article.createDate}}).sort({createDate: 1}).limit(1).exec(function(err, article){
         callback(err, article);
     });
 }

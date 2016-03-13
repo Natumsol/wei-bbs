@@ -26,6 +26,10 @@ $(function(){
     });
     $("#submit").click(function(){
         editor.updateElement();
+        if($("#postTitle").val().trim() == "") {
+            myalert("请输入标题！");
+            return false;
+        }
         $.post(nameSpace + "/modify", $("#addPost").serialize(), function(result){
             if(result.status == 1) {
                 myalert("修改成功！！", function(){

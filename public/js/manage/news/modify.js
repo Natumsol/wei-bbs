@@ -26,6 +26,10 @@ $(function(){
     });
     $("#submit").click(function(){
         editor.updateElement();
+        if($("#newsTitle").val().trim() == "") {
+            myalert("请输入资讯名称！");
+            return false;
+        }
         $.post(nameSpace + "/modify", $("#addNews").serialize(), function(result){
             if(result.status == 1) {
                 myalert("修改成功！！", function(){
