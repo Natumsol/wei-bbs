@@ -21,7 +21,7 @@ if (cluster.isMaster) {
             cluster.fork();
         }, 2000);
     });
-} else {
+} else if (cluster.isWorker){
     app.listen(80);
 }
 //app.listen(80);
