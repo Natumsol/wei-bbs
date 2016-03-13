@@ -88,8 +88,8 @@ module.exports = function (app) {
     var cpUpload = upload.fields([{ name: 'myImage', maxCount: 1 }, { name: 'upload', maxCount: 1 }])
     app.post("/upload", cpUpload, function(req, res, next){
         if(req.files['myImage']) {
-            var file = req.files['myImage'][0];
             var result;
+            var file = req.files['myImage'][0];
             if(file) {
                 result = "/uploads/images/" + file.filename;
             } else {
@@ -98,13 +98,15 @@ module.exports = function (app) {
             res.setHeader('Content-type','text/html');
             res.send(result);
         } else if(req.files['upload']) {
+            var callback = req.query.CKEditorFuncNum;
+            var result = "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction(";
             var file = req.files['upload'][0];
-            var result;
             if(file) {
                 var url = "/uploads/images/" + file.filename;
-                result = "<span style='font-size: 12px'>图片地址为: <a href='" + url + "'>" + url + "</a></span>";
+                result += ("'" + callback + "', '" + url + "','')</script>");
+
             } else {
-                result = 'error|save error';
+                result += ("'" + callback + "', " + ", '上传错误！')</script>");
             }
             var oriFile = "public/uploads/temp/" + file.filename;
             var targetFile = "public/uploads/images/" + file.filename;
