@@ -4,6 +4,7 @@ var http = require('http');
 var numCPUs = require('os').cpus().length;
 var express = require("./config/express");
 var db = require("./config/mongoose.js")();
+var config = require("./config/config.js");
 var app = express();
 // 启动应用并开启监听端口
 if (cluster.isMaster) {
@@ -22,8 +23,8 @@ if (cluster.isMaster) {
         }, 2000);
     });
 } else if (cluster.isWorker){
-    app.listen(80);
+    app.listen(config.port);
 }
 //app.listen(80);
 module.exports = app;
-console.log("Server running at http://localhost.\n" + "using version: " + process.env.NODE_ENV);
+console.log("Server running at http://localhost: " + config.port + "\nusing version: " + process.env.NODE_ENV);

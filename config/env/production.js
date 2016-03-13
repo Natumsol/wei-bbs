@@ -13,5 +13,6 @@ module.exports = {
 		setHeaders: function (res, path, stat) {
 			res.set('x-timestamp', Date.now());
 		}
-	}
+	},
+	port:3000
 };
