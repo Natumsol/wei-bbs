@@ -5,6 +5,7 @@ var compress = require("compression");
 var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
 var session = require("express-session");
+var RedisStore = require('connect-redis')(session);
 module.exports = function () {
 	var app = express();
 	if (process.env.NODE_ENV == "development") {
@@ -21,7 +22,8 @@ module.exports = function () {
 	app.use(session({
 		saveUninitialized: true,
 		resave: true,
-		secret: config.sessionSecret
+		secret: config.sessionSecret,
+		store: new RedisStore(options)
 	}));
 
 	app.use(express.query());
