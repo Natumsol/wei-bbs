@@ -23,7 +23,7 @@ module.exports = function () {
 		saveUninitialized: true,
 		resave: true,
 		secret: config.sessionSecret,
-		store: new RedisStore(options)
+		store: new RedisStore()
 	}));
 
 	app.use(express.query());
