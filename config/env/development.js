@@ -14,5 +14,5 @@ module.exports = {
 			res.set('x-timestamp', Date.now());
 		}
 	},
-	port:3000
+	port:80
 };
