@@ -81,22 +81,25 @@ function getUserInfo(req, res, next) {
 
 function checkAuth(req, res, next) {
     req.session.user = {
-        "_id" : "56c44c6d74b354f023d1acf4",
-        "username" : "kWKEyAk14/QvU1oz4GY1gA==",
-        "openid" : "oXlgUwu85jlX0lLPRA3vDBSYEVhw",
-        "sex" : 1,
-        "city" : "Wuhan",
-        "privileg" : [],
-        "isAdmin" : false,
-        "headimgurl" : "http://wx.qlogo.cn/mmopen/OxUBpiaYgpHjwibjCdQ68BgOnU9669ClWdpEg5pibJoe39s6icdZG0Pd3EeqwDOkqFMtQsyLKTHYia14gWdfMHlaoog/0",
-        "country" : "CN",
-        "provinc" : null,
-        "language" : "zh_CN",
-        "nickname" : "文刀十口",
-        "__v" : 0
+        "_id": "56e670aa300e9ba36bb44866",
+        "salt": "N!��\u0012c݊�dU�K�\u0019\u0014",
+        "password": "ZDdtH05jQwjL/qn0B4TL6Wl8iKXRJrgLHNpTiU2y+OedhKR5bS7vQ3QxtB89YQU6M97tzM3ieM01DvuQTFyBKA==",
+        "username": "sBupv77PB9O3pkdVJ2SLKw==",
+        "openid": "oXlgUwu85jlX0lLPRA3vDBSYEVhw",
+        "sex": 1,
+        "city": "Wuhan",
+        "privileg": [],
+        "isAdmin": false,
+        "headimgurl": "http://wx.qlogo.cn/mmopen/OxUBpiaYgpHjwibjCdQ68BgOnU9669ClWdpEg5pibJoe38ic3zJSKmOR4KctCoUbcjyBbicVoJdMRrpfpveWCxyNoKw/0",
+        "country": "CN",
+        "provinc": null,
+        "language": "zh_CN",
+        "nickname": "文刀十口",
+        "__v": 0
     };
+
     if (!req.session.user) {
-        res.setHeader("Content-Type","text/html;charset=utf-8");
+        res.setHeader("Content-Type", "text/html;charset=utf-8");
         res.send("<h1>请在微信打开。</h1>");
     } else {
         console.log(chalk.red("验证通过"));
@@ -111,7 +114,7 @@ function logout(req, res, next) {
 }
 function isAdmin(req, res, next) {
 
-    User.findOne({openid: req.session.user.openid}, function (err, user) {
+    User.findOne({ openid: req.session.user.openid }, function (err, user) {
         if (err) throw err;
         if (user.isAdmin) {
             next();
@@ -125,36 +128,36 @@ function adminLogin(req, res, next) {
     var username = req.body.username;
     var password = req.body.password;
     var originUrl = req.originUrl || "/manage";
-    User.findOne({username: username}, function (err, user) {
-            if (err) send("Error!");
-            else if (user) {
-                if(user.authenticate(password))  {
-                    req.session.regenerate(function(){
-                        req.session.user = user;
-                        res.redirect(originUrl);
-                    })
-                } else {
-                    req.session.regenerate(function(){
-                        res.render("manage/login", {
-                            errInfo:"用户名或密码错误！"
-                        });
-                    })
-
-                }
+    User.findOne({ username: username }, function (err, user) {
+        if (err) send("Error!");
+        else if (user) {
+            if (user.authenticate(password)) {
+                req.session.regenerate(function () {
+                    req.session.user = user;
+                    res.redirect(originUrl);
+                })
             } else {
-                req.session.regenerate(function(){
+                req.session.regenerate(function () {
                     res.render("manage/login", {
-                        errInfo:"用户不存在"
+                        errInfo: "用户名或密码错误！"
                     });
                 })
 
             }
+        } else {
+            req.session.regenerate(function () {
+                res.render("manage/login", {
+                    errInfo: "用户不存在"
+                });
+            })
+
         }
-    );
+    }
+        );
 }
 
-function checkAdminLogin(req, res, next){
-    if(req.session.user && req.session.user.isAdmin) {
+function checkAdminLogin(req, res, next) {
+    if (req.session.user && req.session.user.isAdmin) {
         next();
     } else {
         res.redirect("/manage/login");
