@@ -18,9 +18,9 @@ body{
 .ui-item-box {
     background: #fff;
     margin: 10px 0;
-    padding: 5px;
-    padding-bottom: 0;
+    padding: 15px;
     border-radius: 5px;
+    border-bottom: 1px solid #ddd;
 }
 
 .ui-item-box .status {
@@ -29,13 +29,19 @@ body{
 
 .ui-item-box .content-text {
     color: #6F6767;
-    margin-top: 3px;
 }
 
 .ui-item-box .content-image {
     margin-top: 5px;
 }
+.ui-item-box .content-wrapper .title{
+    font-size:18px;
 
+}
+.ui-item-box .content-text{
+    font-size:16px;
+
+}
 .ui-item-box .content-image img {
     border-radius: 10px;
     padding:5px;
@@ -65,10 +71,11 @@ body{
 .comment-wrapper {
     background: #FAFAFA;
     margin: 0 -5px;
-    border-top: 1px solid #ddd;
+    /*border-top: 1px solid #ddd;*/
     padding-top: 10px;
     line-height: 18px;
     font-size: 12px;
+    padding-left: 10px;
 }
 
 .comment-wrapper .avatar-container {
@@ -105,7 +112,7 @@ body{
 .view-all-comments {
     font-size: 14px;
     padding: 7px;
-    border-top: 1px solid #ddd;
+    /*border-top: 1px solid #ddd;*/
 }
 
 .article-container {
@@ -140,6 +147,7 @@ body{
 .article-container .title {
     font-weight: 700;
     margin-bottom: 10px;
+    font-size:20px;
 }
 
 .article {
@@ -147,10 +155,17 @@ body{
 }
 
 .article p {
-    font-size: 14px;
+    font-size: 18px;
     margin-bottom: 10px;
 }
 
+.article img{
+    max-width: 100% !important;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding:10px;
+}
 .article .article-image-container {
 
 }
@@ -341,8 +356,8 @@ body{
 
 /** 自定义首页样式 **/
 .ui-footer-custom{
-    height:45px;
-    background: #00a5e0;
+    height:60px;
+    background: #600007;
     color: #fff;
 }
 .ui-footer-custom div.fa{
@@ -366,16 +381,17 @@ body{
     margin-top:20px;
 }
 .ui-panel h2{
-    font-size: 18px;
-    margin-bottom:10px;
+    font-size: 22px;
+    margin-bottom:15px;
     line-height: 28px;
 }
 .ui-panel-product h2{
-    border-left:6px solid #3498db;
-    color: #3498db;
+    border-left:6px solid #600007;
+    color: #600007;
 }
 .ui-panel-product .product-name {
     padding:5px 2px;
+    font-size:18px;
 }
 .ui-panel-product .product-intro {
     padding:0 2px;
@@ -394,14 +410,15 @@ body{
     border: 1px solid#ddd;
 }
 .ui-panel-news h2{
-    border-left:6px solid #1abc9c;
-    color: #1abc9c;
+    border-left:6px solid #600007;
+    color: #600007;
 }
 .ui-panel-news .ui-list h3{
     padding-left:0;
     font-weight:700;
     color: #000;
     line-height: 25px;
+    font-size:18px;
 }
 .ui-panel-company h2{
     border-left:6px solid #E74C3C;
@@ -409,24 +426,27 @@ body{
 .navigation-menu{
     color:#fff;
 }
+.navigation-menu div:nth-last-child(1) {
+    font-size:18px !important;
+}
 .load-more-data{
     padding: 0 5px;
     height: 25px;
     line-height: 25px;
-    font-size: 13px;
+    font-size: 18px;
     position: relative;
     text-align: center;
     background-color: #fdfdfd;
     background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0.5,#fff),to(#fafafa));
     vertical-align: top;
-    color: #00a5e0;
+    color: #600007;
     -webkit-box-sizing: border-box;
     -webkit-background-clip: padding-box;
     border: 1px solid #cacccd;
     border-radius: 3px;
 }
 .news-container{
-    padding:20px 5px;
+    padding:20px 20px;
 }
 .news-container .title{
     font-size:20px;
@@ -437,22 +457,31 @@ body{
 }
 .news-container .news{
     padding-top: 14px;
-    font-size: 15px;
+    font-size: 18px;
 }
 
 .news-container .news-refer{
     padding: 10px 0;
-    font-size: 14px;
+    font-size: 18px;
+    margin-top: 10px;
+    border-top:1px solid #ddd;
 }
 .news-container .news-refer p{
     margin-bottom: 5px;
 }
+.news-container .news img{
+    max-width:100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding:10px;
+}
 .product-container {
-    padding:20px 5px;
+    padding:20px 20px;
 }
 .product-container table {
     /*line-height:30px;*/
-    font-size: 14px;
+    font-size: 18px;
 }
 
 .product-container table td {
@@ -465,6 +494,11 @@ body{
 
 .product-container table .value{
     text-align: left;
+    padding:10px;
+}
+
+.product-container table .value p{
+    margin-bottom:5px;
 }
 .product-container table img{
     max-height: 150px;
@@ -475,7 +509,7 @@ body{
 }
 .product-container .product-refer{
     padding: 10px 0;
-    font-size: 14px;
+    font-size: 18px;
 }
 .product-container .product-refer p{
     margin-bottom:5px;

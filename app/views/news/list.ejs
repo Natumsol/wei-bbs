@@ -32,7 +32,7 @@
         </li>
         <li >
             <a class="navigation-menu" href="/bbs">
-                <div class="fa fa-beer" ></div>
+                <div class="fa fa-glass" ></div>
                 <div style="font-size: 12px">以酒会友</div>
             </a>
         </li>
@@ -48,15 +48,26 @@
 </footer>
 
 <section class="ui-container index ui-panel-news">
-    <ul class="ui-list ui-list-pure ui-border-tb">
+    <section class="ui-notice" style="height: auto;display: none;">
+        <i></i>
+        <p>没有数据！</p>
+    </section>
+    <ul class="ui-list ui-list-pure ui-border-tb" style="border-width: 0;">
 
     </ul>
     <div style="margin: 10px 0; width:100%; text-align: center;">
-        <button class="load-more-data">
+        <button class="load-more-data util-hidden">
             查看更多>>
         </button>
     </div>
 </section>
+
+<div class="ui-loading-block show">
+    <div class="ui-loading-cnt">
+        <i class="ui-loading-bright"></i>
+        <p>正在加载中...</p>
+    </div>
+</div>
 <script src="/js/lib/requirejs/require.js"></script>
 <script src="/js/lib/requirejs/require-config.js"></script>
 <script>

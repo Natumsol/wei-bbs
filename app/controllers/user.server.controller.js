@@ -81,7 +81,7 @@ function getUserInfo(req, res, next) {
 
 function checkAuth(req, res, next) {
     req.session.user = {
-        "_id": "56e670aa300e9ba36bb44866",
+        "_id": "56e7d3b15d51d3fb83dcf61b",
         "salt": "N!��\u0012c݊�dU�K�\u0019\u0014",
         "password": "ZDdtH05jQwjL/qn0B4TL6Wl8iKXRJrgLHNpTiU2y+OedhKR5bS7vQ3QxtB89YQU6M97tzM3ieM01DvuQTFyBKA==",
         "username": "sBupv77PB9O3pkdVJ2SLKw==",
@@ -89,7 +89,7 @@ function checkAuth(req, res, next) {
         "sex": 1,
         "city": "Wuhan",
         "privileg": [],
-        "isAdmin": false,
+        "isAdmin": true,
         "headimgurl": "http://wx.qlogo.cn/mmopen/OxUBpiaYgpHjwibjCdQ68BgOnU9669ClWdpEg5pibJoe38ic3zJSKmOR4KctCoUbcjyBbicVoJdMRrpfpveWCxyNoKw/0",
         "country": "CN",
         "provinc": null,
@@ -157,6 +157,7 @@ function adminLogin(req, res, next) {
 }
 
 function checkAdminLogin(req, res, next) {
+    console.log(req.session.user);
     if (req.session.user && req.session.user.isAdmin) {
         next();
     } else {

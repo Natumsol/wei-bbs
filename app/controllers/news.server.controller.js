@@ -67,7 +67,8 @@ function modify(req, res, next){
         title: news.title,
         content: news.content,
         modifyDate: news.modifyDate,
-        sliderImg: news.sliderImg
+        sliderImg: news.sliderImg,
+        isSlider: news.isSlider
     }, function (err, news) {
         if (err) {
             res.json({

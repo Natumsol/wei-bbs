@@ -96,7 +96,7 @@
                 </li>
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-beer"></i>
+                        <i class="fa fa-glass"></i>
                         <span>BBS 管理</span>
                     </a>
                     <ul class="treeview-menu">
@@ -146,10 +146,6 @@
                                         <input type="text" class="form-control" id="productName" placeholder="产品名称" name="name" value="<%= product.name%>">
                                     </div>
                                     <div class="form-group">
-                                        <label for="productIntro">产品简介</label>
-                                        <textarea  class="form-control" id="productIntro" placeholder="产品简介" name="introduction" ><%= product.introduction %></textarea>
-                                    </div>
-                                    <div class="form-group">
                                         <label for="">产品图片</label>
                                         <br>
                                         <label for="productImage" class="btn btn-primary">上传图片</label>
@@ -161,6 +157,10 @@
                                             </div>
                                         </div>
                                         <input type="file"  id="productImage" style="display: none;">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="productIntro">产品简介</label>
+                                        <textarea  class="form-control" id="productIntro" placeholder="产品简介" name="introduction" ><%= product.introduction %></textarea>
                                     </div>
                                 </div><!-- /.box-body -->
 
@@ -195,6 +195,8 @@
 <!--artDialog-->
 <script src="/plugins/artDialog/js/dialog-plus.js"></script>
 
+<!--ckEditor-->
+<script src="/plugins/ckeditor/ckeditor.js"></script>
 <!-- AdminLTE App -->
 <script src="/js/manage/app.js"></script>
 

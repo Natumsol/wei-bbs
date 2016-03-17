@@ -62,8 +62,6 @@ define(["zepto", "loadmore", "ejs", "tools"], function ($, loadMore, ejs, tools)
         counter = 0;
         noMoreData = false;
         $(".index").html("");
-
-        $(".ui-loading-block").addClass("show");
         // 取得首页帖子数据
         getMoreDataFactory(url, {
             start: 0,

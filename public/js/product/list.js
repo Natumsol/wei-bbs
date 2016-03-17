@@ -7,12 +7,22 @@ define(["zepto", "tools", "ejs","frozen"], function($, tools, ejs){
     var nameSpace = "/product";
     var count = 0;
     var drain = false;
+    var init = true;
     var callback = function(products){
-        console.log(products);
+        //console.log(products);
         $(".ui-grid-trisect").append($(template.render(products)));
+
+        $(".ui-loading-block").removeClass("show");
+        $(".load-more-data").removeClass("util-hidden");
         count ++;
         if(products.products.length < 6) {
             drain = true;
+            $(".load-more-data").addClass("util-hidden");
+        }
+        if(init) {
+            if(products.products.length == 0) $(".ui-notice").show();
+            else $(".ui-grid-trisect").css("border-width", "1px");
+            init = !init;
         }
     };
     var template = new ejs({url: '/view/productList.ejs'}); // 数据模版
@@ -25,6 +35,7 @@ define(["zepto", "tools", "ejs","frozen"], function($, tools, ejs){
     };
     $(".load-more-data").click(function () {
         if(!drain) {
+            $(".ui-loading-block").addClass("show");
             tools.PostData(nameSpace + "/getProduct", {
                 start:count * 6,
                 limit: 6

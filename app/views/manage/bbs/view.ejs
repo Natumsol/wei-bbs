@@ -96,7 +96,7 @@
                 </li>
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-beer"></i>
+                        <i class="fa fa-glass"></i>
                         <span>BBS 管理</span>
                     </a>
                     <ul class="treeview-menu">
@@ -154,7 +154,12 @@
                             <div class="clearfix"></div>
                             <div class="mailbox-read-info">
                                 <h2><strong><%= article.title%></strong></h2>
-                                <h5 class="text-muted"><i class="fa fa-user"> <%= article.author.nickname%></i> <i class="fa fa-calendar"> <%= article.createDate%></i></h5>
+                                <h5 class="text-muted">
+                                    <i class="fa fa-user"> <%= article.author.nickname%></i>
+                                    <i class="fa fa-calendar"> <%= article.createDate%></i>
+                                    <%if(article.isTop){%> <span class="label label-danger">置顶</span>
+                                    <%}else{%> <span class="label label-info">不置顶</span> <%}%>
+                                </h5>
                             </div><!-- /.mailbox-read-info -->
                             <div class="mailbox-read-message">
                                 <%- article.content%>

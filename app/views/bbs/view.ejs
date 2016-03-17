@@ -17,6 +17,7 @@
 <header class="ui-header ui-header-positive ui-border-b">
     <i class="ui-icon-return" onclick="history.back()"></i>
     <h1 class="ui-nowrap ui-whitespace view-title"><%= article.title%></h1>
+    <a class="add-article fa fa-home" href="/"></a>
 </header>
 <div class="ui-footer ui-footer-stable ui-btn-group ui-border-t">
         <div class="ui-input ui-border-radius">
@@ -35,7 +36,7 @@
             <div class="util-pull-right louzhu ui-txt-highlight"><i class="fa fa-user"></i> 楼主</div>
             <div class="util-clearfix"></div>
             <% if(user._id == article.author._id){ %>
-            <div class="ui-btn-wrap util-pull-right">
+            <div class="util-pull-right">
                 <button class="ui-btn-s modify-article">
                     修改
                 </button>
@@ -61,8 +62,8 @@
         <div class="comment-container">
             <div class="comment-bar">
                 <i class="fa fa-commenting "> 全部回复</i>
-                <i class="fa fa-sort-amount-desc util-pull-right">倒序查看</i>
-                <i class="fa fa-user util-pull-right"> 只看楼主</i>
+                <!--<i class="fa fa-sort-amount-desc util-pull-right">倒序查看</i>-->
+                <!--<i class="fa fa-user util-pull-right"> 只看楼主</i>-->
             </div>
             <div>
                 <% for(var i = 0; i < article.comments.length; i ++) { %>

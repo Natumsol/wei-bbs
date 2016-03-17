@@ -14,10 +14,10 @@ if (cluster.isMaster) {
         cluster.fork();
     }
     cluster.on('listening', function (worker, address) {
-        console.log('核心' + i + ' pid:' + worker.process.pid);
+        console.log('worker pid:' + worker.process.pid);
     });
     cluster.on('exit', function (worker, code, signal) {
-        console.log('核心' + i + ' pid:' + worker.process.pid + ' 重启');
+        console.log('worker pid:' + worker.process.pid + ' 重启');
         setTimeout(function () {
             cluster.fork();
         }, 2000);

@@ -4,6 +4,7 @@
  */
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
+var xss = require("xss");
 var ProductSchema = new Schema({
     name: String,
     image_url: {
@@ -20,3 +21,7 @@ var ProductSchema = new Schema({
     }
 });
 mongoose.model('Product', ProductSchema);
+ProductSchema.pre("save", function(next){
+    this.introduction = xss( this.introduction.trim());
+    next();
+});

@@ -12,8 +12,11 @@ $(function(){
         max:1,
         imgName:"image_url"
     })).init();// 初始化图片上传
-
+    var editor = CKEDITOR.replace('productIntro',{
+        language:"zh-CN"
+    });
     $("#submit").click(function(){
+        editor.updateElement();
         var product = $("#addProduct").serialize();
         if($("#productName").val().trim() == "") {
             myalert("请输入产品名称！");

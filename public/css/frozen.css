@@ -95,7 +95,7 @@ em, i {
 }
 
 .ui-header-positive, .ui-footer-positive {
-    background-color: #18b4ed;
+    background-color: #600007;
     color: #fff
 }
 
@@ -105,7 +105,7 @@ em, i {
 
 .ui-footer-btn {
     background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #f9f9f9), to(#e0e0e0));
-    color: #00a5e0
+    color: #600007
 }
 
 .ui-footer-btn .ui-tiled {
@@ -758,7 +758,7 @@ em, i {
 
 @charset "UTF-8";
 a {
-    color: #00a5e0
+    color: #600007
 }
 
 em {
@@ -1353,7 +1353,7 @@ h6, .ui-txt-tips {
     background-color: #fdfdfd;
     background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.5, #fff), to(#fafafa));
     vertical-align: top;
-    color: #00a5e0;
+    color: #600007;
     -webkit-box-sizing: border-box;
     -webkit-background-clip: padding-box;
     background-clip: padding-box;
@@ -1401,17 +1401,17 @@ h6, .ui-txt-tips {
 }
 
 .ui-btn-primary {
-    background-color: #18b4ed;
-    border-color: #0baae4;
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.5, #1fbaf3), to(#18b4ed));
+    background-color: #600007;
+    border-color: #600007;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.5, #600007), to(#600007));
     color: #fff;
     -webkit-background-clip: padding-box;
     background-clip: padding-box
 }
 
 .ui-btn-primary:not(.disabled):not(:disabled):active, .ui-btn-primary.active {
-    background: #1ca7da;
-    border-color: #1ca7da;
+    background: #600007;
+    border-color: #600007;
     color: rgba(255, 255, 255, .5);
     -webkit-background-clip: padding-box;
     background-clip: padding-box
@@ -1471,7 +1471,7 @@ h6, .ui-txt-tips {
 
 @media screen and (-webkit-min-device-pixel-ratio: 2) {
     .ui-btn-primary:before {
-        border: 1px solid #0baae4
+        border: 1px solid #600007
     }
 
     .ui-btn-danger:before {
@@ -1866,7 +1866,7 @@ h6, .ui-txt-tips {
 }
 
 .ui-tag-freelimit:before {
-    background-color: #18b4ed;
+    background-color: #600007;
     content: '限免'
 }
 
@@ -1929,7 +1929,7 @@ h6, .ui-txt-tips {
 
 .ui-tag-selected:after {
     content: "";
-    color: #18b4ed;
+    color: #600007;
     right: -5px;
     top: -5px;
     z-index: 9;
@@ -2479,7 +2479,7 @@ h6, .ui-txt-tips {
     display: block;
     color: rgba(0, 0, 0, .5);
     content: "";
-    color: #18b4ed;
+    color: #600007;
     position: absolute;
     top: -22px;
     left: -4px;
@@ -2488,7 +2488,7 @@ h6, .ui-txt-tips {
 
 .ui-checkbox input:checked:before, .ui-checkbox-s input:checked:before {
     content: "";
-    color: #18b4ed
+    color: #600007
 }
 
 .ui-checkbox-s input:before {
@@ -2657,7 +2657,7 @@ h6, .ui-txt-tips {
     display: block;
     width: 14px;
     height: 14px;
-    background: #18b4ed;
+    background: #600007;
     border-radius: 7px;
     position: absolute;
     left: 6px;

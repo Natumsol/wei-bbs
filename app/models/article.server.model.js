@@ -37,7 +37,11 @@ var ArticleSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "Comment"
     }],
-    viewCount: {type: Number, dafault: 0}
+    viewCount: {type: Number, dafault: 0},
+    isTop:{
+        type: Boolean,
+        default: false
+    }
 });
 
 ArticleSchema.pre("save", function(next){

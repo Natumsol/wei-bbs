@@ -60,7 +60,8 @@ function modify(req, res, next) {
         title: article.title,
         content: article.content,
         modifyDate: article.modifyDate,
-        images: article.images
+        images: article.images,
+        isTop: article.isTop
     }, function (err, article) {
         if (err) {
             res.json({
@@ -91,12 +92,12 @@ function modify(req, res, next) {
  */
 function getArticleById(id, callback) {
     var options = [{path: 'comments'}, {path: 'author'}, {path: "column"}];
-    Article.findOneAndUpdate({_id: id}, {$inc:{viewCount: 1}}, function(err){
+    /*Article.findOneAndUpdate({_id: id}, {$inc:{viewCount: 1}}, function(err){
         if(err) throw(err);
         else {
             console.log(chalk.green("article's viewCount update ok!"));
         }
-    });
+    });*/
     Article.findOne({_id: id}).populate(options).exec(function (err, article) {
         Article.populate(article, [{
             path: 'comments.author',
@@ -135,7 +136,7 @@ function getArticles(req, res, next) {
     }
     else {
         var options = [{path: 'comments'}, {path: 'likes'}, {path: 'author', select: 'nickname headimgurl -_id'}];
-        Article.find().skip(start).sort({createDate: -1}).limit(limit).populate(options).exec(function (err, articles) {
+        Article.find().skip(start).sort({isTop: -1, createDate: -1}).limit(limit).populate(options).exec(function (err, articles) {
             Article.populate(articles, [{
                 path: 'comments.author',
                 model: "User",

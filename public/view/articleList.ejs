@@ -5,7 +5,7 @@
         <img class="ui-avatar-s util-pull-left" src="<%= articles[index].author.headimgurl %>" >
         </img>
         <div class="status util-pull-left ">
-            <h6 class="username"><%= articles[index].author.nickname %></h6>
+            <h6 class="username"><%= articles[index].author.nickname %> <%if(articles[index].isTop){%><label class="ui-label-s">置顶</label><%}%></h6>
             <h6 class="ui-txt-muted time"><%= articles[index].createDate %></h6>
         </div>
     </div>

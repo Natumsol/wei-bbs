@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
-    <title>微社区 | 主页</title>
+    <title>菲宇酒行</title>
     <link rel="stylesheet" href="css/frozen.css">
     <link rel="stylesheet" href="css/font-awesome.css">
     <link rel="stylesheet" href="css/util.css">
@@ -13,7 +13,7 @@
 </head>
 <body ontouchstart="">
 <header class="ui-header ui-header-positive ui-border-b">
-    <h1>主页</h1>
+    <h1>菲宇酒行</h1>
 
 </header>
 <footer class="ui-footer ui-footer-btn ui-footer-custom">
@@ -32,7 +32,7 @@
         </li>
         <li >
             <a class="navigation-menu" href="/bbs">
-                <div class="fa fa-beer" ></div>
+                <div class="fa fa-glass" ></div>
                 <div style="font-size: 12px">以酒会友</div>
             </a>
         </li>
@@ -80,7 +80,6 @@
                     <a href="/product/view?id=<%= products[i]._id %>"><img src="<%= products[i].image_url%>" alt="" class="product-img"></a>
                     <div>
                         <h5 class="ui-nowrap ui-whitespace ui-txt-warning product-name"><a href="/product/view?id=<%= products[i]._id %>"><%= products[i].name%></a></h5>
-                        <h6 class="ui-nowrap ui-txt-info product-intro"><%= products[i].introduction%></h6>
                     </div>
                 </div>
             </li>

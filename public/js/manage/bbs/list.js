@@ -29,6 +29,8 @@ $(function() {
         }, {
             "data": "author.nickname"
         }, {
+            "data": "isTop"
+        },{
             "data": "createDate",
             "width": "150px"
         }],
@@ -45,7 +47,13 @@ $(function() {
                 return meta.row + 1;
             }
         },{
-            "targets": 2,
+            "targets": 4,
+            "data": null,
+            "render": function(data, type, full, meta) {
+                return full.isTop ? "<span class='label label-danger'>置顶</span>" : "<span class='label label-info'>不置顶</span>";
+            }
+        },{
+            "targets":2,
             "data": null,
             "render": function(data, type, full, meta) {
                 return "<a href = '/manage/bbs/view?id=" + full._id + "'>" + data + "</a>";
