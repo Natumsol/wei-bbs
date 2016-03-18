@@ -50,4 +50,5 @@ gulp.task('plugins-css',  function () {// 压缩插件css
         .pipe(gulp.dest('statics/plugins'))
 });
 
-gulp.task('default', gulpsync.sync(['clean', 'copy', 'js', 'plugins-js', 'css' , 'plugins-css']));
+gulp.task('generate', gulpsync.sync(['clean', 'copy', 'js', 'plugins-js', 'css' , 'plugins-css']));
+gulp.task('default', ['js', 'css']);
