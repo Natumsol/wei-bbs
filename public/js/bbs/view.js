@@ -18,7 +18,11 @@ define(["zepto", "ejs", "tools"], function ($, ejs, tools) {
         });
 
         $(".addComment").click(function(){
-            var comment = $("#comment").val();
+            var comment = $("#comment").val().trim();
+            if(comment == "") {
+                alert("评论不能为空！");
+                return false;
+            }
             tools.PostData(nameSpace + "/addComment", {
                 body:comment,
                 id: $("#articleId").val()
@@ -33,27 +37,31 @@ define(["zepto", "ejs", "tools"], function ($, ejs, tools) {
         });
         $(".deleteComment").click(function(){
             var id = $(this).attr("id");
-            tools.PostData(nameSpace + "/deleteComment", {
-                id: id
-            }, function(result){
-                if(result.status){
-                    alert("评论删除成功！");
-                } else {
-                    alert("评论删除失败！");
-                }
-                location.reload();
-            });
-
+            if(confirm("确定删除评论？")){
+                tools.PostData(nameSpace + "/deleteComment", {
+                    id: id
+                }, function(result){
+                    if(result.status){
+                        alert("评论删除成功！");
+                    } else {
+                        alert("评论删除失败！");
+                    }
+                    location.reload();
+                });
+            }
         });
 
         $(".delete-article").click(function(){
-            $.post(nameSpace + "/delete", {id: $("#articleId").val()}, function(result){
-                if(result.status) {
-                    location.href = nameSpace;
-                } else {
-                    alert(result.errInfo);
-                }
-            });
+            if(confirm("确定删除帖子？")){
+                $.post(nameSpace + "/delete", {id: $("#articleId").val()}, function(result){
+                    if(result.status) {
+                        location.href = nameSpace;
+                    } else {
+                        alert(result.errInfo);
+                    }
+                });
+            }
+
         });
 
         $(".modify-article").click(function(){

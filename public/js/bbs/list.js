@@ -91,7 +91,11 @@ define(["zepto", "loadmore", "ejs", "tools"], function ($, loadMore, ejs, tools)
 
 
         $("body").on("click", ".addComment", function(){
-            var comment = $(this).parent().find(".add-comment").val()
+            var comment = $(this).parent().find(".add-comment").val().trim();
+            if(comment == "") {
+                alert("评论不能为空！");
+                return false;
+            }
             tools.PostData("/bbs/addComment", {
                 body:comment,
                 id: this.dataset.articleid

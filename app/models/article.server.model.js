@@ -49,5 +49,10 @@ ArticleSchema.pre("save", function(next){
     next();
 });
 
+CommentSchema.pre("save", function(next){
+    this.body = xss( this.body.trim());
+    next();
+});
+
 mongoose.model('Comment', CommentSchema);
 mongoose.model('Article', ArticleSchema);
