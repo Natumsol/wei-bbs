@@ -26,9 +26,6 @@ $(function() {
             "width": "30px"
         }, {
             "data": "name",
-            "width": "200px"
-        }, {
-            "data": "introduction"
         }, {
             "data": "date",
             "width": "150px"

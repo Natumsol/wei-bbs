@@ -4,7 +4,9 @@
  */
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
-var xss = require("xss");
+var config = require("../../config/config");
+var xss =  require("xss");
+var myxss = new xss.FilterXSS(config.xss);
 var CommentSchema = new Schema({
     body: String,
     author:  {
@@ -45,12 +47,12 @@ var ArticleSchema = new Schema({
 });
 
 ArticleSchema.pre("save", function(next){
-    this.content = xss( this.content.trim());
+    this.content = myxss.process( this.content.trim());
     next();
 });
 
 CommentSchema.pre("save", function(next){
-    this.body = xss( this.body.trim());
+    this.body = myxss.process(this.body.trim());
     next();
 });
 

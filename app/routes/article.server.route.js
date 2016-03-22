@@ -126,6 +126,12 @@ module.exports = function (app) {
     });
 
     app.get("/upload", function(req, res){
-        res.render("upload");
+        res.json({
+            "imageUrl": "http://localhost/ueditor/php/controller.php?action=uploadimage",
+            "imagePath": "/uploads/images/",
+            "imageFieldName": "upload",
+            "imageMaxSize": 2048,
+            "imageAllowFiles": [".png", ".jpg", ".jpeg", ".gif", ".bmp"]
+        });
     })
 };

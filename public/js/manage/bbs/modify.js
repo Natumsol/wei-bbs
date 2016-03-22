@@ -21,11 +21,12 @@ $(function(){
             $("#form-slider-image").hide();
         }
     });
-    var editor = CKEDITOR.replace('postContent',{
-        language:"zh-CN"
-    });
+    var ue = UE.getEditor('postContent');
+    setTimeout(function(){
+        $("#postContent").css("visibility", "visible");
+    }, 50);
     $("#submit").click(function(){
-        editor.updateElement();
+        $("#postContent").val(ue.getContent());
         if($("#postTitle").val().trim() == "") {
             myalert("请输入标题！");
             return false;

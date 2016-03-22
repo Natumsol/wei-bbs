@@ -6,11 +6,12 @@
 $(function(){
     var nameSpace = "/about";
 
-    var editor = CKEDITOR.replace('newsContent',{
-        language:"zh-CN"
-    });
+    var ue = UE.getEditor('newsContent');
+    setTimeout(function(){
+        $("#newsContent").css("visibility", "visible");
+    }, 50);
     $("#submit").click(function(){
-        editor.updateElement();
+        $("#newsContent").val(ue.getContent());
         $.post(nameSpace + "/modify", $("#addNews").serialize(), function(result){
             if(result.status == 1) {
                 myalert("修改成功！！", function(){

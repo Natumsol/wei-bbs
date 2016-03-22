@@ -64,8 +64,15 @@ function modify(req, res, next){
     var id = req.body.id;
     Product.findOneAndUpdate({_id: id}, {
         image_url: product.image_url,
-        introduction: product.introduction,
+        note: product.note,
         name: product.name,
+        level:product.level,
+        type: product.type,
+        alcohol: product.alcohol,
+        year: product.year,
+        brewing: product.brewing,
+        tasting: product.tasting,
+        honor: product.honor,
         date: product.date
     }, function (err, product) {
         if (err) {
@@ -106,8 +113,8 @@ function getProduct(req, res, next) {
             });
 
             for(var i = 0; i < products.length; i ++) {
-                products[i].introduction = products[i].introduction.length > 50 ?
-                products[i].introduction.substr(0, 50) + "..." :  products[i].introduction;
+                products[i].note = products[i].note.length > 50 ?
+                products[i].note.substr(0, 50) + "..." :  products[i].note;
                 products[i].date = moment(products[i].date).format("YYYY-MM-DD HH:mm:ss");
             }
             res.json({products: products});

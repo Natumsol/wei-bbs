@@ -8,7 +8,10 @@ body{
     padding-bottom:45px;
     overflow: hidden;
 }
+.index.bbs{
+    background: #e0e0e0;
 
+}
 #menu {
     background: transparent;
     border-color: #fff;
@@ -17,7 +20,7 @@ body{
 
 .ui-item-box {
     background: #fff;
-    margin: 10px 0;
+    margin-bottom: 10px;
     padding: 15px;
     border-radius: 5px;
     border-bottom: 1px solid #ddd;
@@ -48,7 +51,14 @@ body{
     /*width: 30%;*/
     height: 150px;
 }
-
+.ui-item-box .ui-input-wrap {
+    background-color:#fff;
+}
+.ui-item-box .ui-input-wrap .ui-input{
+    margin:0;
+    margin-right:8px;
+    font-size: 14px;
+}
 .ui-item-box .fa {
     font-size: 16px;
     margin-left: 20px;
@@ -77,6 +87,7 @@ body{
     font-size: 12px;
     padding-left: 10px;
 }
+
 
 .comment-wrapper .avatar-container {
     float: left;
@@ -357,7 +368,7 @@ body{
 /** 自定义首页样式 **/
 .ui-footer-custom{
     height:60px;
-    background: #600007;
+    background: #7C0000;
     color: #fff;
 }
 .ui-footer-custom div.fa{
@@ -386,8 +397,8 @@ body{
     line-height: 28px;
 }
 .ui-panel-product h2{
-    border-left:6px solid #600007;
-    color: #600007;
+    border-left:6px solid #7C0000;
+    color: #7C0000;
 }
 .ui-panel-product .product-name {
     padding:5px 2px;
@@ -404,14 +415,18 @@ body{
     padding-bottom: 5px;
 }
 .ui-panel-product .product-img{
-    height:120px;
+    /*height:120px;*/
+    max-height:100%;
     max-width: 100%;
-    border-radius: 10px;
+    border-radius: 50%;
     border: 1px solid#ddd;
+    padding: 2px;
+    box-sizing: border-box;
+    /*background: #ddd;*/
 }
 .ui-panel-news h2{
-    border-left:6px solid #600007;
-    color: #600007;
+    border-left:6px solid #7C0000;
+    color: #7C0000;
 }
 .ui-panel-news .ui-list h3{
     padding-left:0;
@@ -439,7 +454,7 @@ body{
     background-color: #fdfdfd;
     background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0.5,#fff),to(#fafafa));
     vertical-align: top;
-    color: #600007;
+    color: #7C0000;
     -webkit-box-sizing: border-box;
     -webkit-background-clip: padding-box;
     border: 1px solid #cacccd;
@@ -479,6 +494,9 @@ body{
 .product-container {
     padding:20px 20px;
 }
+.product-container img {
+    max-width:100%;
+}
 .product-container table {
     /*line-height:30px;*/
     font-size: 18px;
@@ -486,10 +504,11 @@ body{
 
 .product-container table td {
     padding:4px;
-}
-.product-container table .key{
-    text-align: right;
     vertical-align: top;
+}
+.product-container table .key:after{
+    display: inline;
+    content: "：";
 }
 
 .product-container table .value{

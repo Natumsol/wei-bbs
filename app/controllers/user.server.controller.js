@@ -29,7 +29,7 @@ function getAccessCode(req, res, next) {
             req.weixin.access_token = body.access_token;
             req.weixin.refresh_token = body.refresh_token;
             req.weixin.openid = body.openid;
-            console.log(chalk.green(JSON.stringify(req.weixin)));
+            //console.log(chalk.green(JSON.stringify(req.weixin)));
             next();
         })
 
@@ -49,7 +49,6 @@ function getUserInfo(req, res, next) {
         });
         clientRes.on("end", function () {
             req.weixin.user = JSON.parse(Buffer.concat(body));
-            console.log(req.weixin.user);
             User.findOne({
                 openid: req.weixin.user.openid
             }, function (err, user) {
@@ -101,9 +100,11 @@ function checkAuth(req, res, next) {
     if (!req.session.user) {
         res.setHeader("Content-Type", "text/html;charset=utf-8");
         res.send("<h1>请在微信打开。</h1>");
-    } else {
+    } else if(req.session.user && req.session.headimgurl) { // 确认是微信用户而不是admin
         console.log(chalk.red("验证通过"));
         next();
+    } else {
+        res.send("账户信息错误！");
     }
 }
 function logout(req, res, next) {
@@ -157,7 +158,7 @@ function adminLogin(req, res, next) {
 }
 
 function checkAdminLogin(req, res, next) {
-    console.log(req.session.user);
+    //console.log(req.session.user);
     if (req.session.user && req.session.user.isAdmin) {
         next();
     } else {

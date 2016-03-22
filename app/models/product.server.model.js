@@ -11,9 +11,41 @@ var ProductSchema = new Schema({
         type: String,
         default: null
     },
-    introduction: {
+    level:{
         type: String,
-        default: null
+        default: ''
+    },
+    production_place:{
+        type: String,
+        default: ''
+    },
+    type:{
+        type: String,
+        default: ''
+    },
+    alcohol:{
+        type: String,
+        default: ''
+    },
+    year:{
+        type: String,
+        default: ''
+    },
+    brewing:{
+        type: String,
+        default: ''
+    },
+    tasting:{
+        type: String,
+        default: ''
+    },
+    honor:{
+        type: String,
+        default: ''
+    },
+    note: {
+        type: String,
+        default: ''
     },
     date: {
         type: Date,
@@ -22,6 +54,14 @@ var ProductSchema = new Schema({
 });
 mongoose.model('Product', ProductSchema);
 ProductSchema.pre("save", function(next){
-    this.introduction = xss( this.introduction.trim());
+    this.name = xss(this.name.trim());
+    this.level = xss(this.level.trim());
+    this.type = xss(this.type.trim());
+    this.alcohol = xss(this.alcohol.trim());
+    this.year = xss(this.year.trim());
+    this.brewing = xss(this.brewing.trim());
+    this.tasting = xss(this.tasting.trim());
+    this.honor = xss(this.honor.trim());
+    this.note = xss(this.note.trim());
     next();
 });

@@ -21,11 +21,13 @@ $(function(){
             $("#form-slider-image").hide();
         }
     });
-    var editor = CKEDITOR.replace('newsContent',{
-        language:"zh-CN"
-    });
+    var ue = UE.getEditor('newsContent');
+    setTimeout(function(){
+        $("#newsContent").css("visibility", "visible");
+    }, 50);
+
     $("#submit").click(function(){
-        editor.updateElement();
+        $("#newsContent").val(ue.getContent());
         if($("#newsTitle").val().trim() == "") {
             myalert("请输入资讯名称！");
             return false;

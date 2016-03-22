@@ -16,7 +16,8 @@ var path = require("path");
 var moment = require("moment");
 var config = require("../../config/config");
 var async = require("async");
-
+var xss =  require("xss");
+var myxss = new xss.FilterXSS(config.xss);
 /**
  *
  * @param req
@@ -57,8 +58,8 @@ function modify(req, res, next) {
     var article = new Article(req.body);
     var id = req.body.id;
     Article.findOneAndUpdate({_id: id}, {
-        title: article.title,
-        content: article.content,
+        title: myxss.process(article.title),
+        content: myxss.process(article.content),
         modifyDate: article.modifyDate,
         images: article.images,
         isTop: article.isTop

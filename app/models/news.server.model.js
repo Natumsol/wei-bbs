@@ -4,7 +4,9 @@
  */
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
-var xss = require("xss");
+var config = require("../../config/config");
+var xss =  require("xss");
+var myxss = new xss.FilterXSS(config.xss);
 var NewsSchema = new Schema({
     author:  {
         type: Schema.Types.ObjectId,
@@ -26,9 +28,10 @@ var NewsSchema = new Schema({
 });
 
 NewsSchema.pre("save", function(next){
-    this.content = xss( this.content.trim());
+    this.content = myxss.process(this.content.trim());
     next();
 });
+
 NewsSchema.pre('remove', function(next) {
     // 删除文章时，删除所以评论和赞
     next();

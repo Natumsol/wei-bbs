@@ -13,7 +13,8 @@ var async = require("async");
 var fs = require("fs-extra");
 var path = require("path");
 var config = require("../../config/config");
-
+var xss =  require("xss");
+var myxss = new xss.FilterXSS(config.xss);
 function add(req, res, next) {
     var news = new News(req.body);
     //news.author = req.session.user
@@ -64,12 +65,12 @@ function modify(req, res, next){
     var news = new News(req.body);
     var id = req.body.id;
     News.findOneAndUpdate({_id: id}, {
-        title: news.title,
-        content: news.content,
+        title: myxss.process(news.title),
+        content: myxss.process(news.content),
         modifyDate: news.modifyDate,
         sliderImg: news.sliderImg,
         isSlider: news.isSlider
-    }, function (err, news) {
+    },function (err, news) {
         if (err) {
             res.json({
                 errInfo: "update error",

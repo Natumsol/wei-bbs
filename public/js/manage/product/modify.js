@@ -14,11 +14,12 @@ $(function(){
     });
     uploadImg.init();
     uploadImg.counter ++;
-    var editor = CKEDITOR.replace('productIntro',{
-        language:"zh-CN"
-    });
+    var ue = UE.getEditor('note');
+    setTimeout(function(){
+        $("#note").css("visibility", "visible");
+    }, 50);
     $("#submit").click(function(){
-        editor.updateElement();
+        $("#note").val(ue.getContent());
         var product = $("#addProduct").serialize();
         if($("#productName").val().trim() == "") {
             myalert("请输入产品名称！");
