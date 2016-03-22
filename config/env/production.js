@@ -1,7 +1,7 @@
 module.exports = {
 	// production configuration options
 	sessionSecret:"productionSessionSecret",
-	db:"mongodb://127.0.0.1/wei-bbs-development",
+	db:"mongodb://127.0.0.1/wei-bbs",
 	statics: "./statics",
 	staticsOptions:{
 		dotfiles: 'ignore',
