@@ -37,3 +37,6 @@
     overflow: hidden;
     width: 100%;
 }
+.mailbox-read-message img {
+    max-width:100%;
+}
