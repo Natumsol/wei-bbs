@@ -34,9 +34,6 @@ module.exports = function (app) {
                             nextProduct = null;
                             throw err;
                         }
-                        console.log(prevProduct);
-                        console.log(nextProduct);
-
                         _product = _product.toObject();
                         _product.date = moment(_product.date).format("YYYY-MM-DD");
                         // 格式化时间
