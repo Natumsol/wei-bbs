@@ -31,9 +31,6 @@ module.exports = function (app) {
                     if(err) prevNews = null;
                     news.getNextNews(_news, function(err, nextNews){
                         if(err) nextNews = null;
-                        console.log(prevNews);
-                        console.log(nextNews);
-
                         _news = _news.toObject();
                         _news.createDate = moment(_news.createDate).format("YYYY-MM-DD");
                          // 格式化时间
