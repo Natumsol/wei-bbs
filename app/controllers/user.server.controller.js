@@ -100,11 +100,9 @@ function checkAuth(req, res, next) {
     if (!req.session.user) {
         res.setHeader("Content-Type", "text/html;charset=utf-8");
         res.send("<h1>请在微信打开。</h1>");
-    } else if(req.session.user && req.session.headimgurl) { // 确认是微信用户而不是admin
+    } else if(req.session.user) { // 确认是微信用户而不是admin
         console.log(chalk.red("验证通过"));
         next();
-    } else {
-        res.send("账户信息错误！");
     }
 }
 function logout(req, res, next) {
