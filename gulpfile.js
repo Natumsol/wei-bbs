@@ -4,13 +4,18 @@ var uglify  = require("gulp-uglify");
 var gutil = require('gulp-util');
 var minifyCss = require('gulp-minify-css');
 var gulpsync = require('gulp-sync')(gulp);
-var folders = ['font', 'img', 'uploads', 'view','plugins'];
+var folders = ['font', 'img', 'uploads', 'view','plugins','js/lib'];
 var merge = require("merge-stream");
 var del = require('del');
+var rev = require('gulp-rev');
 
 gulp.task("clean", function(){ // 清理文件
     return del(["statics/test/**/*", "!statics/test/img", "!statics/test/img/*"])
 });
+
+/*gulp.task("remove-manifest", function(){
+    return del(['config/rev-manifest.json'])
+});*/
 
 gulp.task('copy', function(){ // 复制静态资源
     var tasks = folders.map(function(value){
@@ -23,10 +28,16 @@ gulp.task('copy', function(){ // 复制静态资源
 });
 
 gulp.task('js', function () {// 压缩JS
-    gulp.src(['public/js/**/*.js','public/js/**/*.min.js'])
+    gulp.src(['public/js/**/*.js','public/js/**/*.min.js','!public/js/lib/**/*.js'])
         .pipe(debug({title: 'gulp-debug:'}))
         .pipe(uglify().on('error', gutil.log)) // notice the error event here
+        .pipe(rev())
         .pipe(gulp.dest('statics/js'))
+        .pipe(rev.manifest({
+            base:"/",
+            merge: true // merge with the existing manifest (if one exists)
+        }))
+        .pipe(gulp.dest('/')); // write manifest to build dir
 });
 
 gulp.task('plugins-js', function () {// 压缩插件JS
@@ -40,7 +51,13 @@ gulp.task('css', function () {// 压缩css
     gulp.src(['public/css/**/*.css','public/css/**/*.min.css'])
         .pipe(debug({title: 'gulp-debug:'}))
         .pipe(minifyCss().on('error', gutil.log)) // notice the error event here
+        .pipe(rev())
         .pipe(gulp.dest('statics/css'))
+        .pipe(rev.manifest({
+            base:"/",
+            merge: true // merge with the existing manifest (if one exists)
+        }))
+        .pipe(gulp.dest('/')); // write manifest to build dir
 });
 
 gulp.task('plugins-css',  function () {// 压缩插件css

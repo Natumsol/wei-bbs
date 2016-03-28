@@ -13,7 +13,7 @@ var moment = require("moment");
 module.exports = function (app) {
     var nameSpace = "/manage";
     app.get(nameSpace + "/login", function(req, res){
-        res.render("manage/login",{errInfo:null});
+        res.render("manage/login",{errInfo:null,manifest: app.get('manifest')});
     });
     app.get(nameSpace + "/logout", user.adminLogout);
     app.post(nameSpace + "/login", user.adminLogin);
@@ -21,17 +21,18 @@ module.exports = function (app) {
         statistics.getIndexInfo(function(err, result){
             res.render("manage/index",{
                 err: err,
-                indexInfo: result
+                indexInfo: result,
+                manifest: app.get('manifest')
             })
         })
     });
 
     /** product **/
     app.get(nameSpace + "/product", user.checkAdminLogin, function(req, res){
-        res.render("manage/product/list");
+        res.render("manage/product/list",{manifest: app.get('manifest')});
     });
     app.get(nameSpace + "/product/add", user.checkAdminLogin, function(req, res){
-        res.render("manage/product/add");
+        res.render("manage/product/add",{manifest: app.get('manifest')});
     });
     app.get(nameSpace + "/product/view", user.checkAdminLogin, function(req, res, next){
         var id = req.query.id || "";
@@ -56,7 +57,8 @@ module.exports = function (app) {
                             product:_product,
                             prevProduct: prevProduct && prevProduct[0],
                             nextProduct: nextProduct && nextProduct[0],
-                            user: req.session.user
+                            user: req.session.user,
+                            manifest: app.get('manifest')
                         });
                     });
                 });
@@ -70,7 +72,7 @@ module.exports = function (app) {
         var id = req.query.id || "";
         product.getProductById(id, function(err, product){
             if(product) {
-                res.render("manage/product/modify", {product: product});
+                res.render("manage/product/modify", {product: product,manifest: app.get('manifest')});
             } else {
                 next();
             }
@@ -80,10 +82,10 @@ module.exports = function (app) {
     /** news **/
 
     app.get(nameSpace + "/news", user.checkAdminLogin, function(req, res){
-        res.render("manage/news/list");
+        res.render("manage/news/list",{manifest: app.get('manifest')});
     });
     app.get(nameSpace + "/news/add", user.checkAdminLogin, function(req, res){
-        res.render("manage/news/add");
+        res.render("manage/news/add",{manifest: app.get('manifest')});
     });
     app.get(nameSpace + "/news/view", user.checkAdminLogin, function(req, res, next){
         var id = req.query.id || "";
@@ -108,7 +110,8 @@ module.exports = function (app) {
                             news:_news,
                             prevNews: prevNews && prevNews[0],
                             nextNews: nextNews && nextNews[0],
-                            user: req.session.user
+                            user: req.session.user,
+                            manifest: app.get('manifest')
                         });
                     });
                 });
@@ -122,7 +125,7 @@ module.exports = function (app) {
         var id = req.query.id || "";
         news.getNewsById(id, function(err, news){
             if(news) {
-                res.render("manage/news/modify", {news: news});
+                res.render("manage/news/modify", {news: news,manifest: app.get('manifest')});
             } else {
                 next();
             }
@@ -131,10 +134,10 @@ module.exports = function (app) {
 
     /** bbs **/
     app.get(nameSpace + "/bbs", user.checkAdminLogin, function(req, res){
-        res.render("manage/bbs/list");
+        res.render("manage/bbs/list",{manifest: app.get('manifest')});
     });
     app.get(nameSpace + "/bbs/add", user.checkAdminLogin, function(req, res){
-        res.render("manage/bbs/add");
+        res.render("manage/bbs/add",{manifest: app.get('manifest')});
     });
     app.get(nameSpace + "/bbs/view", user.checkAdminLogin, function(req, res, next){
         var id = req.query.id || "";
@@ -158,7 +161,8 @@ module.exports = function (app) {
                             article:_article,
                             prevArticle: prevArticle && prevArticle[0],
                             nextArticle: nextArticle && nextArticle[0],
-                            user: req.session.user
+                            user: req.session.user,
+                            manifest: app.get('manifest')
                         });
                     });
                 });
@@ -172,7 +176,7 @@ module.exports = function (app) {
         var id = req.query.id || "";
         article.getArticleById(id, function(err, article){
             if(article) {
-                res.render("manage/bbs/modify", {article: article});
+                res.render("manage/bbs/modify", {article: article,manifest: app.get('manifest')});
             } else {
                 next();
             }
@@ -183,7 +187,7 @@ module.exports = function (app) {
     app.get(nameSpace + "/about", user.checkAdminLogin, function(req, res, next){
         about.getAbout(function(err, about) {
             if (about) {
-                res.render("manage/about/view", {about: about});
+                res.render("manage/about/view", {about: about,manifest: app.get('manifest')});
             } else {
                 next();
             }
@@ -193,7 +197,7 @@ module.exports = function (app) {
     app.get(nameSpace + "/about/modify", user.checkAdminLogin, function(req, res, next){
         about.getAbout(function(err, about) {
             if (about) {
-                res.render("manage/about/modify", {about: about});
+                res.render("manage/about/modify", {about: about,manifest: app.get('manifest')});
             } else {
                 next();
             }

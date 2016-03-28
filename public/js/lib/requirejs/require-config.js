@@ -12,7 +12,11 @@ require.config({
         "ejs": "lib/ejs/ejs",
         "moment": "lib/moment/moment",
         "moment-locale": "lib/moment/locale/zh-cn",
-        "editor":"lib/editor/js/editor"
+        "editor":"lib/editor/js/editor",
+        "frozen":"lib/frozen",
+        "upload":"lib/upload",
+        "loadmore":"lib/loadmore",
+        "tools":"lib/tools"
     }, // 别名
     shim: {
         "zepto": {

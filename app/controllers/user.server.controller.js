@@ -87,7 +87,7 @@ function getUserInfo(req, res, next) {
 }
 
 function checkAuth(req, res, next) {
-    /*req.session.user = {
+    req.session.user = {
         "_id": "56e670aa300e9ba36bb44866",
         "salt": "N!��\u0012c݊�dU�K�\u0019\u0014",
         "password": "ZDdtH05jQwjL/qn0B4TL6Wl8iKXRJrgLHNpTiU2y+OedhKR5bS7vQ3QxtB89YQU6M97tzM3ieM01DvuQTFyBKA==",
@@ -103,7 +103,7 @@ function checkAuth(req, res, next) {
         "language": "zh_CN",
         "nickname": "文刀十口",
         "__v": 0
-    };*/
+    };
 
     if (!req.session.user || !req.session.user.headimgurl) {
         res.setHeader("Content-Type", "text/html;charset=utf-8");

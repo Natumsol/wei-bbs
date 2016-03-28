@@ -7,12 +7,11 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
     <title>微社区 | 修改</title>
-    <link rel="stylesheet" href="/css/frozen.css">
-    <link rel="stylesheet" href="/css/weui.css">
-    <link rel="stylesheet" href="/css/font-awesome.css">
-    <link rel="stylesheet" href="/js/lib/editor/css/editor.css">
-    <link rel="stylesheet" href="/css/util.css">
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/<%=manifest['weui.css']%>">
+    <link rel="stylesheet" href="/css/<%=manifest['frozen.css']%>">
+    <link rel="stylesheet" href="/css/<%=manifest['font-awesome.css']%>">
+    <link rel="stylesheet" href="/css/<%=manifest['util.css']%>">
+    <link rel="stylesheet" href="/css/<%=manifest['main.css']%>">
 </head>
 
 <body ontouchstart="">
@@ -80,7 +79,7 @@
 <script src="/js/lib/requirejs/require.js"></script>
 <script src="/js/lib/requirejs/require-config.js"></script>
 <script>
-    require(["/js/bbs/modify.js"], function (modify) {
+    require(["/js/<%=manifest["bbs/modify.js"]%>"], function (modify) {
         modify.init();
     })
 </script>

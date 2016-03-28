@@ -30,10 +30,10 @@ module.exports = function () {
 
     app.use(express.query());
 
+    app.set('manifest', require('../rev-manifest.json'));
     app.set('views', './app/views');
     app.set('view engine', 'ejs');
     app.engine("ejs", require("ejs").renderFile);
-
     app.use(express.static(config.statics, config.staticsOptions)); // 设置静态资源路径
 
     require("../app/routes/statistics.server.route.js")(app);//引入路由信息

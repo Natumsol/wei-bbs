@@ -4,7 +4,7 @@
  *@date: 2016/1/18
  */
 
-define(["zepto","/js/upload.js", "zepto-touch","editor"],function($, upload){
+define(["zepto","upload", "zepto-touch","editor"],function($, upload){
     var nameSpace = "/bbs";
     var init = function (){
        /* // ___E 三个下划线

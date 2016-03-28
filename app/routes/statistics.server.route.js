@@ -26,7 +26,8 @@ module.exports = function (app) {
         statistics.getIndexInfo(function(err, result){
             res.render("manage/index",{
                 err: err,
-                indexInfo: result
+                indexInfo: result,
+                manifest: app.get('manifest')
             })
         })
     })

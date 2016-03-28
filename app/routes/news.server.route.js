@@ -20,7 +20,7 @@ module.exports = function (app) {
     app.post(nameSpace + "/getNews", news.getNews);
     app.get(nameSpace, function(req, res, next){
 
-        res.render("news/list");
+        res.render("news/list",{manifest: app.get('manifest')});
     });
     app.get(nameSpace + "/view", function(req, res, next){
         var id = req.query.id || "";
@@ -39,7 +39,8 @@ module.exports = function (app) {
                             news:_news,
                             prevNews: prevNews && prevNews[0],
                             nextNews: nextNews && nextNews[0],
-                            user: req.session.user
+                            user: req.session.user,
+                            manifest: app.get('manifest')
                         });
                     });
                 });
@@ -53,7 +54,8 @@ module.exports = function (app) {
 
     app.get(nameSpace + "/add", weixinAuth.isAdmin, function(req, res, next){
         res.render("addNews", {
-            user: req.session.user
+            user: req.session.user,
+            manifest: app.get('manifest')
         });
 
     });
@@ -65,7 +67,8 @@ module.exports = function (app) {
             else if(news) {
                 res.render("modifyNews", {
                     news:news,
-                    user: req.session.user
+                    user: req.session.user,
+                    manifest: app.get('manifest')
                 });
             } else {
                 next();

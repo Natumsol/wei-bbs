@@ -26,7 +26,8 @@ module.exports = function(app){
                     res.render("index", {
                         sliderNews: sliderNews,
                         news: news,
-                        products: products
+                        products: products,
+                        manifest: app.get('manifest')
                     });
                 });
             });
@@ -35,12 +36,13 @@ module.exports = function(app){
     });
     app.get("/test", weixinAuth.checkAuth, function(req, res){
         res.render("test", {
-            user: req.session.user
+            user: req.session.user,
+            manifest: app.get('manifest')
         });
     });
     app.get("/logout", weixinAuth.checkAuth, weixinAuth.logout);
     app.get("/user", function (req, res, next) {
-        res.render("userCenter", {user: req.session.user});
+        res.render("userCenter", {user: req.session.user,manifest: app.get('manifest')});
     })
 };
 

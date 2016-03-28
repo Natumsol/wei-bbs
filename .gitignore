@@ -6,6 +6,9 @@
 #dependence
 node_modules
 
+#manifest file
+/rev-manifest.json
+
 # webstorm config
 .idea
 

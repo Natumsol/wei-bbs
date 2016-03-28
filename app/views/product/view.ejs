@@ -6,10 +6,10 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
     <title >产品查看 | <%= product.name %></title>
-    <link rel="stylesheet" href="/css/frozen.css">
-    <link rel="stylesheet" href="/css/font-awesome.css">
-    <link rel="stylesheet" href="/css/util.css">
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/<%=manifest['frozen.css']%>">
+    <link rel="stylesheet" href="/css/<%=manifest['font-awesome.css']%>">
+    <link rel="stylesheet" href="/css/<%=manifest['util.css']%>">
+    <link rel="stylesheet" href="/css/<%=manifest['main.css']%>">
 </head>
 <body ontouchstart="">
 <header class="ui-header ui-header-positive ui-border-b">
@@ -122,7 +122,7 @@
 <script src="/js/lib/requirejs/require.js"></script>
 <script src="/js/lib/requirejs/require-config.js"></script>
 <script>
-    require(["js/product/view.js"], function (view) {
+    require(["js/<%=manifest["product/view.js"]%>"], function (view) {
         view.init();
     })
 </script>

@@ -41,7 +41,8 @@ module.exports = function (app) {
     app.post(nameSpace + "/like", weixinAuth.checkAuth, article.like);
     app.get(nameSpace, weixinAuth.checkAuth, function (req, res, next) {
        res.render("bbs/list", {
-           user: req.session.user
+           user: req.session.user,
+           manifest: app.get('manifest')
        });
     });
     app.get(nameSpace + "/view",weixinAuth.checkAuth, function(req, res, next){
@@ -51,7 +52,8 @@ module.exports = function (app) {
             else if(article) {
                 res.render("bbs/view", {
                     article:article,
-                    user: req.session.user
+                    user: req.session.user,
+                    manifest: app.get('manifest')
                 });
             } else {
                 next();
@@ -63,7 +65,8 @@ module.exports = function (app) {
 
     app.get(nameSpace + "/add", weixinAuth.checkAuth, function(req, res, next){
         res.render("bbs/add", {
-            user: req.session.user
+            user: req.session.user,
+            manifest: app.get('manifest')
         });
     });
 
@@ -76,7 +79,8 @@ module.exports = function (app) {
             else if(article) {
                 res.render("bbs/modify", {
                     article:article,
-                    user: req.session.user
+                    user: req.session.user,
+                    manifest: app.get('manifest')
                 });
             } else {
                 next();

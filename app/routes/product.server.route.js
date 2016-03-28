@@ -19,7 +19,7 @@ module.exports = function (app) {
     app.post(nameSpace + "/delete", weixinAuth.isAdmin, product.remove);
     app.post(nameSpace + "/getProduct", product.getProduct);
     app.get(nameSpace,function(req, res, nextS){
-        res.render("product/list");
+        res.render("product/list",{manifest: app.get('manifest')});
     });
 
     app.get(nameSpace + "/view", function(req, res, next){
@@ -42,7 +42,8 @@ module.exports = function (app) {
                             product:_product,
                             prevProduct: prevProduct && prevProduct[0],
                             nextProduct: nextProduct && nextProduct[0],
-                            user: req.session.user
+                            user: req.session.user,
+                            manifest: app.get('manifest')
                         });
                     });
                 });
@@ -56,7 +57,8 @@ module.exports = function (app) {
 
     app.get(nameSpace + "/add", weixinAuth.isAdmin, function(req, res, next){
         res.render("manage/add", {
-            user: req.session.user
+            user: req.session.user,
+            manifest: app.get('manifest')
         });
 
     });
@@ -68,7 +70,8 @@ module.exports = function (app) {
             else if(product) {
                 res.render("modifyProduct", {
                     product:product,
-                    user: req.session.user
+                    user: req.session.user,
+                    manifest: app.get('manifest')
                 });
             } else {
                 next();
