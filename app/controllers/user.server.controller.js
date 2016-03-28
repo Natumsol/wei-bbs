@@ -4,6 +4,14 @@ var chalk = require('chalk');
 var weixinAuthConfig = require("../../config/weixinAuthConfig.js");
 var mongoose = require("mongoose");
 var User = mongoose.model("User");
+var redirecturl = weixinAuthConfig.authorizeURL + "?" + querystring.stringify({
+        appid: weixinAuthConfig.appId,
+        redirect_uri: weixinAuthConfig.callback,
+        response_type: "code",
+        scope: "snsapi_userinfo",
+        state: "1"
+    }) + "#wechat_redirect";
+
 function getCode(req, res, next) {
     req.weixin = {};
     req.weixin.code = req.query.code;
@@ -97,10 +105,10 @@ function checkAuth(req, res, next) {
         "__v": 0
     };*/
 
-    if (!req.session.user) {
+    if (!req.session.user || !req.session.user.headimgurl) {
         res.setHeader("Content-Type", "text/html;charset=utf-8");
-        res.send("<h1>请在微信打开。</h1>");
-    } else if(req.session.user) { // 确认是微信用户而不是admin
+        res.redirect(redirecturl);
+    } else if(req.session.user && req.session.user.headimgurl) { // 确认是微信用户而不是admin
         console.log(chalk.red("验证通过"));
         next();
     }
