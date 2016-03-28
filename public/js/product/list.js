@@ -11,14 +11,6 @@ define(["zepto", "tools", "ejs","frozen"], function($, tools, ejs){
     var callback = function(products){
         //console.log(products);
         $(".ui-grid-trisect").append($(template.render(products)));
-        $(".product-img").height(function(){
-            return $(this).width();
-        });
-        $(window).resize(function(){
-            $(".product-img").height(function(){
-                return $(this).width();
-            });
-        });
         $(".ui-loading-block").removeClass("show");
         $(".load-more-data").removeClass("util-hidden");
         count ++;

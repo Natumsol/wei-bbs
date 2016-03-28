@@ -414,17 +414,27 @@ body{
     border-bottom: 1px solid #ddd;
     padding-bottom: 5px;
 }
-.ui-panel-product a {
-    display: inline-block;
+.ui-panel-product a.product-image-link {
+    display: block;
     width: 100%;
+    position: relative;
+}
+.ui-panel-product a.product-image-link:before{
+    padding-top:100%;
+    content: "";
+    display: block;
 }
 .ui-panel-product .product-img{
-    /*width: 30vw;*/
-    /*height: 30vw;*/
     width: 100%;
     border: 1px solid #ddd;
     border-radius: 50%;
-    background-size: cover
+    background-size: cover;
+    position: absolute;
+    top:0;
+    bottom:0;
+    right:0;
+    left:0;
+    
 }
 .ui-panel-news h2{
     border-left:6px solid #7C0000;

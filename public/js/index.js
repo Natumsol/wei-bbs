@@ -11,7 +11,7 @@ define(["zepto", "frozen"], function ($) {
         interval: 4000
     });
     $("#news-slider .title").show();
-    setTimeout(function(){
+   /* setTimeout(function(){
         $(".ui-panel-product").css("visibility", "visible");
     },50);
     $(".product-img").height(function(){
@@ -21,5 +21,5 @@ define(["zepto", "frozen"], function ($) {
         $(".product-img").height(function(){
             return $(this).width();
         });
-    });
+    });*/
 });

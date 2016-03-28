@@ -71,13 +71,13 @@
         </ul>
 
     </section>
-    <section class="ui-panel ui-panel-product" style="visibility: hidden">
+    <section class="ui-panel ui-panel-product">
         <a href="/product"><h2 class="ui-arrowlink">产品展示</h2></a>
         <ul class="ui-grid-trisect">
             <%  for(var i = 0 ; i < products.length; i ++) { %>
             <li>
                 <div class="util-text-center">
-                    <a href="/product/view?id=<%= products[i]._id %>">
+                    <a class="product-image-link" href="/product/view?id=<%= products[i]._id %>">
                         <div class="product-img" style="background-image: url(<%= products[i].image_url%>);">
                         </div>
                     </a>
@@ -95,8 +95,7 @@
 <script src="/js/lib/requirejs/require.js"></script>
 <script src="/js/lib/requirejs/require-config.js"></script>
 <script>
-    require(["index"], function (index) {
-    })
+    require(["index"], function (index) {})
 </script>
 </body>
 

@@ -1,7 +1,7 @@
 <%  for(var i = 0 ; i < products.length; i ++) { %>
 <li>
     <div class="util-text-center">
-        <a href="/product/view?id=<%= products[i]._id %>">
+        <a class="product-image-link" href="/product/view?id=<%= products[i]._id %>">
             <div class="product-img" style="background-image: url(<%= products[i].image_url%>);">
             </div>
         </a>
