@@ -113,6 +113,15 @@ function checkAuth(req, res, next) {
         next();
     }
 }
+
+function checkAuthOrAdmin(req, res, next){
+    if (!req.session.user ) { // 确定是否登陆
+        res.redirect("/manage/login");
+    } else { 
+        next();
+    }
+}
+
 function logout(req, res, next) {
     delete req.session.user;
     res.setHeader("Location", "/");

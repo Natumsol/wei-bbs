@@ -32,10 +32,10 @@ var upload = multer({ storage: storage }); // 上传中间件
 
 module.exports = function (app) {
     var nameSpace = "/bbs";
-    app.post(nameSpace + "/add", weixinAuth.checkAuth, article.add);
-    app.post(nameSpace + "/modify", weixinAuth.checkAuth, article.modify);
-    app.post(nameSpace + "/delete", weixinAuth.checkAuth, article.remove);
-    app.post(nameSpace + "/getArticles", weixinAuth.checkAuth, article.getArticles);
+    app.post(nameSpace + "/add", weixinAuth.checkAuthOrAdmin, article.add);
+    app.post(nameSpace + "/modify", weixinAuth.checkAuthOrAdmin, article.modify);
+    app.post(nameSpace + "/delete", weixinAuth.checkAuthOrAdmin, article.remove);
+    app.post(nameSpace + "/getArticles", weixinAuth.checkAuthOrAdmin, article.getArticles);
     app.post(nameSpace + "/addComment", weixinAuth.checkAuth, article.addComment);
     app.post(nameSpace + "/deleteComment", weixinAuth.checkAuth, article.deleteComment);
     app.post(nameSpace + "/like", weixinAuth.checkAuth, article.like);
