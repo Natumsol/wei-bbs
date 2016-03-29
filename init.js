@@ -10,7 +10,9 @@ var User = mongoose.model("User");
 var admin = new User({
     username:"admin",
     password:"123456789",
-    isAdmin:true
+    isAdmin:true,
+    nickname: "管理员",
+    headimgurl: "/img/user2-160x160.jpg"
 });
 admin.save(function(err){
     if(err){
