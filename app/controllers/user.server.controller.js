@@ -194,5 +194,6 @@ module.exports = {
     adminLogin: adminLogin,
     isAdmin: isAdmin,
     checkAdminLogin: checkAdminLogin,
-    adminLogout: adminLogout
+    adminLogout: adminLogout,
+    checkAuthOrAdmin: checkAuthOrAdmin
 };
