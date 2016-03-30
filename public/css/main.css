@@ -342,7 +342,7 @@ body{
     padding-left: 0;
 }
 
-.add-article:after {
+.add-article_:after {
     content: '添加';
     font-size: 18px;
     position: relative;
