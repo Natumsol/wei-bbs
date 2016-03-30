@@ -11,7 +11,7 @@ var rev = require('gulp-rev');
 var fs = require("fs");
 var path = require("path");
 gulp.task("clean", function(){ // 清理文件
-    return del(["statics/test/**/*", "!statics/test/img", "!statics/test/img/*"])
+    return del(["statics/**/*", "!statics/uploads", "!statics/uploads/images","!statics/uploads/images/**"])
 });
 
 /*gulp.task("remove-manifest", function(){
