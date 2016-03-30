@@ -36,7 +36,7 @@ define(["zepto", "loadmore", "ejs", "tools"], function ($, loadMore, ejs, tools)
     // 懒加载监听函数
     var scrollListener = function () {
 
-        var scrollTop = this.scrollTop;
+        var scrollTop = $(this).scrollTop();
         var scrollHeight = $(document).height();
         var windowHeight = $(this).height();
 
@@ -67,7 +67,7 @@ define(["zepto", "loadmore", "ejs", "tools"], function ($, loadMore, ejs, tools)
             start: 0,
             limit: 5
         }, callback)();
-        counter++;
+        //counter++;
 
     };
 
@@ -83,7 +83,7 @@ define(["zepto", "loadmore", "ejs", "tools"], function ($, loadMore, ejs, tools)
 
         $("body").on("click", ".view-all-comments-link", function(){
             var commentWrapper = $(this).parent().parent().find(".comment-wrapper");
-            console.log(commentWrapper);
+            //console.log(commentWrapper);
             $(".all-comments-container", $(this).parent()).appendTo(commentWrapper).show();
             $(this).parent().hide();
             return false;

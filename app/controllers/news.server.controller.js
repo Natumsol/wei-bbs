@@ -96,9 +96,7 @@ function modify(req, res, next){
 function getNews(req, res, next) {
     var start = parseInt(req.body.start) || 0;
     var limit = parseInt(req.body.limit) || 10;
-    console.log(start + "|" + limit);
     var keyword = new RegExp(req.body.keyword || "", "i");
-    console.log(req.body.keyword);
     if (!is.integer(start) || !is.integer(limit)) {
         res.json({
             errInfo: "param error",
