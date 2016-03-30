@@ -8,7 +8,8 @@ var folders = ['font', 'img', 'uploads', 'view','plugins','js/lib'];
 var merge = require("merge-stream");
 var del = require('del');
 var rev = require('gulp-rev');
-
+var fs = require("fs");
+var path = require("path");
 gulp.task("clean", function(){ // 清理文件
     return del(["statics/test/**/*", "!statics/test/img", "!statics/test/img/*"])
 });
@@ -67,5 +68,31 @@ gulp.task('plugins-css',  function () {// 压缩插件css
         .pipe(gulp.dest('statics/plugins'))
 });
 
+function travel(dir, callback) {
+    fs.readdirSync(dir).forEach(function (file) {
+        var pathname = path.join(dir, file);
+
+        if (fs.statSync(pathname).isDirectory()) {
+            travel(pathname, callback);
+        } else {
+            callback(pathname);
+        }
+    });
+}
+
+gulp.task('dev', function(){
+    var manifest = {};
+    var bath = ["public/css", "public/js"];
+    for(var i = 0; i < bath.length; i ++) {
+        travel(bath[i], function(pathname){
+            pathname = pathname.replace(/^public\/js\/|^public\/css\//, "");
+            manifest[pathname] = pathname;
+        })
+    }
+    fs.writeFile("dev-manifest.json", JSON.stringify(manifest, null, "\t"), function(err){
+        if(err) throw err;
+        else console.log("ok!");
+    });
+});
 gulp.task('generate', gulpsync.sync(['clean', 'copy', 'js', 'plugins-js', 'css' , 'plugins-css']));
 gulp.task('default', ['js', 'css']);

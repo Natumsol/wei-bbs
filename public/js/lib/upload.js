@@ -8,10 +8,13 @@ define(['zepto', "zepto-touch"], function($){
         this.url = options.url || "/upload";
         this.timeout = options.timeout || 10000;
         this.fileId = options.fileId || "file";
+        this.max = options.max || 5; // 最大上传量
         this.container = options.container || "body";
         this.imgTemplate = '<li class="weui_uploader_file weui_uploader_status"> <span class="remove-img weui_icon_clear"></span>'
                                 +'<div class="weui_uploader_status_content"></div>'
                          + '</li>';
+        this.counter = 0;
+        this.callback = options.callback || function(){};
     }
     function isInteger(obj) {
         return typeof obj === 'number' && obj % 1 === 0
@@ -20,11 +23,19 @@ define(['zepto', "zepto-touch"], function($){
         var self = this;
         $("body").on("tap",".remove-img", function(){
             $(this).parent().remove();
+            self.counter --;
+            self.callback(self.counter, self.max);
         });
         $("body").on("click",".remove-img", function(){
             $(this).parent().remove();
+            self.counter --;
+            self.callback(self.counter, self.max);
         });
         $("#" + this.fileId).change(function(){
+            if(self.counter >= self.max) {
+                alert("最多上传" + self.max + "图片");
+                return false;
+            }
             var file = this.files[0];
             if(!file) return;
             var reader = new FileReader();
@@ -34,6 +45,8 @@ define(['zepto', "zepto-touch"], function($){
                     timeout = self.timeout,
                     imgSrc;
                 var img = $(self.imgTemplate).clone();
+                self.counter ++;
+                self.callback(self.counter, self.max);
                 // ---------- 显示预览 ----------
                 if (window.URL && window.URL.createObjectURL) {
                     imgSrc = window.URL.createObjectURL(file);

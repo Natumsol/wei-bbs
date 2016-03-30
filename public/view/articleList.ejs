@@ -1,5 +1,14 @@
-<%for (var index in articles){%>
+<div class="top-article">
+    <%for (var index in articles){%>
+        <%if(articles[index].isTop){%>
+            <span class="top-article-title"><a class="title" href="bbs/view?id=<%= articles[index]._id%>"><%= articles[index].title %></a><label class="ui-label-s">置顶</label></span>
+        <%}%>
+    <%}%>
+</div>
 
+
+<%for (var index in articles){%>
+<%if(!articles[index].isTop){ %>
 <div class="ui-item-box">
     <div class="header util-clearfix ">
         <img class="ui-avatar-s util-pull-left" src="<%= articles[index].author.headimgurl %>" >
@@ -70,4 +79,5 @@
     </section>
 
 </div>
+<% } %>
 <% } %>

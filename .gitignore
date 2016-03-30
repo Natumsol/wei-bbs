@@ -8,6 +8,7 @@ node_modules
 
 #manifest file
 /rev-manifest.json
+/dev-manifest.json
 
 # webstorm config
 .idea

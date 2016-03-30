@@ -11,7 +11,7 @@ var product = require("../controllers/product.server.controller.js");
 module.exports = function(app){
 
     app.get("/weixin/auth", weixinAuth.getCode, weixinAuth.getAccessCode, weixinAuth.getUserInfo, function(req, res){
-        res.redirect("/");
+        res.redirect("/bbs");
     });
     app.get("/", function(req, res, next){
 
