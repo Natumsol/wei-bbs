@@ -14,6 +14,9 @@ gulp.task("clean", function(){ // 清理文件
     return del(["statics/**/*", "!statics/uploads", "!statics/uploads/images","!statics/uploads/images/**"])
 });
 
+gulp.task("clean_css_js", function(){
+    return del(["statics/js/**", "statics/css/**"]);
+});
 /*gulp.task("remove-manifest", function(){
     return del(['config/rev-manifest.json'])
 });*/
