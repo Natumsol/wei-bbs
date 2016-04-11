@@ -52,7 +52,7 @@
         <ul class="ui-slider-content">
             <% for(var i = 0; i < sliderNews.length; i ++){ %>
                 <li>
-                    <span style="background-image:url(<%= sliderNews[i].sliderImg %>);position:relative">
+                    <span class="slider-tap" style="background-image:url(<%= sliderNews[i].sliderImg %>);position:relative">
                         <a class="title util-hidden" href="/news/view?id=<%= sliderNews[i]._id %>"><%= sliderNews[i].title %></a>
                     </span>
                 </li>

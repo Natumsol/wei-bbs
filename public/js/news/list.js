@@ -3,7 +3,7 @@
  *@author: Sulfer
  *@date: 2/4 0004
  */
-define(["zepto", "tools", "ejs","frozen"], function($, tools, ejs){
+define(["zepto", "tools", "ejs","zepto-touch", "frozen"], function($, tools, ejs){
     var nameSpace = "/news";
     var count = 0;
     var drain = false;

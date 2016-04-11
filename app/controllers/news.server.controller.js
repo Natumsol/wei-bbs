@@ -141,7 +141,7 @@ function getSliderNews(callback){
 }
 
 function getIndexNews(callback) {
-    News.find().sort({createDate: -1}).limit(8).exec(function(err, news){
+    News.find().sort({createDate: -1}).limit(4).exec(function(err, news){
         news = news.map(function(value){
             return value.toObject();
         });

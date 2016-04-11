@@ -343,7 +343,7 @@ body{
 }
 
 .add-article_:after {
-    content: '添加';
+    content: '发帖';
     font-size: 18px;
     position: relative;
     top: -3px;

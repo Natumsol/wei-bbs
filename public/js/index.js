@@ -3,7 +3,7 @@
  *@author: Sulfer
  *@date: 2/1 0001
  */
-define(["zepto", "frozen"], function ($) {
+define(["zepto", "zepto-touch", "frozen"], function ($) {
     var slider = new fz.Scroll('#news-slider', {
         role: 'slider',
         indicator: true,
@@ -11,6 +11,9 @@ define(["zepto", "frozen"], function ($) {
         interval: 4000
     });
     $("#news-slider .title").show();
+    $(".slider-tap").tap(function(){
+        window.location.href = $("a", this).attr("href");
+    });
    /* setTimeout(function(){
         $(".ui-panel-product").css("visibility", "visible");
     },50);
